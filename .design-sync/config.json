@@ -1,0 +1,17 @@
+{
+  "projectId": "f1fbe9f9-c33e-4993-99e3-8713141aebc1",
+  "pkg": "sales-presentation",
+  "globalName": "SalesPresentationDS",
+  "shape": "package",
+  "srcDir": "src",
+  "tsconfig": "tsconfig.json",
+  "cssEntry": "src/styles/app.css",
+  "tokensGlob": "src/styles/tokens.css",
+  "componentSrcMap": {
+    "BrandLogo": "src/components/brand/BrandLogo.tsx",
+    "StockBars": "src/components/brand/StockBars.tsx",
+    "CoverLayout": "src/components/layouts/CoverLayout.tsx",
+    "TwoColumnLayout": "src/components/layouts/TwoColumnLayout.tsx",
+    "BigNumberLayout": "src/components/layouts/BigNumberLayout.tsx"
+  }
+}
