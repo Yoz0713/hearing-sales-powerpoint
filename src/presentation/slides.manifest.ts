@@ -1,5 +1,6 @@
 import type { Chapter, PreviewShape, SlideEntry } from '../types/presentation';
 import { CoverPage } from '../pages/CoverPage';
+import { ScenarioPage } from '../pages/ScenarioPage';
 import { OutlinePage } from '../pages/OutlinePage';
 import { StressTestPage } from '../pages/StressTestPage';
 
@@ -7,9 +8,12 @@ import { StressTestPage } from '../pages/StressTestPage';
  * 決策 5：簡報的唯一來源。Phase 2 加頁 = 新增一筆 { id, chapter, component }，
  * 頁面元件一律從 src/pages/ 匯入（一頁一檔慣例）。
  * title / previewShape 為選填的懸浮預覽後設資料；省略時自動回退（見下方工具）。
+ * 
+ * 經實作調整，第二頁為門市真心話情境模擬互動頁面。
  */
 export const slides: SlideEntry[] = [
   { id: 'cover', chapter: '封面', title: '簡報封面', previewShape: 'cover', component: CoverPage },
+  { id: 'scenario', chapter: '門市實戰', title: '門市真心話', previewShape: 'split', component: ScenarioPage },
   { id: 'outline', chapter: '大綱', title: '簡報大綱', previewShape: 'split', component: OutlinePage },
   {
     id: 'stress-test',
