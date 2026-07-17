@@ -38,8 +38,27 @@ export function useReveal(rootRef: RefObject<HTMLDivElement | null>): UseRevealR
     });
     deckRef.current = deck;
 
+    let lastH = 0;
+
     const broadcast = () => {
-      const h = deck.getIndices().h;
+      const indices = deck.getIndices();
+      const h = indices.h;
+      if (h !== lastH && indices.f !== undefined && indices.f !== -1) {
+        // 進入的這一頁殘留著上次造訪時「已顯示」的 fragment（SlidesDeck 只掛載
+        // 一次，fragment 的 .visible class 不會因為離開投影片而自動清除）。
+        // deck.slide(h, 0, -1) 用來把它收回成未顯示，但 h/v 本身沒有變化，
+        // Reveal 不會再派發 slidechanged 事件（見 reveal.js 的 slide()：
+        // dispatchSlideChanged 只在 slideChanged 為真時才呼叫）。
+        // 用 setTimeout 是為了避開在目前這次 slidechanged 事件處理常式裡
+        // 遞迴呼叫 Reveal API；但先前這裡在等待重試前直接 return，導致
+        // lastH／currentIndex／監聽者永遠沒被更新——進度條與頁碼因此卡住，
+        // 且往後每次換頁的比對基準都是錯的。現在無論是否需要收回 fragment，
+        // 都要在本次呼叫就完成廣播，收回動作只是附帶的清理，不能擋住它。
+        setTimeout(() => {
+          deck.slide(h, 0, -1);
+        }, 0);
+      }
+      lastH = h;
       setCurrentIndex(h);
       listeners.current.forEach((cb) => cb(h));
     };

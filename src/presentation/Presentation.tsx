@@ -1,4 +1,4 @@
-import { memo, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import { RevealControlContext, type RevealControl } from '../context/RevealControlContext';
 import {
   PresentationViewContext,
@@ -89,6 +89,19 @@ export function Presentation() {
       toggleBlackout: () => setIsBlackout((b) => !b),
     }),
     [currentIndex, chapters, isBlackout],
+  );
+
+  // 決策 4：跨頁切換時，把「進入」的那一頁重置回初始狀態 —— 資料層歸零、
+  // fragment 收回未播放。onSlideChanged 只在 h/v 索引真的變動時觸發（Reveal 的
+  // 'slidechanged' 事件），同頁內上下鍵切 fragment 不會經過這裡，維持其正常的
+  // 逐步播放/倒退。動畫層的進場重播已由 useSlideAnimation 自己訂閱同一事件處理，
+  // 這裡不重複呼叫 replay()。
+  useEffect(
+    () =>
+      onSlideChanged((active) => {
+        resetHandlers.current.get(active)?.();
+      }),
+    [onSlideChanged],
   );
 
   // 全域防呆

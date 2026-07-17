@@ -20,37 +20,37 @@ const OPTIONS: Option[] = [
     id: 'A',
     icon: '📊',
     label: '選項 A',
-    title: '專業規格派',
-    content: '「伯伯，這主要是晶片處理速度跟通道數的差別。頂規款有 24 個通道，在嘈雜的餐廳裡降噪效果非常好，而且有藍牙直接串流手機；入門款通道數比較少，比較適合居家安靜環境。」',
+    title: '規格派',
+    content: '「伯伯，助聽器的好壞主要跟音質與降噪技術有關係。頂規款有 20 個通道，音質會比較自然清晰，且降噪功能會讓你在吵雜的環境中會比較舒服；入門款通道數比較少，比較適合居家安靜環境。」',
     ratingTitle: '傳統技術思維',
-    ratingContent: '這是最常見的「規格腦」，雖然極度專業，但直接掉入客戶的「規格與價格」框架，開始做產品規格比較。',
+    ratingContent: '這是最常見的「規格腦」，一開始就做產品比較，完全沒有帶入任何客戶的生活情境，因此難以讓客戶產生共鳴。',
   },
   {
     id: 'B',
     icon: '🤝',
     label: '選項 B',
-    title: '同理關懷派',
-    content: '「伯伯，其實不一定越貴越好，適合您的最重要。這要看您平常的生活型態，如果您很少出門，入門款其實就夠用了；如果常出門社交，可能才需要頂規。您平常會常去哪些地方呢？」',
+    title: '同理心派',
+    content: '「伯伯，其實不一定越貴越好，適合您的最重要。這要看您平常的生活環境，如果您很少出門，入門款其實就夠用了；如果您很常出門社交，可能才需要高階的助聽器。您平常會常去哪些地方呢？」',
     ratingTitle: '知道概念，但落入被動',
-    ratingContent: '很有同理心，也是培訓常教的「看生活型態推薦」。但它被動地將產品好壞與「出門頻率」掛鉤，且太早給出「入門款可能就夠用」的預設限制，失去了挖掘深層痛點與提高客單價的機會。',
+    ratingContent: '很有同理心，也是培訓常教的「看COSI推薦」。但被動地將產品好壞與「出門頻率」掛鉤，且太早給出「入門款可能就夠用」的限制，失去了挖掘深層痛點與提高客單價的機會。',
   },
   {
     id: 'C',
     icon: '🧭',
     label: '選項 C',
     title: '顧問主導派',
-    content: '「伯伯，在跟您說明規格之前，我想先了解：是什麼原因讓您一進來就想比較這兩款的差異呢？是擔心效果不夠好，還是有預算上的考量？」',
+    content: '「伯伯，您的問題其實很多人都會問，但真正的原因都不太一樣。我想先了解，是什麼原因讓您想比較這兩款的差異呢？是擔心效果不夠好，還是有預算上的考量？」',
     ratingTitle: '真正的顧問式思維',
-    ratingContent: '完全不被客戶的表面問題（規格/價格）牽著走。它是唯一一個「反問」的選項，直接去探討客戶提問的動機（恐懼 vs. 預算）。這能把發言權和主導權拿回來，讓接下來的諮詢聚焦在「心魔」而不是「價格」。',
+    ratingContent: '這是唯一一個「反問」的選項，直接去探討客戶提問的動機（恐懼 vs. 預算）。這能把發言權和主導權拿回來，可以讓我們了解接下來的諮詢應該要聚焦在「心魔」上還是「價格」上。',
   },
   {
     id: 'D',
     icon: '⚖️',
     label: '選項 D',
     title: '價值折衷派',
-    content: '「伯伯，頂規款主要是針對環境噪音處理比較細緻。其實如果覺得頂規預算太高，我們通常會推薦中間這個高階款，它的 CP 值最高，大部分功能都有，價格也折衷，我拿這款給您戴戴看？」',
+    content: '「伯伯，高階款主要是針對環境噪音處理比較細緻。其實如果覺得頂規預算太高，我們通常會推薦中間這個高階款，它的 CP 值最高，大部分功能都有，我拿這款給您戴戴看？」',
     ratingTitle: '常見的門市談判技巧',
-    ratingContent: '典型的「折衷銷售」，還沒開始諮詢、還不知道聽力狀況，就自動幫客戶「降級」到中階款，提早消耗了自己的談判籌碼。',
+    ratingContent: '典型的「向下銷售」，還沒開始諮詢、還不知道聽力狀況，就自動幫客戶「降級」到中階款，提早喪失了談判空間。',
   },
 ];
 
@@ -106,7 +106,7 @@ export function ScenarioPage() {
             alt="困惑的長輩"
           />
           <blockquote className="scenario-intro__question js-scenario-intro-question">
-            「你們那個最頂規的旗艦款，跟入門款到底差在哪裡？有需要買到那麼貴的嗎？」
+            「你們那個最高階的助聽器，跟入門款到底差在哪裡？有需要買到那麼貴的嗎？」
           </blockquote>
         </div>
 
@@ -128,14 +128,13 @@ export function ScenarioPage() {
                         {opt.icon}
                       </span>
                       <div className="flip-card__identity-text">
-                        <span className="flip-card__eyebrow">{opt.label}</span>
-                        <span className="flip-card__title">{opt.title}</span>
+                        <span className="flip-card__title">{opt.label}</span>
                       </div>
                     </div>
                     <blockquote className="flip-card__quote">
                       <p>{opt.content}</p>
                     </blockquote>
-                    <div className="flip-card__footer">點擊查看顧問解析 →</div>
+
                   </div>
 
                   {/* 背面：點評，推薦解法只在這裡才揭曉 */}
@@ -153,7 +152,7 @@ export function ScenarioPage() {
                     <div className="flip-card__body">
                       <p>{opt.ratingContent}</p>
                     </div>
-                    <div className="flip-card__footer flip-card__footer--back">← 點擊翻回正面</div>
+
                   </div>
                 </div>
               </div>
