@@ -2,6 +2,8 @@ import type { Chapter, PreviewShape, SlideEntry } from '../types/presentation';
 import { CoverPage } from '../pages/CoverPage';
 import { CoursePositioningPage } from '../pages/CoursePositioningPage';
 import { CourseObjectivesPage } from '../pages/CourseObjectivesPage';
+import { WarmupExperiencePage } from '../pages/WarmupExperiencePage';
+import { SalesBehaviorContrastPage } from '../pages/SalesBehaviorContrastPage';
 import { ImpressionChapterPage } from '../pages/ImpressionChapterPage';
 import { ImpressionSpeedPage } from '../pages/ImpressionSpeedPage';
 import { ImpressionRulePage } from '../pages/ImpressionRulePage';
@@ -26,6 +28,13 @@ import { outlineDraftSlides as draft } from './outline-draft.slides';
 export const slides: SlideEntry[] = [
   { id: 'cover', chapter: '課程導覽', title: '銷售經驗分享', previewShape: 'cover', component: CoverPage },
   {
+    id: 'course-objectives',
+    chapter: '課程導覽',
+    title: '今天要帶走的六件事',
+    previewShape: 'content',
+    component: CourseObjectivesPage,
+  },
+  {
     id: 'course-positioning',
     chapter: '課程導覽',
     title: '從介紹產品，到協助客戶做決定',
@@ -33,14 +42,19 @@ export const slides: SlideEntry[] = [
     component: CoursePositioningPage,
   },
   {
-    id: 'course-objectives',
-    chapter: '課程導覽',
-    title: '今天要帶走的六件事',
-    previewShape: 'content',
-    component: CourseObjectivesPage,
+    id: 'warmup-experience',
+    chapter: '開場與風格',
+    title: '回想一筆舒服，也回想一筆不舒服的購買',
+    previewShape: 'split',
+    component: WarmupExperiencePage,
   },
-  draft.warmupExperience,
-  draft.behaviorContrast,
+  {
+    id: 'sales-behavior-contrast',
+    chapter: '開場與風格',
+    title: '客戶排斥的不是購買，是被推銷',
+    previewShape: 'split',
+    component: SalesBehaviorContrastPage,
+  },
   draft.styleOverview,
   draft.styleReflection,
   draft.salesComparison,

@@ -54,20 +54,6 @@ export const outlineDraftSlides = {
     interaction: '先顯示完整時間軸，再標亮目前所在段落；正式版可隨章節更新進度。',
     formalDirection: '使用單一橫向時間軸，不做七張小卡，保留可快速掃讀的節奏。',
   }),
-  warmupExperience: defineDraft({
-    id: 'D04',
-    chapter: '開場與風格',
-    outlinePath: '三、開場與暖身／開場問題',
-    title: '回想一筆舒服，也回想一筆不舒服的購買',
-    purpose: '先讓學員從消費者視角感受信任與壓迫，再回到自己的銷售行為。',
-    onScreenContent: [
-      '最舒服的一次購買經驗是什麼？對方做了什麼，讓你願意相信他？',
-      '最不舒服的一次銷售經驗是什麼？哪一個瞬間讓你想離開？',
-    ],
-    interaction: '先安靜回想三十秒，再兩人分享；全班各收兩個舒服與不舒服的關鍵字。',
-    formalDirection: '正式版採正負經驗雙畫面，問題一次只出現一題，避免學員提前準備第二題。',
-    previewShape: 'split',
-  }),
   behaviorContrast: defineDraft({
     id: 'D05',
     chapter: '開場與風格',
