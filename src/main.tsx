@@ -1,6 +1,20 @@
 import { createRoot } from 'react-dom/client';
 import 'reveal.js/dist/reveal.css';
+import '@fontsource-variable/noto-serif-tc';
+import '@fontsource-variable/noto-sans-tc';
+import '@fontsource-variable/outfit';
 import './styles/tokens.css';
+import './styles/sales-style-overview.css';
+import './styles/sales-style-reflection.css';
+import './styles/sales-model-comparison.css';
+import './styles/resistance-reasons.css';
+import './styles/resistance-case.css';
+import './styles/process-overview.css';
+import './styles/reception-trust.css';
+import './styles/counseling-hidden-motive.css';
+import './styles/lifestyle-context.css';
+import './styles/economic-capacity.css';
+import './styles/learning-chapter.css';
 import './styles/app.css';
 import { App } from './App';
 

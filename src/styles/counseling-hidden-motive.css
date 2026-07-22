@@ -1,0 +1,270 @@
+/* 第 9 頁：客戶說出口的，只是冰山一角。
+   一句防備的話（表層、小）→ 四個沒說出口的顧慮（底層、大）→ 先接住情緒的收尾。 */
+.unspoken {
+  overflow: hidden;
+  background: var(--color-surface-base);
+}
+
+.unspoken__stage {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 50px 96px 44px;
+  display: grid;
+  grid-template-rows: 58px auto auto minmax(0, 1fr) auto;
+  row-gap: 22px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.unspoken__nav {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.unspoken__logo {
+  width: 208px;
+}
+
+.unspoken__kicker {
+  color: var(--color-brand-secondary);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-caps);
+}
+
+/* ---- intro：襯線標題（左）＋ 淡森林綠 lead（右對齊） ---- */
+.unspoken__intro {
+  min-width: 0;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 56px;
+}
+
+.unspoken__title {
+  margin: 0;
+  max-width: 1220px;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 60px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.unspoken__lead {
+  flex: none;
+  width: 360px;
+  margin: 0;
+  padding-bottom: 8px;
+  color: rgba(69, 95, 81, 0.66);
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  text-align: right;
+}
+
+/* ---- 表層：他嘴上說的一句防備話 ---- */
+.unspoken__surface {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 22px 40px;
+  border-left: 4px solid var(--color-brand-primary);
+  background: linear-gradient(90deg, rgba(99, 165, 55, 0.09), rgba(99, 165, 55, 0.015) 72%);
+}
+
+.unspoken__mark {
+  flex: none;
+  align-self: flex-start;
+  color: rgba(99, 165, 55, 0.5);
+  font-family: var(--font-family-display);
+  font-size: 96px;
+  line-height: 0.66;
+}
+
+.unspoken__surface-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.unspoken__surface-label {
+  color: rgba(69, 95, 81, 0.55);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-caps);
+}
+
+.unspoken__surface-quote {
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 40px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+}
+
+/* ---- 底層：沒說出口的四個顧慮 ---- */
+.unspoken__depth {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+}
+
+.unspoken__depth-label {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(69, 95, 81, 0.62);
+  font-size: 21px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+}
+
+.unspoken__depth-label i {
+  width: 11px;
+  height: 11px;
+  flex: none;
+  background: var(--color-brand-secondary);
+  transform: rotate(45deg);
+}
+
+/* 只聚焦「怕被推銷」：左邊橘色重點卡，右邊三個給聽力師的提醒。 */
+.unspoken__focus {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 430px) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 48px;
+}
+
+.unspoken__focus-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: 30px 36px;
+  border-left: 4px solid var(--color-orange);
+  background: linear-gradient(150deg, rgba(238, 123, 8, 0.12), rgba(238, 123, 8, 0.02) 82%);
+  transform: translateY(20px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+}
+
+.unspoken__focus-card.visible {
+  transform: none;
+}
+
+.unspoken__focus-tag {
+  color: rgba(238, 123, 8, 0.9);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-caps);
+}
+
+.unspoken__focus-title {
+  margin: 0;
+  color: var(--color-orange);
+  font-family: var(--font-family-display);
+  font-size: 52px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.08;
+}
+
+.unspoken__focus-body {
+  margin: 0;
+  color: rgba(69, 95, 81, 0.78);
+  font-size: 24px;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
+}
+
+.unspoken__insights {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.unspoken__insight {
+  padding-left: 26px;
+  border-left: 3px solid var(--color-brand-secondary);
+  transform: translateY(18px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+}
+
+.unspoken__insight.visible {
+  transform: none;
+}
+
+.unspoken__insight-title {
+  margin: 0 0 4px;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 28px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.16;
+}
+
+.unspoken__insight-body {
+  margin: 0;
+  color: rgba(69, 95, 81, 0.72);
+  font-size: 23px;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.42;
+}
+
+/* ---- 收尾：先接住情緒，再談方案（forest-900 結論塊） ---- */
+.unspoken__close {
+  display: flex;
+  align-items: baseline;
+  gap: 28px;
+  padding: 26px 36px;
+  background: var(--color-forest-900);
+  transform: translateY(18px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+}
+
+.unspoken__close.visible {
+  transform: none;
+}
+
+.unspoken__close-eyebrow {
+  flex: none;
+  color: var(--color-brand-primary-bright);
+  font-family: var(--font-family-display);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.unspoken__close-text {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .unspoken__focus-card,
+  .unspoken__insight,
+  .unspoken__close {
+    transition: none;
+  }
+}

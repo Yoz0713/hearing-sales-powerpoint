@@ -16,7 +16,7 @@ export function CounselingFlowPage() {
       .from(scope.querySelector('.js-flow-kicker'), { x: -28, opacity: 0, duration: motion.duration.base })
       .from(scope.querySelector('.js-flow-title'), { y: 20, opacity: 0, duration: motion.duration.base }, '-=0.25');
   }, []);
-  return <SlideShell className="counseling counseling-flow counseling-flow--redesign" animate={animate}>
+  return <SlideShell backgroundTexture="none" className="counseling counseling-flow counseling-flow--redesign" animate={animate}>
     <div className="flow-redesign__intro">
       <p className="counseling-kicker js-flow-kicker">衛教與諮商</p>
       <h1 className="counseling-title js-flow-title">釐清問題，<br />是諮商的開始</h1>

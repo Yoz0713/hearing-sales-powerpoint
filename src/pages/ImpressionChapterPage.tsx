@@ -21,7 +21,7 @@ export function ImpressionChapterPage() {
     }, '-=0.5');
   }, []);
 
-  return <SlideShell fullBleed className="impression-chapter" animate={animate}>
+  return <SlideShell fullBleed backgroundTexture="none" className="impression-chapter" animate={animate}>
     <div className="impression-chapter__halo" aria-hidden="true" />
     <main className="impression-chapter__content">
       <h1 className="impression-chapter__title js-impression-chapter-word">第一印象</h1>

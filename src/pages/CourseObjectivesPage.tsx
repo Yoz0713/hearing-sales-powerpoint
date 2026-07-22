@@ -3,23 +3,23 @@ import { gsap } from 'gsap';
 import { BrandLogo } from '../components/brand/BrandLogo';
 import { SlideShell } from '../components/layouts/SlideShell';
 import { motion } from '../tokens/motion';
+import groomingImage from '../../assets/impression-appearance/grooming.png';
 import postureImage from '../../assets/impression-appearance/posture.png';
-import eyeContactImage from '../../assets/impression-appearance/eye-contact.png';
 import smileImage from '../../assets/impression-appearance/smile.png';
 
 const OBJECTIVE_PATHS = [
   {
     title: '認識自己',
     tone: 'orange',
-    image: postureImage,
-    imagePosition: '70% 44%',
+    image: groomingImage,
+    imagePosition: '74% 34%',
     outcomes: ['覺察自己的銷售風格', '理解傳統與顧問式銷售的差異'],
   },
   {
     title: '理解(控制)客戶',
     tone: 'cyan',
-    image: eyeContactImage,
-    imagePosition: '66% 38%',
+    image: postureImage,
+    imagePosition: '70% 40%',
     outcomes: ['透過提問挖掘需求與動機', '主導選配流程'],
   },
   {

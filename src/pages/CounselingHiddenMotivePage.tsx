@@ -1,91 +1,122 @@
 import { useCallback } from 'react';
 import { gsap } from 'gsap';
+import { BrandLogo } from '../components/brand/BrandLogo';
 import { SlideShell } from '../components/layouts/SlideShell';
 import { motion } from '../tokens/motion';
 
-interface HiddenReason {
-  id: string;
+interface TrustInsight {
+  key: string;
   title: string;
   body: string;
-  /** 「怕被推銷」最直接影響聽力師該怎麼應對，用橘色強調這一格。 */
-  emphasis?: boolean;
 }
 
-const HIDDEN_REASONS: HiddenReason[] = [
+/** 專講「怕被推銷」：提醒聽力師別只信客戶的表面話，要靠信任讓他自己說出口。 */
+const INSIGHTS: TrustInsight[] = [
   {
-    id: 'stigma',
-    title: '怕被貼標籤',
-    body: '戴助聽器等於承認自己老了。抗拒「老人、殘障」的社會標籤，於是把問題說小、說輕。',
+    key: 'surface',
+    title: '別急著相信表面話',
+    body: '很多人一聽到「體驗看看」就當真，卻忘了那多半是防備，不是他真正的想法。',
   },
   {
-    id: 'sales',
-    title: '怕被推銷',
-    body: '怕一講出真困擾，就被業務抓著猛推高價機。先說「隨便看看」，觀察你值不值得信任。',
-    emphasis: true,
+    key: 'reason',
+    title: '沒有人無緣無故來檢查',
+    body: '他願意走進來，代表心裡已經有困擾，只是還沒打算讓你知道。',
   },
   {
-    id: 'face',
-    title: '放不下面子',
-    body: '不想在家人面前顯得依賴、成為負擔，寧可淡化困擾，也不願承認「我需要幫忙」。',
-  },
-  {
-    id: 'unaware',
-    title: '自己也沒察覺',
-    body: '把聽不清楚歸因於「別人講太小聲」，低估聽損衝擊，常是被家人半哄半騙帶來的。',
+    key: 'trust',
+    title: '先把信任養起來',
+    body: '顧慮不會因為你追問就消失，是等他覺得安全了，才會自己說出口。',
   },
 ];
 
+/** 第 9 頁：客戶說出口的，只是冰山一角——一句防備話，底下四個沒說出口的顧慮。 */
 export function CounselingHiddenMotivePage() {
-  // GSAP 只負責頁首與水面明線進場（scaleX 由中央往兩側展開，當全頁分界的視覺定錨）；
-  // 說出口的引言、四格原因、收尾句一律交給 Reveal 原生 fragment，避免 GSAP 對
-  // fragment 節點寫 inline opacity 與 Reveal 狀態打架（同 CounselingHistoryPage）。
   const animate = useCallback((scope: HTMLElement) => {
     gsap.timeline({ defaults: { ease: motion.ease.standard } })
-      .from(scope.querySelector('.js-hidden-kicker'), { x: -28, opacity: 0, duration: motion.duration.base })
-      .from(scope.querySelector('.js-hidden-title'), { y: 20, opacity: 0, duration: motion.duration.base }, '-=0.25')
-      .from(scope.querySelector('.js-hidden-line'), { scaleX: 0, transformOrigin: 'center', duration: motion.duration.slow, ease: motion.ease.emphasis }, '-=0.1');
+      .from(scope.querySelector('.js-unspoken-nav'), {
+        y: -16,
+        opacity: 0,
+        duration: motion.duration.fast,
+      })
+      .from(scope.querySelector('.js-unspoken-title'), {
+        y: 32,
+        opacity: 0,
+        duration: motion.duration.base,
+        ease: motion.ease.emphasis,
+      }, '-=0.05')
+      .from(scope.querySelector('.js-unspoken-lead'), {
+        y: 16,
+        opacity: 0,
+        duration: motion.duration.fast,
+      }, '-=0.24')
+      .from(scope.querySelector('.js-unspoken-surface'), {
+        y: 22,
+        opacity: 0,
+        duration: motion.duration.base,
+        ease: motion.ease.emphasis,
+      }, '-=0.1')
+      .from(scope.querySelector('.js-unspoken-depthlabel'), {
+        y: 14,
+        opacity: 0,
+        duration: motion.duration.fast,
+      }, '-=0.18');
   }, []);
 
   return (
-    <SlideShell fullBleed className="counseling-hidden" animate={animate}>
-      <div className="hidden-daylight">
-        <div className="hidden-head">
-          <p className="counseling-kicker js-hidden-kicker">衛教與諮商</p>
-          <h1 className="counseling-title js-hidden-title">客戶說出口的，只是冰山一角</h1>
-        </div>
-        <figure className="hidden-spoken fragment" data-fragment-index="1">
-          <figcaption className="hidden-spoken__label">他嘴上說</figcaption>
-          <blockquote className="hidden-spoken__text">「隨便看看啦，醫生叫我來的。」</blockquote>
-        </figure>
-      </div>
+    <SlideShell fullBleed className="unspoken" animate={animate}>
+      <main className="unspoken__stage">
+        <header className="unspoken__nav js-unspoken-nav">
+          <BrandLogo className="unspoken__logo" />
+        </header>
 
-      <div className="hidden-surface">
-        <span className="hidden-surface__up">說出口的</span>
-        <span className="hidden-surface__rule js-hidden-line" aria-hidden="true" />
-        <span className="hidden-surface__down">沒說出口的</span>
-      </div>
-
-      <div className="hidden-deep">
-        <div className="hidden-grid">
-          {HIDDEN_REASONS.map((reason) => (
-            <article
-              key={reason.id}
-              className={`hidden-cell fragment${reason.emphasis ? ' hidden-cell--key' : ''}`}
-              data-fragment-index="2"
-            >
-              <h2 className="hidden-cell__title">{reason.title}</h2>
-              <p className="hidden-cell__body">{reason.body}</p>
-            </article>
-          ))}
-        </div>
-
-        <div className="hidden-close fragment" data-fragment-index="3">
-          <p className="hidden-close__eyebrow">先接住情緒，再談方案</p>
-          <p className="hidden-close__text">
-            客戶不是不說，是還沒覺得安全。別急著推銷——先讓他願意把水面下的話講出來。
+        <div className="unspoken__intro">
+          <h1 className="unspoken__title js-unspoken-title">客戶說出口的，只是冰山一角</h1>
+          <p className="unspoken__lead js-unspoken-lead">
+            先聽懂他沒說的，<br />透過提問去引導。
           </p>
         </div>
-      </div>
+
+        <figure className="unspoken__surface js-unspoken-surface">
+          <div className="unspoken__surface-body">
+            <span className="unspoken__surface-label">他嘴上說</span>
+            <blockquote className="unspoken__surface-quote">隨便看看啦，醫生叫我來的。</blockquote>
+            <blockquote className="unspoken__surface-quote">我聽得還好只是想來體驗聽力檢測。</blockquote>
+            <blockquote className="unspoken__surface-quote">你們小姐建議我來檢查看看</blockquote>
+          </div>
+        </figure>
+
+        <div className="unspoken__depth">
+
+          <div className="unspoken__focus">
+            <div className="unspoken__focus-card fragment" data-fragment-index={0}>
+              <span className="unspoken__focus-tag">他心裡最在意的一件事</span>
+              <h2 className="unspoken__focus-title">怕被推銷</h2>
+              <p className="unspoken__focus-body">
+                怕一講出真困擾，就被業務抓著猛推。所以先說表面理由，一邊觀察你值不值得信任。
+              </p>
+            </div>
+            <ul className="unspoken__insights" aria-label="面對防備話的三個提醒">
+              {INSIGHTS.map((insight, index) => (
+                <li
+                  key={insight.key}
+                  className="unspoken__insight fragment"
+                  data-fragment-index={index + 1}
+                >
+                  <h3 className="unspoken__insight-title">{insight.title}</h3>
+                  <p className="unspoken__insight-body">{insight.body}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <footer className="unspoken__close fragment" data-fragment-index={INSIGHTS.length + 1}>
+          <span className="unspoken__close-eyebrow">先接住情緒，再談方案</span>
+          <p className="unspoken__close-text">
+            客戶不是不說，是還沒覺得安全。別急著推銷——先讓他願意把水面下的話講出來。
+          </p>
+        </footer>
+      </main>
     </SlideShell>
   );
 }

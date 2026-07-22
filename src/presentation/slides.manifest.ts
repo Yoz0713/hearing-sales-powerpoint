@@ -4,6 +4,19 @@ import { CoursePositioningPage } from '../pages/CoursePositioningPage';
 import { CourseObjectivesPage } from '../pages/CourseObjectivesPage';
 import { WarmupExperiencePage } from '../pages/WarmupExperiencePage';
 import { SalesBehaviorContrastPage } from '../pages/SalesBehaviorContrastPage';
+import { SalesStyleReflectionPage } from '../pages/SalesStyleReflectionPage';
+import { SalesStyleOverviewPage } from '../pages/SalesStyleOverviewPage';
+import { ResistanceReasonsPage } from '../pages/ResistanceReasonsPage';
+import { ResistanceCasePage } from '../pages/ResistanceCasePage';
+import { ConsultativeProcessOverviewPage } from '../pages/ConsultativeProcessOverviewPage';
+import { ReceptionTrustPage } from '../pages/ReceptionTrustPage';
+import { LifestyleContextPage } from '../pages/LifestyleContextPage';
+import { EconomicCapacitySignalsPage } from '../pages/EconomicCapacitySignalsPage';
+import { EconomicAssessmentTimingPage } from '../pages/EconomicAssessmentTimingPage';
+import {
+  CustomerUnderstandingChapterPage,
+  SelfAwarenessChapterPage,
+} from '../pages/LearningChapterPage';
 import { ImpressionChapterPage } from '../pages/ImpressionChapterPage';
 import { ImpressionSpeedPage } from '../pages/ImpressionSpeedPage';
 import { ImpressionRulePage } from '../pages/ImpressionRulePage';
@@ -35,8 +48,15 @@ export const slides: SlideEntry[] = [
     component: CourseObjectivesPage,
   },
   {
+    id: 'self-awareness-chapter',
+    chapter: '開場與風格',
+    title: '認識自己',
+    previewShape: 'cover',
+    component: SelfAwarenessChapterPage,
+  },
+  {
     id: 'course-positioning',
-    chapter: '課程導覽',
+    chapter: '開場與風格',
     title: '從介紹產品，到協助客戶做決定',
     previewShape: 'split',
     component: CoursePositioningPage,
@@ -55,11 +75,34 @@ export const slides: SlideEntry[] = [
     previewShape: 'split',
     component: SalesBehaviorContrastPage,
   },
-  draft.styleOverview,
-  draft.styleReflection,
-  draft.salesComparison,
-  draft.languageWorkshop,
-  draft.resistanceReasons,
+  {
+    id: 'sales-style-overview',
+    chapter: '開場與風格',
+    title: '你習慣用哪一種方式幫客戶？',
+    previewShape: 'content',
+    component: SalesStyleOverviewPage,
+  },
+  {
+    id: 'sales-style-reflection',
+    chapter: '開場與風格',
+    title: '找到你的慣性，也找到盲點',
+    previewShape: 'content',
+    component: SalesStyleReflectionPage,
+  },
+  {
+    id: 'customer-understanding-chapter',
+    chapter: '改變動機',
+    title: '理解客戶',
+    previewShape: 'cover',
+    component: CustomerUnderstandingChapterPage,
+  },
+  {
+    id: 'resistance-reasons',
+    chapter: '改變動機',
+    title: '客戶為什麼不願意現在處理？',
+    previewShape: 'content',
+    component: ResistanceReasonsPage,
+  },
   {
     id: 'counseling-hidden-motive',
     chapter: '改變動機',
@@ -67,10 +110,22 @@ export const slides: SlideEntry[] = [
     previewShape: 'content',
     component: CounselingHiddenMotivePage,
   },
-  draft.resistanceCase,
+  {
+    id: 'resistance-case',
+    chapter: '改變動機',
+    title: '王先生不是不需要，而是還沒準備好',
+    previewShape: 'split',
+    component: ResistanceCasePage,
+  },
   draft.resistanceGuidance,
   draft.breakPage,
-  draft.processOverview,
+  {
+    id: 'consultative-process-overview',
+    chapter: '選配流程',
+    title: '十個步驟，其實只有三個決策階段',
+    previewShape: 'content',
+    component: ConsultativeProcessOverviewPage,
+  },
   {
     id: 'impression-chapter',
     chapter: '選配流程',
@@ -78,8 +133,13 @@ export const slides: SlideEntry[] = [
     previewShape: 'cover',
     component: ImpressionChapterPage,
   },
-  draft.receptionTrust,
-  draft.receptionOpening,
+  {
+    id: 'reception-trust',
+    chapter: '選配流程',
+    title: '第一印象的目標，是讓客戶敢說真話',
+    previewShape: 'content',
+    component: ReceptionTrustPage,
+  },
   {
     id: 'impression-speed',
     chapter: '選配流程',
@@ -122,7 +182,6 @@ export const slides: SlideEntry[] = [
     previewShape: 'content',
     component: ImpressionRhythmPage,
   },
-  draft.lifestyleContext,
   {
     id: 'counseling-history',
     chapter: '選配流程',
@@ -137,7 +196,27 @@ export const slides: SlideEntry[] = [
     previewShape: 'split',
     component: CounselingMotivationPage,
   },
-  draft.cosiDialogue,
+  {
+    id: 'lifestyle-context',
+    chapter: '選配流程',
+    title: '病史之外，還要看見客戶的生活',
+    previewShape: 'content',
+    component: LifestyleContextPage,
+  },
+  {
+    id: 'economic-capacity-signals',
+    chapter: '選配流程',
+    title: '客戶的生活裡，藏著經濟能力的線索',
+    previewShape: 'content',
+    component: EconomicCapacitySignalsPage,
+  },
+  {
+    id: 'economic-assessment-timing',
+    chapter: '選配流程',
+    title: '經濟能力，要在試聽前完成判斷',
+    previewShape: 'content',
+    component: EconomicAssessmentTimingPage,
+  },
   {
     id: 'counseling-flow',
     chapter: '選配流程',

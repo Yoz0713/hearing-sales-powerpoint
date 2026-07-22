@@ -31,7 +31,7 @@ export function ImpressionProvocationPage() {
   }, []);
 
   return (
-    <SlideShell fullBleed className="impression-provocation" animate={animate}>
+    <SlideShell fullBleed backgroundTexture="none" className="impression-provocation" animate={animate}>
       <div className="impression-provocation__content">
         <h1 className="impression-provocation__title js-provocation-title">
           <span className="impression-provocation__line js-provocation-line-one">選配過程中，就應該</span>

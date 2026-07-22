@@ -1,0 +1,189 @@
+/* D06：用單一比較譜呈現四種等權重銷售風格。 */
+.sales-style-overview {
+  overflow: hidden;
+  background: var(--color-surface-base);
+}
+
+.sales-style-overview__stage {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 44px 72px 42px;
+  display: grid;
+  grid-template-rows: 70px 160px minmax(0, 1fr);
+  row-gap: 18px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.sales-style-overview__nav {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 224px minmax(0, 1fr);
+  align-items: center;
+  gap: 48px;
+}
+
+.sales-style-overview__logo {
+  width: 210px;
+}
+
+.sales-style-overview__nav-rule {
+  width: 100%;
+  height: 1px;
+  display: block;
+  background: rgba(69, 95, 81, 0.24);
+}
+
+.sales-style-overview__hero {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 430px;
+  grid-template-rows: auto auto;
+  align-content: center;
+  align-items: center;
+  column-gap: 64px;
+  row-gap: 12px;
+}
+
+.sales-style-overview__title,
+.sales-style-overview__intro,
+.sales-style-overview__corner span,
+.sales-style-overview__corner strong,
+.sales-style-overview__type,
+.sales-style-overview__value,
+.sales-style-overview__prompt span,
+.sales-style-overview__prompt strong {
+  margin: 0;
+  letter-spacing: 0;
+}
+
+.sales-style-overview__title {
+  width: 100%;
+  max-width: 1560px;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 72px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.05;
+}
+
+.sales-style-overview__intro {
+  grid-column: 1;
+  max-width: 780px;
+  color: rgba(69, 95, 81, 0.74);
+  font-size: 25px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+}
+
+.sales-style-overview__board {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 190px repeat(4, minmax(0, 1fr));
+  grid-template-rows: 150px repeat(2, minmax(0, 1fr));
+  border: 1px solid rgba(69, 95, 81, 0.28);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.sales-style-overview__row {
+  display: contents;
+}
+
+.sales-style-overview__corner,
+.sales-style-overview__row-label {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 28px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: var(--color-text-on-brand);
+  background: var(--color-forest-900);
+}
+
+.sales-style-overview__corner {
+  gap: 4px;
+}
+
+.sales-style-overview__corner span {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 19px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.sales-style-overview__corner strong {
+  font-size: 31px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.15;
+}
+
+.sales-style-overview__type {
+  min-width: 0;
+  padding: 30px 32px 26px;
+  display: flex;
+  align-items: flex-end;
+  border-left: 1px solid rgba(69, 95, 81, 0.22);
+  border-bottom: 5px solid var(--color-brand-secondary);
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 36px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.14;
+}
+
+.sales-style-overview__row-label {
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 24px;
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+}
+
+.sales-style-overview__value {
+  min-width: 0;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid rgba(69, 95, 81, 0.2);
+  border-left: 1px solid rgba(69, 95, 81, 0.2);
+  color: var(--color-text-heading);
+  font-size: 30px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.32;
+}
+
+.sales-style-overview__value--risk {
+  color: rgba(69, 95, 81, 0.78);
+  background: rgba(69, 95, 81, 0.055);
+  font-size: 27px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.sales-style-overview__prompt {
+  grid-column: 2;
+  grid-row: 1;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  color: var(--color-text-heading);
+  text-align: right;
+}
+
+.sales-style-overview__prompt span {
+  color: rgba(69, 95, 81, 0.62);
+  font-size: 18px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.sales-style-overview__prompt strong {
+  color: var(--color-brand-secondary);
+  font-size: 29px;
+  font-weight: var(--font-weight-bold);
+}

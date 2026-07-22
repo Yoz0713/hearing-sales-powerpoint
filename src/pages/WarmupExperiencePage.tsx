@@ -61,11 +61,12 @@ export function WarmupExperiencePage() {
   return (
     <SlideShell
       fullBleed
+      backgroundTexture="none"
       className={`warmup-experience${isCold ? ' warmup-experience--cold' : ''}`}
       animate={animate}
     >
       <div className="warmup-experience__stage">
-        <p className="warmup-experience__kicker js-warmup-kicker">開場暖身・回想一段購買經驗</p>
+        <p className="warmup-experience__kicker js-warmup-kicker">回想一段購買經驗</p>
 
         <div className="warmup-experience__scene js-warmup-scene">
           <div className="warmup-experience__phase warmup-experience__phase--warm fragment fade-out" data-fragment-index="0">
@@ -78,7 +79,7 @@ export function WarmupExperiencePage() {
 
           <div ref={coldRef} className="warmup-experience__phase warmup-experience__phase--cold fragment" data-fragment-index="0">
             <h1 className="warmup-experience__question">
-              最不舒服的一次銷售經驗是什麼？
+              最不舒服的一次購買經驗是什麼？
               <br />
               哪一個瞬間讓你想離開？
             </h1>

@@ -1,0 +1,184 @@
+/* D15：四句同一位客戶的內心獨白，由淡到清楚，不做服務守則卡片。 */
+.reception-trust {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 72% 73%, rgba(153, 203, 56, 0.1), transparent 28%),
+    var(--color-surface-base);
+}
+
+.reception-trust__stage {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 42px 88px 58px;
+  display: grid;
+  grid-template-rows: 58px 162px minmax(0, 1fr);
+  row-gap: 28px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.reception-trust__nav {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 38px;
+}
+
+.reception-trust__logo {
+  width: 208px;
+}
+
+.reception-trust__nav > i {
+  width: 100%;
+  height: 1px;
+  background: rgba(69, 95, 81, 0.28);
+}
+
+.reception-trust .reception-trust__title {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  overflow: hidden;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 68px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+}
+
+.reception-trust__title > span:not(.reception-trust__wave) {
+  display: inline-block;
+}
+
+.reception-trust__wave {
+  width: 86px;
+  height: 58px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.reception-trust__wave i {
+  width: 5px;
+  display: block;
+  background: var(--color-orange);
+}
+
+.reception-trust__voice {
+  position: relative;
+  width: min(1420px, 100%);
+  min-height: 0;
+  margin: 0 auto;
+  padding-left: 54px;
+  display: grid;
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+}
+
+.reception-trust__rail {
+  position: absolute;
+  left: 11px;
+  top: 8%;
+  bottom: 8%;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(69, 95, 81, 0.18), var(--color-brand-primary-bright));
+}
+
+.reception-trust .reception-trust__line {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  transform: translateY(22px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.reception-trust .reception-trust__line.visible {
+  transform: none;
+}
+
+.reception-trust__line > i {
+  position: absolute;
+  left: -49px;
+  width: 14px;
+  height: 14px;
+  border: 3px solid var(--color-surface-base);
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.reception-trust .reception-trust__line--1 {
+  font-size: 32px;
+  opacity: 0.48;
+}
+
+.reception-trust .reception-trust__line--2 {
+  font-size: 40px;
+  opacity: 0.62;
+}
+
+.reception-trust .reception-trust__line--3 {
+  font-size: 52px;
+  opacity: 0.78;
+}
+
+.reception-trust .reception-trust__line--4 {
+  color: var(--color-text-heading);
+  font-size: 72px;
+  font-weight: var(--font-weight-bold);
+  opacity: 1;
+}
+
+.reveal .reception-trust .reception-trust__line--1.visible {
+  opacity: 0.48;
+}
+
+.reveal .reception-trust .reception-trust__line--2.visible {
+  opacity: 0.62;
+}
+
+.reveal .reception-trust .reception-trust__line--3.visible {
+  opacity: 0.78;
+}
+
+.reveal .reception-trust .reception-trust__line--4.visible {
+  opacity: 1;
+}
+
+.reception-trust__line--4 span {
+  position: relative;
+  z-index: 1;
+}
+
+.reception-trust__line--4 span::after {
+  position: absolute;
+  z-index: -1;
+  left: -4px;
+  right: -12px;
+  bottom: 3px;
+  height: 15px;
+  background: rgba(153, 203, 56, 0.72);
+  content: '';
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reception-trust .reception-trust__line {
+    transition: none;
+  }
+}

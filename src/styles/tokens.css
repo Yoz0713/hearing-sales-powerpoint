@@ -46,8 +46,13 @@
   --chart-seq-6: #51c3f9;
 
   /* typography */
-  --font-family-base: "Microsoft YaHei", "Microsoft JhengHei", "微軟正黑體",
-    -apple-system, "PingFang TC", sans-serif;
+  --font-family-base: 'Noto Sans TC Variable', "Microsoft JhengHei", "微軟正黑體",
+    "PingFang TC", -apple-system, sans-serif;
+  /* 大標題：思源宋（襯線編輯感），CJK 缺字時回退基礎黑體 */
+  --font-family-display: 'Noto Serif TC Variable', "Noto Serif CJK TC",
+    "Songti TC", "PingFang TC", serif;
+  /* 數字與英文標籤：Outfit（幾何無襯線），中文自動回退基礎字 */
+  --font-family-latin: 'Outfit Variable', var(--font-family-base);
   --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-semibold: 600;

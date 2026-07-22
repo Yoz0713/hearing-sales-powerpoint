@@ -1,0 +1,280 @@
+/* D07：下行的反思階梯——優勢一路走下去，就走進了盲點。 */
+.reflection {
+  overflow: hidden;
+  background: var(--color-surface-base);
+}
+
+.reflection__stage {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 52px 96px 48px;
+  display: grid;
+  grid-template-rows: 60px auto minmax(0, 1fr) auto;
+  row-gap: 24px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.reflection__nav {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.reflection__logo {
+  width: 208px;
+}
+
+.reflection__activity {
+  color: rgba(69, 95, 81, 0.6);
+  font-family: var(--font-family-latin);
+  font-size: 19px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.02em;
+}
+
+.reflection__intro {
+  min-width: 0;
+  max-width: 1180px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reflection__title,
+.reflection__question,
+.reflection__landing-line {
+  margin: 0;
+  letter-spacing: 0;
+}
+
+.reflection__title {
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 62px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+}
+
+.reflection__lead {
+  max-width: 1040px;
+  margin: 0;
+  color: rgba(69, 95, 81, 0.76);
+  font-size: 23px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+}
+
+/* 上一頁速記：只提供選擇線索，不加入 fragment，避免與階梯爭奪注意力。 */
+.reflection__reminder {
+  position: absolute;
+  top: 144px;
+  right: 96px;
+  box-sizing: border-box;
+  width: 392px;
+  padding: 4px 0 4px 24px;
+  border-left: 2px solid rgba(69, 95, 81, 0.22);
+  color: rgba(69, 95, 81, 0.56);
+}
+
+.reflection__reminder-kicker {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 24px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.12em;
+}
+
+.reflection__reminder-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 22px;
+}
+
+.reflection__reminder-list li {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(69, 95, 81, 0.68);
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.reflection__reminder-list li::before {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  content: '';
+  border: 1px solid rgba(69, 95, 81, 0.46);
+  transform: rotate(45deg);
+}
+
+/* ---- 階梯 ---- */
+.reflection__stairs {
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 8px 0 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.reflection__step {
+  --accent: var(--color-brand-secondary);
+  position: relative;
+  min-width: 0;
+  padding-left: calc(var(--step-depth) * 208px);
+  transform: translateY(30px);
+  transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.55s ease;
+}
+
+.reflection__step.visible {
+  transform: none;
+}
+
+.reflection__step--recognize {
+  --accent: var(--color-brand-secondary);
+}
+
+.reflection__step--strength {
+  --accent: var(--color-green-grass);
+}
+
+.reflection__step--cost {
+  --accent: var(--color-orange);
+}
+
+.reflection__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--accent);
+  font-size: 21px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.16em;
+}
+
+.reflection__eyebrow::before {
+  width: 13px;
+  height: 13px;
+  content: '';
+  background: var(--accent);
+  transform: rotate(45deg);
+}
+
+.reflection__question {
+  margin-top: 14px;
+  max-width: 1080px;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 48px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.16;
+}
+
+.reflection__rule {
+  width: 480px;
+  height: 3px;
+  margin-top: 22px;
+  display: block;
+  background: var(--accent);
+  transform-origin: left center;
+}
+
+.reflection__step--cost .reflection__question {
+  color: color-mix(in srgb, var(--color-orange) 30%, var(--color-text-heading));
+}
+
+/* ---- 落地區：接住下行，並把方向翻回向上 ---- */
+.reflection__landing {
+  position: relative;
+  box-sizing: border-box;
+  margin-left: calc(2 * 208px);
+  padding: 34px 52px 36px 58px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  color: var(--color-text-on-brand);
+  background: var(--color-forest-900);
+  transform: translateY(30px);
+  transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.55s ease;
+}
+
+.reflection__landing.visible {
+  transform: none;
+}
+
+.reflection__landing-turn {
+  flex: none;
+  position: relative;
+  width: 22px;
+  height: 58px;
+  align-self: center;
+}
+
+/* 向上箭頭：象徵打破一路下行的慣性 */
+.reflection__landing-turn::before {
+  position: absolute;
+  inset: 0 auto 0 9px;
+  width: 3px;
+  content: '';
+  background: var(--color-brand-primary-bright);
+}
+
+.reflection__landing-turn::after {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  content: '';
+  border-top: 3px solid var(--color-brand-primary-bright);
+  border-left: 3px solid var(--color-brand-primary-bright);
+  transform: rotate(45deg);
+}
+
+.reflection__landing-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reflection__landing-kicker {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 19px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.02em;
+}
+
+.reflection__landing-line {
+  color: var(--color-text-on-brand);
+  font-family: var(--font-family-display);
+  font-size: 42px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.24;
+}
+
+.reflection__landing-line strong {
+  color: var(--color-brand-primary-bright);
+  font-weight: var(--font-weight-bold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reflection__step,
+  .reflection__landing {
+    transition: none;
+  }
+}

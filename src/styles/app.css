@@ -35,6 +35,25 @@ body {
   justify-content: center;
 }
 
+/* 白／淺色投影片共用的淡綠紙質格線；非白底沉浸頁由 SlideShell 明確停用。 */
+.slide-shell--paper {
+  --slide-paper-grid:
+    linear-gradient(90deg, rgba(69, 95, 81, 0.04) 1px, transparent 1px),
+    linear-gradient(rgba(69, 95, 81, 0.04) 1px, transparent 1px);
+  --slide-paper-grid-size: 72px 72px;
+  isolation: isolate;
+}
+
+.slide-shell--paper::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: var(--slide-paper-grid);
+  background-size: var(--slide-paper-grid-size);
+  content: '';
+  pointer-events: none;
+}
+
 /* ---- 頁內 Popup ---- */
 .slide-popup__backdrop {
   position: absolute;
@@ -526,7 +545,7 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  background: var(--color-surface-base);
+  background: transparent;
   overflow: hidden;
 }
 
@@ -571,6 +590,7 @@ body {
 
 .cover__title {
   margin: 0;
+  font-family: var(--font-family-display);
   letter-spacing: 1.5rem;
   font-size: var(--font-size-display);
   font-weight: var(--font-weight-bold);
@@ -620,7 +640,7 @@ body {
   display: flex;
   align-items: center;
   padding: 0 var(--cover-edge);
-  background: var(--color-surface-base);
+  background: transparent;
 }
 
 .cover__values {
@@ -1464,7 +1484,7 @@ body {
   z-index: 1;
   color: rgba(255, 255, 255, .72);
   font-size: 28px;
-  font-family: Cabinet Grotesk, sans-serif;
+  font-family: var(--font-family-display);
 }
 
 .flow-step strong {
@@ -1816,7 +1836,7 @@ body {
 }
 
 .wrs-band__score {
-  font-family: Cabinet Grotesk, sans-serif;
+  font-family: var(--font-family-display);
   font-size: 46px;
   font-weight: 700;
   white-space: nowrap;
@@ -1980,7 +2000,7 @@ body {
   max-width: 1480px;
   margin: 0;
   color: var(--color-text-on-brand);
-  font-family: Outfit, var(--font-family-base);
+  font-family: var(--font-family-display);
   font-size: 108px;
   font-weight: var(--font-weight-bold);
   line-height: 1.12;
@@ -2295,214 +2315,6 @@ body {
   margin-top: 0;
 }
 
-/* ---- 隱藏動機：水面分界版 (CounselingHiddenMotivePage) ----
-   fullBleed：日光層（薄）→ 水面（全頁最重的分界事件）→ 深水層（厚、有深度）。
-   boldness 只花在「水面」；上下全部安靜、無盒子。 */
-.counseling-hidden {
-  /* height 沿用 .slide-shell 的 1080px；勿設 height:100%（相對 reveal section
-     解析不到固定高度會塌成內容高度，導致整頁被垂直置中、上下留白）。 */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow: hidden;
-}
-
-/* 日光層：說出口的（亮、薄、內容自然高度，不留大片空白）。 */
-.hidden-daylight {
-  flex: none;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-10);
-  padding: 44px var(--slide-safe-padding) 30px;
-  background: linear-gradient(180deg, #ffffff, #f4f7ee);
-}
-
-.hidden-head {
-  min-width: 0;
-}
-
-.hidden-daylight .counseling-title {
-  font-size: 64px;
-}
-
-/* 說出口的引言：無盒子，只有一道左細線＋小標＋引言，跟下半部「無邊框」語彙一致。 */
-.hidden-spoken {
-  flex: none;
-  max-width: 520px;
-  margin: 0;
-  padding-left: var(--space-5);
-  border-left: var(--border-width-thin) solid rgba(69, 95, 81, 0.28);
-}
-
-.hidden-spoken__label {
-  margin-bottom: var(--space-2);
-  font-size: var(--font-size-caption);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: var(--letter-spacing-caps);
-  color: rgba(69, 95, 81, 0.55);
-}
-
-.hidden-spoken__text {
-  margin: 0;
-  font-size: var(--font-size-body-lg);
-  line-height: var(--line-height-snug);
-  color: var(--color-text-heading);
-}
-
-/* 水面：全頁最重的分界。明線由 GSAP 展開；兩側放大標注「說出口的↑／沒說出口的↓」。 */
-.hidden-surface {
-  position: relative;
-  height: 0;
-  z-index: 2;
-}
-
-.hidden-surface__rule {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -1px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-brand-primary-bright), var(--color-brand-accent));
-  box-shadow: 0 0 18px rgba(153, 203, 56, 0.5);
-}
-
-.hidden-surface__up,
-.hidden-surface__down {
-  position: absolute;
-  left: var(--slide-safe-padding);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: var(--letter-spacing-caps);
-}
-
-.hidden-surface__up {
-  bottom: var(--space-3);
-  color: var(--color-brand-secondary);
-}
-
-.hidden-surface__up::before {
-  content: '↑';
-}
-
-.hidden-surface__down {
-  top: var(--space-3);
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.hidden-surface__down::before {
-  content: '↓';
-}
-
-/* 深水層：垂直深度漸層（近水面受光→深處變暗）＋底部暗角＋水面下折射亮帶，
-   讀成「深度」而不是一塊平塗綠。 */
-.hidden-deep {
-  position: relative;
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--space-8);
-  padding: var(--space-10) var(--slide-safe-padding) var(--space-8);
-  background:
-    radial-gradient(150% 130% at 50% 118%, rgba(0, 0, 0, 0.36), transparent 55%),
-    linear-gradient(180deg, #4c6a5b 0%, #3a5145 44%, #2b3a33 100%);
-}
-
-/* 水面下的折射亮帶＋往下投影，強化「這是一道會反光的表面」。 */
-.hidden-deep::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 160px;
-  background: linear-gradient(180deg, rgba(153, 203, 56, 0.14), transparent);
-  box-shadow: inset 0 22px 42px -24px rgba(0, 0, 0, 0.6);
-  pointer-events: none;
-}
-
-/* 四個原因：無邊框紀錄格，靠髮絲線分隔，讓深水透出來（取代醜盒子）。 */
-.hidden-grid {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: var(--space-10);
-  row-gap: var(--space-6);
-}
-
-.hidden-cell {
-  position: relative;
-  padding: var(--space-5) 0 var(--space-5) var(--space-6);
-  border-top: var(--border-width-hairline) solid rgba(255, 255, 255, 0.16);
-}
-
-/* 每格左側一道中性刻度；強調格換成橘色＋極淡暖光（不做整塊橘盒）。 */
-.hidden-cell::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: var(--space-5);
-  bottom: var(--space-5);
-  width: 3px;
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.28);
-}
-
-.hidden-cell--key {
-  background: linear-gradient(90deg, rgba(238, 123, 8, 0.12), transparent 70%);
-}
-
-.hidden-cell--key::before {
-  background: var(--color-orange);
-}
-
-.hidden-cell__title {
-  margin: 0 0 var(--space-3);
-  font-size: var(--font-size-h3);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-base-white);
-}
-
-.hidden-cell--key .hidden-cell__title {
-  color: #ffb46b;
-}
-
-.hidden-cell__body {
-  margin: 0;
-  max-width: 40ch;
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-normal);
-  color: rgba(255, 255, 255, 0.82);
-}
-
-/* 收尾句：直接畫在深水上，lime 左條＋白字（不用米色 twist 卡）。 */
-.hidden-close {
-  position: relative;
-  z-index: 1;
-  border-left: var(--border-width-thick) solid var(--color-brand-primary-bright);
-  padding-left: var(--space-6);
-}
-
-.hidden-close__eyebrow {
-  margin: 0 0 var(--space-2);
-  font-size: var(--font-size-caption);
-  font-weight: var(--font-weight-bold);
-  letter-spacing: var(--letter-spacing-caps);
-  color: var(--color-brand-primary-bright);
-}
-
-.hidden-close__text {
-  margin: 0;
-  font-size: var(--font-size-body-lg);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-normal);
-  color: var(--color-base-white);
-}
-
 .counseling-flow--redesign {
   display: grid;
   grid-template-columns: .78fr 1.22fr;
@@ -2599,7 +2411,7 @@ body {
   position: relative;
   z-index: 1;
   color: var(--color-brand-primary-bright);
-  font-family: Outfit, var(--font-family-base);
+  font-family: var(--font-family-latin);
   font-size: 28px;
   font-weight: var(--font-weight-bold);
   letter-spacing: .08em;
@@ -2726,7 +2538,7 @@ body {
 
 .motive-card__index {
   color: var(--color-brand-secondary);
-  font-family: Cabinet Grotesk, var(--font-family-base);
+  font-family: var(--font-family-display);
   font-size: 22px;
   font-weight: var(--font-weight-bold);
   letter-spacing: .08em;
@@ -2846,7 +2658,7 @@ body {
   max-width: 1440px;
   margin: 0;
   color: var(--color-text-heading);
-  font-family: 'Cabinet Grotesk', var(--font-family-base);
+  font-family: var(--font-family-display);
   font-size: 64px;
   line-height: var(--line-height-tight);
   letter-spacing: -0.04em;
@@ -2955,7 +2767,7 @@ body {
 
 .rhythm-node__number {
   color: var(--color-brand-secondary);
-  font-family: 'Cabinet Grotesk', var(--font-family-base);
+  font-family: var(--font-family-display);
   font-size: 24px;
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
@@ -3043,7 +2855,7 @@ body {
 .rhythm-classification__column {
   position: relative;
   min-width: 0;
-  padding: 52px 58px 44px;
+  padding: 40px 58px 32px;
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr) auto;
   overflow: hidden;
@@ -3082,7 +2894,7 @@ body {
   position: relative;
   z-index: 1;
   max-width: 530px;
-  min-height: 72px;
+  min-height: 40px;
   margin-top: var(--space-4);
   color: rgba(27, 51, 29, 0.74);
   font-size: 25px;
@@ -3097,21 +2909,22 @@ body {
 .rhythm-classification ul {
   position: relative;
   z-index: 1;
+  min-height: 0;
   display: grid;
   align-content: space-between;
-  gap: var(--space-3);
-  margin-top: 34px;
-  margin-bottom: 30px;
+  gap: var(--space-2);
+  margin-top: 18px;
+  margin-bottom: 14px;
   padding: 0;
   list-style: none;
+  overflow: hidden;
 }
 
 .rhythm-classification li {
   display: flex;
   align-items: baseline;
   gap: var(--space-4);
-  min-height: 46px;
-  padding-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
   border-bottom: var(--border-width-hairline) solid rgba(27, 51, 29, 0.16);
   font-size: 30px;
   font-weight: var(--font-weight-bold);
@@ -3121,7 +2934,7 @@ body {
 .rhythm-classification li span {
   flex: none;
   color: var(--color-brand-secondary);
-  font-family: 'Cabinet Grotesk', var(--font-family-base);
+  font-family: var(--font-family-display);
   font-size: 21px;
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
@@ -3179,10 +2992,7 @@ body {
   display: grid;
   grid-template-columns: 310px minmax(0, 1fr);
   overflow: hidden;
-  background:
-    linear-gradient(135deg, rgba(153, 203, 56, 0.08) 0 1px, transparent 1px 52px),
-    var(--color-surface-base);
-  background-size: 52px 52px, auto;
+  background: transparent;
 }
 
 .outline-draft__rail {
@@ -3238,7 +3048,7 @@ body {
   position: relative;
   z-index: 1;
   margin-top: 82px;
-  font-family: 'Outfit', var(--font-family-base);
+  font-family: var(--font-family-latin);
   font-size: 104px;
   font-weight: var(--font-weight-bold);
   line-height: 0.86;
@@ -3294,6 +3104,7 @@ body {
   max-width: 1350px;
   margin-top: 17px;
   color: var(--color-text-heading);
+  font-family: var(--font-family-display);
   font-size: 64px;
   font-weight: var(--font-weight-bold);
   line-height: 1.14;
@@ -3414,10 +3225,7 @@ body {
   grid-template-columns: minmax(0, 62fr) minmax(0, 38fr);
   overflow: hidden;
   background:
-    linear-gradient(90deg, transparent 0 61.9%, rgba(69, 95, 81, 0.14) 61.9% 62%, transparent 62%),
-    linear-gradient(145deg, rgba(153, 203, 56, 0.07) 0 1px, transparent 1px 62px),
-    var(--color-surface-base);
-  background-size: auto, 62px 62px, auto;
+    linear-gradient(90deg, transparent 0 61.9%, rgba(69, 95, 81, 0.14) 61.9% 62%, transparent 62%);
 }
 
 .course-positioning__copy {
@@ -3455,7 +3263,7 @@ body {
 .course-positioning__kicker {
   margin-bottom: 24px;
   color: var(--color-orange);
-  font-family: 'Cabinet Grotesk', var(--font-family-base);
+  font-family: var(--font-family-display);
   font-size: 27px;
   font-weight: var(--font-weight-bold);
   line-height: 1.25;
@@ -3464,6 +3272,7 @@ body {
 .course-positioning__title {
   max-width: 1040px;
   color: var(--color-text-heading);
+  font-family: var(--font-family-display);
   font-size: 78px;
   font-weight: var(--font-weight-bold);
   line-height: 1.12;
@@ -3516,7 +3325,7 @@ body {
 
 .course-positioning__principle span {
   color: var(--color-orange);
-  font-family: 'Cabinet Grotesk', var(--font-family-base);
+  font-family: var(--font-family-display);
   font-size: 18px;
   font-weight: var(--font-weight-bold);
   font-variant-numeric: tabular-nums;
@@ -3667,11 +3476,7 @@ body {
   grid-template-rows: 260px minmax(0, 1fr);
   row-gap: 34px;
   overflow: hidden;
-  background:
-    linear-gradient(90deg, rgba(69, 95, 81, 0.045) 1px, transparent 1px),
-    linear-gradient(rgba(69, 95, 81, 0.045) 1px, transparent 1px),
-    var(--color-surface-base);
-  background-size: 72px 72px;
+  background: transparent;
 }
 
 .course-objectives__header {
@@ -3714,7 +3519,7 @@ body {
 
 .course-objectives__marquee-track span {
   color: var(--color-text-heading);
-  font-family: 'Geist', var(--font-family-base);
+  font-family: var(--font-family-latin);
   font-size: 18px;
   font-weight: var(--font-weight-bold);
   letter-spacing: 0;
@@ -3762,7 +3567,7 @@ body {
   flex-wrap: nowrap;
   gap: 18px;
   color: var(--color-text-heading);
-  font-family: 'Geist', var(--font-family-base);
+  font-family: var(--font-family-display);
   font-size: 72px;
   font-weight: var(--font-weight-bold);
   line-height: 1.08;
@@ -3892,7 +3697,7 @@ body {
   top: 27px;
   right: 30px;
   color: color-mix(in srgb, var(--path-color) 54%, white);
-  font-family: 'Geist', var(--font-family-base);
+  font-family: var(--font-family-latin);
   font-size: 42px;
   font-weight: var(--font-weight-bold);
   line-height: 1;
@@ -4043,7 +3848,7 @@ body {
 
 .warmup-experience__step {
   color: var(--phase-color);
-  font-family: 'Cabinet Grotesk', var(--font-family-base);
+  font-family: var(--font-family-display);
   font-size: var(--font-size-caption);
   font-weight: var(--font-weight-bold);
   font-variant-numeric: tabular-nums;
@@ -4073,7 +3878,7 @@ body {
   max-width: 1320px;
   margin: 0;
   color: var(--color-text-on-brand);
-  font-family: Outfit, var(--font-family-base);
+  font-family: var(--font-family-display);
   font-size: 64px;
   font-weight: var(--font-weight-bold);
   line-height: 1.32;
@@ -4089,6 +3894,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .warmup-experience::before,
   .warmup-experience::after,
   .warmup-experience__phase {
@@ -4112,11 +3918,23 @@ body {
   grid-template-rows: 60px 210px minmax(0, 1fr) 140px;
   row-gap: 16px;
   overflow: hidden;
-  background:
-    linear-gradient(90deg, rgba(69, 95, 81, 0.04) 1px, transparent 1px),
-    linear-gradient(rgba(69, 95, 81, 0.04) 1px, transparent 1px),
-    var(--color-surface-base);
-  background-size: 72px 72px;
+  background: transparent;
+}
+
+.sales-behavior__stage::after {
+  content: '';
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  background: radial-gradient(circle at 50% 46%, rgba(20, 32, 25, 0.34), rgba(13, 22, 17, 0.72));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 620ms ease;
+}
+
+.sales-behavior--conclusion .sales-behavior__stage::after,
+.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__stage::after {
+  opacity: 1;
 }
 
 .sales-behavior__nav {
@@ -4153,7 +3971,7 @@ body {
 
 .sales-behavior__marquee-track span {
   color: var(--color-text-heading);
-  font-family: Outfit, var(--font-family-base);
+  font-family: var(--font-family-latin);
   font-size: 17px;
   font-weight: var(--font-weight-bold);
   letter-spacing: 0;
@@ -4187,14 +4005,14 @@ body {
 .sales-behavior__heading h1 {
   max-width: 1420px;
   color: var(--color-text-heading);
-  font-family: Outfit, var(--font-family-base);
+  font-family: var(--font-family-display);
   font-size: 64px;
   font-weight: var(--font-weight-bold);
   line-height: 1.08;
   text-align: left;
 }
 
-.sales-behavior__heading h1 > span {
+.sales-behavior__heading h1>span {
   width: max-content;
   max-width: 100%;
   display: block;
@@ -4227,7 +4045,7 @@ body {
   border-top: 1px solid rgba(69, 95, 81, 0.22);
   border-left: 1px solid rgba(69, 95, 81, 0.22);
   overflow: hidden;
-  transition: opacity 420ms ease, transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: opacity 420ms ease, transform 620ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 620ms ease;
 }
 
 .sales-behavior__panel {
@@ -4380,23 +4198,32 @@ body {
 }
 
 .sales-behavior__conclusion {
-  position: relative;
+  position: absolute;
   z-index: 8;
+  left: 50%;
+  top: 50%;
   box-sizing: border-box;
-  min-width: 0;
-  height: 140px;
-  padding: 24px 42px;
+  width: min(1180px, calc(100% - 156px));
+  height: auto;
+  padding: 72px 104px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 42px;
+  justify-content: center;
+  gap: 40px;
+  text-align: center;
   color: var(--color-text-on-brand);
-  background: var(--color-forest-900);
+  background: linear-gradient(165deg, rgba(52, 76, 61, 0.97), rgba(24, 40, 32, 0.99));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.92);
+  box-shadow: none;
+  pointer-events: none;
   transition:
-    inset 620ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    height 620ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    padding 620ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 520ms ease,
+    transform 620ms cubic-bezier(0.2, 0.8, 0.2, 1),
     box-shadow 620ms ease;
 }
 
@@ -4406,89 +4233,24 @@ body {
 
 .sales-behavior__conclusion-copy span {
   display: block;
-  margin: 0 0 8px;
+  margin: 0 0 20px;
   color: var(--color-brand-primary-bright);
-  font-size: 19px;
+  font-size: 24px;
   font-weight: var(--font-weight-bold);
   line-height: 1.2;
   letter-spacing: 0;
 }
 
-.sales-behavior__conclusion p {
-  max-width: 950px;
-  font-size: 28px;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.42;
-}
-
 .sales-behavior__conclusion-actions {
+  position: relative;
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  gap: 18px;
-}
-
-.sales-behavior__conclusion strong {
-  position: relative;
-  font-size: 43px;
-  font-weight: var(--font-weight-bold);
-  line-height: 1;
-  color: var(--color-text-on-brand);
-}
-
-.sales-behavior__conclusion i {
-  width: 9px;
-  height: 9px;
-  display: block;
-  background: rgba(255, 255, 255, 0.42);
-  transform: rotate(45deg);
-}
-
-.sales-behavior--conclusion .sales-behavior__heading,
-.sales-behavior--conclusion .sales-behavior__contrast,
-.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__heading,
-.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__contrast {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-28px);
-}
-
-.sales-behavior--conclusion .sales-behavior__conclusion,
-.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__conclusion {
-  position: absolute;
-  inset: 164px 78px 70px;
-  height: auto;
-  padding: 76px 96px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 42px;
-  text-align: center;
-  box-shadow: var(--elevation-3);
-}
-
-.sales-behavior--conclusion .sales-behavior__conclusion-copy span,
-.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__conclusion-copy span {
-  margin-bottom: 20px;
-  font-size: 24px;
-}
-
-.sales-behavior--conclusion .sales-behavior__conclusion p,
-.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__conclusion p {
-  max-width: 1180px;
-  font-size: 43px;
-  line-height: 1.28;
-}
-
-.sales-behavior--conclusion .sales-behavior__conclusion-actions,
-.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__conclusion-actions {
-  position: relative;
   gap: 32px;
   padding: 16px 18px 28px;
 }
 
-.sales-behavior--conclusion .sales-behavior__conclusion-actions::after,
-.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__conclusion-actions::after {
+.sales-behavior__conclusion-actions::after {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -4498,21 +4260,53 @@ body {
   content: '';
 }
 
-.sales-behavior--conclusion .sales-behavior__conclusion strong,
-.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__conclusion strong {
+.sales-behavior__conclusion strong {
+  position: relative;
   font-size: 72px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  color: var(--color-text-on-brand);
 }
 
-.sales-behavior--conclusion .sales-behavior__conclusion i,
-.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__conclusion i {
+.sales-behavior__conclusion i {
   width: 10px;
   height: 10px;
+  display: block;
   background: rgba(255, 255, 255, 0.5);
+  transform: rotate(45deg);
+}
+
+.sales-behavior--conclusion .sales-behavior__heading,
+.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__heading {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-28px);
+}
+
+.sales-behavior--conclusion .sales-behavior__contrast,
+.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__contrast {
+  opacity: 1;
+  pointer-events: none;
+  filter: blur(9px) brightness(0.45) saturate(0.7);
+  transform: scale(0.97);
+}
+
+.sales-behavior--conclusion .sales-behavior__conclusion,
+.sales-behavior:has(.sales-behavior__conclusion.visible) .sales-behavior__conclusion {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+  box-shadow: var(--elevation-3), 0 30px 90px rgba(15, 24, 19, 0.45);
 }
 
 @keyframes sales-behavior-marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

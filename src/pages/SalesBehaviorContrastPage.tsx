@@ -4,11 +4,11 @@ import { BrandLogo } from '../components/brand/BrandLogo';
 import { SlideShell } from '../components/layouts/SlideShell';
 import { useSlideReset } from '../hooks/useSlideReset';
 import { motion } from '../tokens/motion';
-import listeningImage from '../../assets/impression-appearance/eye-contact.png';
+import warmthImage from '../../assets/impression-appearance/smile.png';
 import confusedCustomerImage from '../../assets/困惑的長輩.svg';
 
-const LIKED_BEHAVIORS = ['願意聽', '理解需求', '解釋清楚', '提供選擇'];
-const DISLIKED_BEHAVIORS = ['急著介紹', '先推最高階', '製造期限', '立刻反駁'];
+const LIKED_BEHAVIORS = ['願意傾聽', '理解需求', '釐清問題', '給予方案'];
+const DISLIKED_BEHAVIORS = ['急著介紹', '只顧講話', '目的很強', '忽略需求'];
 
 interface RevealFragmentEvent extends Event {
   fragment?: Element;
@@ -23,6 +23,9 @@ export function SalesBehaviorContrastPage() {
     useCallback(() => {
       setIsConclusionFocused(false);
       conclusionRef.current?.classList.remove('visible', 'current-fragment');
+      if (conclusionRef.current) {
+        gsap.set(conclusionRef.current.querySelectorAll('.js-conclusion-word'), { clearProps: 'all' });
+      }
     }, []),
   );
 
@@ -30,6 +33,22 @@ export function SalesBehaviorContrastPage() {
     const handleShown = (event: Event) => {
       if ((event as RevealFragmentEvent).fragment === conclusionRef.current) {
         setIsConclusionFocused(true);
+        const node = conclusionRef.current;
+        if (node) {
+          gsap.fromTo(
+            node.querySelectorAll('.js-conclusion-word'),
+            { opacity: 0, y: 22, scale: 0.82 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: motion.duration.base,
+              stagger: motion.fragmentStagger,
+              delay: 0.22,
+              ease: motion.ease.enter,
+            },
+          );
+        }
       }
     };
     const handleHidden = (event: Event) => {
@@ -81,13 +100,7 @@ export function SalesBehaviorContrastPage() {
       <main className="sales-behavior__stage">
         <header className="sales-behavior__nav js-behavior-nav">
           <BrandLogo className="sales-behavior__logo" />
-          <div className="sales-behavior__marquee" aria-hidden="true">
-            <div className="sales-behavior__marquee-track">
-              <span>願意聽</span><i /><span>理解需求</span><i /><span>解釋清楚</span><i /><span>提供選擇</span><i />
-              <span>急著介紹</span><i /><span>先推最高階</span><i /><span>製造期限</span><i /><span>立刻反駁</span><i />
-              <span>願意聽</span><i /><span>理解需求</span><i /><span>解釋清楚</span><i /><span>提供選擇</span><i />
-            </div>
-          </div>
+
         </header>
 
         <div className="sales-behavior__heading">
@@ -102,7 +115,7 @@ export function SalesBehaviorContrastPage() {
 
         <div className="sales-behavior__contrast" aria-label="客戶喜歡與不喜歡的銷售行為對照">
           <article className="sales-behavior__panel sales-behavior__panel--liked fragment" data-fragment-index="0">
-            <img className="sales-behavior__photo js-behavior-media" src={listeningImage} alt="聽力師專注聆聽客戶說明" />
+            <img className="sales-behavior__photo js-behavior-media" src={warmthImage} alt="聽力師對客戶溫暖微笑" />
             <div className="sales-behavior__panel-shade" aria-hidden="true" />
             <div className="sales-behavior__panel-heading">
               <span>客戶喜歡</span>
@@ -126,11 +139,11 @@ export function SalesBehaviorContrastPage() {
         </div>
 
         <footer ref={conclusionRef} className="sales-behavior__conclusion fragment" data-fragment-index="2">
-          <div className="sales-behavior__conclusion-copy">
+          <div className="sales-behavior__conclusion-copy js-conclusion-word">
             <span>顧問式銷售的核心就是</span>
           </div>
           <div className="sales-behavior__conclusion-actions">
-            <strong>理解</strong><i /><strong>提問</strong><i /><strong>引導</strong>
+            <strong className="js-conclusion-word">理解</strong><i /><strong className="js-conclusion-word">提問</strong><i /><strong className="js-conclusion-word">引導</strong>
           </div>
         </footer>
       </main>

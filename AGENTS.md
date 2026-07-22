@@ -30,6 +30,11 @@ Single-context: one `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agent
 4. **逐步動畫機制（Incremental Steps）：**
    - 頁面內部的關鍵元素（如條列清單、圖表標籤）需支援「分步顯示」機制。
 
+5. **紙質格線背景：**
+   - 白色或淺色投影片一律沿用 `SlideShell` 預設的 `paper` 背景紋理：72px 方格、1px 淡森林綠線，營造筆記紙質感。
+   - 沉浸式非白底／純色底頁面不得疊加格線，需在 `SlideShell` 明確設定 `backgroundTexture="none"`。
+   - 不得在單頁重複手刻格線；滿版頁的白底子容器應保持透明，若只有局部淺色區塊會遮住共用背景，則沿用 `--slide-paper-grid` 與 `--slide-paper-grid-size` 疊加。
+
 # Tech Stack & Architecture
 - Frontend: React 18 + TypeScript + Vite。
 - Deck 引擎: Reveal.js（1920×1080 固定畫布，`reveal.config.ts` 鎖定 controls/swipe/wheel，左右鍵跨頁、上下鍵頁內 fragment）。

@@ -57,9 +57,36 @@
 theme1 accent1→6 是一條刻意的綠→青漸層，適合 categorical / sequential：
 `chart-seq`: `#99CB38` · `#63A537` · `#37A76F` · `#44C1A3` · `#4EB3CF` · `#51C3F9`
 
+### 4.1 白底紙質格線（衍生背景配方）
+- **適用面**：所有白色或淺色投影片，作為全簡報一致的筆記紙質感；由 `SlideShell` 預設套用。
+- **格線**：水平與垂直各一層 `linear-gradient`，線寬 `1px`、間距 `72px × 72px`、線色 `rgba(69, 95, 81, 0.04)`。
+- **例外**：沉浸式非白底／純色底頁不疊加格線，使用 `backgroundTexture="none"`；局部深色卡片、圖片與品牌色塊維持原底色，不把格線覆蓋到內容表面。
+- **實作責任**：共用配方定義於 `.slide-shell--paper` 的 `--slide-paper-grid` 與 `--slide-paper-grid-size`。滿版白底容器保持透明；局部淺色區塊若會遮住共用層，沿用同一配方疊加，禁止逐頁另訂線色或尺寸。
+
 ## 5. Typography
-- `font-family-base`: `"Microsoft YaHei", "Microsoft JhengHei", "微軟正黑體", -apple-system, "PingFang TC", sans-serif`
-  - theme1 major+minor 皆 **Microsoft YaHei**；**注意 YaHei 為简体導向**，繁中現場已加入 `Microsoft JhengHei` fallback（衍生）。
+
+### 5.1 字型家族（三角色系統，衍生）
+專案自架 webfont（`@fontsource-variable/*`，離線可靠、不依賴 CDN），依「角色」而非「頁面」指定。**新元件一律用下列 CSS 變數，不得寫死字型名稱**（歷史殘留的 `Cabinet Grotesk` / `Outfit` / `Geist` 皆未載入，已全數移除）。
+
+| 角色 | Token | 字型 | 用途 |
+|---|---|---|---|
+| 標題 Display | `--font-family-display` | 思源宋 **Noto Serif TC** | 所有頁面大標題、問句、章節主字（襯線編輯感） |
+| 內文 Base | `--font-family-base` | 思源黑 **Noto Sans TC** | 內文、UI、標籤、眉標；元素預設繼承即為此角色 |
+| 數字 Latin | `--font-family-latin` | **Outfit** | 純數字、序號、代碼、英文跑馬燈；中文自動回退 base |
+
+**套用規則（重要）：**
+- **頁面標題 = `var(--font-family-display)`**。凡是「一頁最大的那句中文標題／問句」都必須顯式指定 display，不能只靠繼承（繼承會落到 base 黑體，就不是襯線）。
+- 內文、眉標、說明文字不必指定 font-family，繼承 base 即可。
+- 只有「內容為數字或英文」的小元素才用 latin（Outfit 無中文字符，中文會回退 base）。
+- 匯入位置：`src/main.tsx` 最上方，`reveal.css` 之後、`tokens.css` 之前，依序 `noto-serif-tc` → `noto-sans-tc` → `outfit`。
+
+字型堆疊定義：
+- `font-family-base`: `'Noto Sans TC Variable', "Microsoft JhengHei", "微軟正黑體", "PingFang TC", -apple-system, sans-serif`
+- `font-family-display`: `'Noto Serif TC Variable', "Noto Serif CJK TC", "Songti TC", "PingFang TC", serif`
+- `font-family-latin`: `'Outfit Variable', var(--font-family-base)`
+  - theme1 母片原始 major+minor 皆 **Microsoft YaHei**（简体導向），繁中現場改以 Noto Sans TC 為主、`Microsoft JhengHei` 為系統回退（衍生）。
+
+### 5.2 字重與字級
 - `font-weight`: light `300` / regular `400` / semibold `600` / bold `700`
 - **字級階層**（衍生；簡報需大字，base 24px @1080p，比例 ~1.333 Perfect Fourth）：
 
@@ -155,7 +182,9 @@ theme1 accent1→6 是一條刻意的綠→青漸層，適合 categorical / sequ
   --chart-seq-6: #51C3F9;
 
   /* typography */
-  --font-family-base: "Microsoft YaHei", "Microsoft JhengHei", "微軟正黑體", -apple-system, "PingFang TC", sans-serif;
+  --font-family-base: 'Noto Sans TC Variable', "Microsoft JhengHei", "微軟正黑體", "PingFang TC", -apple-system, sans-serif;
+  --font-family-display: 'Noto Serif TC Variable', "Noto Serif CJK TC", "Songti TC", "PingFang TC", serif;
+  --font-family-latin: 'Outfit Variable', var(--font-family-base);
   --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-semibold: 600;
