@@ -97,7 +97,7 @@ export function LifestyleContextPage() {
                     </p>
                     <p className="lifepath__scene">{stop.scene}</p>
                     <p className="lifepath__q lifepath__q--closed">
-                      <span className="lifepath__tag">只問表格</span>
+                      <span className="lifepath__tag">只問表面</span>
                       {stop.closed}
                     </p>
                     <p className="lifepath__q lifepath__q--open">
@@ -113,18 +113,18 @@ export function LifestyleContextPage() {
 
           <footer className="lifepath-principle fragment" data-fragment-index={STOPS.length + 1}>
             <p className="lifepath-principle__text">
-              別讓答案停在表格裡——每一格都再追問一句：<b>「那是什麼場景？」</b>
+              別讓答案停在表面——客戶的回答往往都可以再繼續追問：<b>「那是什麼場景？」</b>
             </p>
-            <p className="lifepath-principle__handoff">帶著這些場景，回到病史與病識感</p>
+
           </footer>
         </div>
 
         {/* 標題狀態：整頁置中，路徑出現後淡出退場。 */}
         <header className="lifepath-heading">
           <p className="counseling-kicker js-lifepath-kicker">衛教與諮商</p>
-          <h1 className="counseling-title js-lifepath-title">病史之外，還要看見客戶的生活</h1>
+          <h1 className="counseling-title js-lifepath-title">COSI在問什麼?</h1>
           <p className="lifepath__intro js-lifepath-intro">
-            表格能填完，人卻還沒被看見——順著客戶的生活，走過三個切面。
+            妳好不好奇客戶的生活，人事時地物有深入探討嗎?
           </p>
         </header>
       </div>

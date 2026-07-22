@@ -13,6 +13,9 @@ import { ReceptionTrustPage } from '../pages/ReceptionTrustPage';
 import { LifestyleContextPage } from '../pages/LifestyleContextPage';
 import { EconomicCapacitySignalsPage } from '../pages/EconomicCapacitySignalsPage';
 import { EconomicAssessmentTimingPage } from '../pages/EconomicAssessmentTimingPage';
+import { ReportSequencePage } from '../pages/ReportSequencePage';
+import { ExaminationTrustPage, ExaminationAwarenessPage } from '../pages/ExaminationSignalsPage';
+import { ExaminationCommunicationPage } from '../pages/ExaminationCommunicationPage';
 import {
   CustomerUnderstandingChapterPage,
   SelfAwarenessChapterPage,
@@ -218,54 +221,32 @@ export const slides: SlideEntry[] = [
     component: EconomicAssessmentTimingPage,
   },
   {
-    id: 'counseling-flow',
+    id: 'examination-communication',
     chapter: '選配流程',
-    title: '釐清問題，是諮商的開始',
+    title: '檢查的過程，也在建立信任與病識感',
+    previewShape: 'cover',
+    component: ExaminationCommunicationPage,
+  },
+  {
+    id: 'examination-trust-signals',
+    chapter: '選配流程',
+    title: '如何在檢查過程中增加信任感？',
     previewShape: 'content',
-    component: CounselingFlowPage,
-  },
-  draft.reportSequence,
-  {
-    id: 'counseling-otoscopy',
-    chapter: '選配流程',
-    title: '耳鏡：先排除外耳因素',
-    previewShape: 'split',
-    component: CounselingOtoscopyPage,
+    component: ExaminationTrustPage,
   },
   {
-    id: 'counseling-tympanogram',
+    id: 'examination-awareness-signals',
     chapter: '選配流程',
-    title: '鼓室圖：再確認中耳狀況',
-    previewShape: 'split',
-    component: CounselingTympanogramPage,
-  },
-  {
-    id: 'counseling-audiogram',
-    chapter: '選配流程',
-    title: '聽力圖，要翻成生活語言',
-    previewShape: 'split',
-    component: CounselingAudiogramPage,
-  },
-  {
-    id: 'counseling-mcl',
-    chapter: '選配流程',
-    title: 'MCL：找到剛剛好的音量',
-    previewShape: 'split',
-    component: CounselingMclPage,
-  },
-  {
-    id: 'counseling-wrs',
-    chapter: '選配流程',
-    title: 'WRS：聽得到，還要聽得懂',
-    previewShape: 'split',
-    component: CounselingWrsPage,
-  },
-  {
-    id: 'counseling-wrs-benefit',
-    chapter: '選配流程',
-    title: 'WRS 分數，決定期待怎麼說',
+    title: '如何在檢查過程中增加病識感？',
     previewShape: 'content',
-    component: CounselingWrsBenefitPage,
+    component: ExaminationAwarenessPage,
+  },
+  {
+    id: 'report-sequence',
+    chapter: '選配流程',
+    title: '報告不是念數字，而是建立共同理解',
+    previewShape: 'content',
+    component: ReportSequencePage,
   },
   {
     id: 'counseling-perspective',

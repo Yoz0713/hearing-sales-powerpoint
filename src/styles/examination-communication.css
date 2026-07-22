@@ -1,0 +1,247 @@
+/* D19.1：檢查的過程，也在建立信任與病識感。
+   以聽力檢查的代表器械「音叉」為喻：「檢查」是柄（起點），敲一下同時響起
+   信任感（上叉，綠）與病識感（下叉，橘）。只用綠＋橘兩個品牌色，叉身中性墨綠。 */
+
+.examcomm {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 84% 22%, rgba(99, 165, 55, 0.08), transparent 30%),
+    radial-gradient(circle at 15% 84%, rgba(238, 123, 8, 0.06), transparent 28%),
+    #fbfcf9;
+}
+
+.examcomm__stage {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 78px 112px 66px;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  row-gap: 26px;
+  overflow: hidden;
+}
+
+/* ---- 標頭 ---- */
+.examcomm__eyebrow {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--color-brand-secondary);
+  font-size: 24px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-caps);
+}
+
+.examcomm__eyebrow::before {
+  width: 44px;
+  height: 4px;
+  content: '';
+  background: var(--color-brand-secondary);
+}
+
+.examcomm__title {
+  margin: 0;
+  max-width: 1500px;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 72px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+/* 標題裡預告下方兩支叉的顏色。 */
+.examcomm__word--trust {
+  color: var(--color-brand-primary);
+}
+
+.examcomm__word--awareness {
+  color: var(--color-orange);
+}
+
+/* ---- 音叉 ---- */
+.examcomm__fork {
+  position: relative;
+  align-self: center;
+  width: 940px;
+  height: 380px;
+  margin: 0 auto;
+}
+
+/* 起點：檢查（敲擊點） */
+.examcomm__origin {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: 50%;
+  width: 108px;
+  height: 108px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-forest-900);
+  box-shadow: 0 12px 30px rgba(69, 95, 81, 0.2);
+  transform: translateY(-50%);
+}
+
+.examcomm__origin-word {
+  color: var(--color-text-on-brand);
+  font-family: var(--font-family-display);
+  font-size: 38px;
+  font-weight: var(--font-weight-bold);
+}
+
+/* 柄：起點連到基座 */
+.examcomm__stem {
+  position: absolute;
+  left: 108px;
+  top: 50%;
+  width: 104px;
+  height: 14px;
+  transform: translateY(-50%);
+  background: var(--color-forest-900);
+  border-radius: var(--radius-pill);
+}
+
+/* 基座：垂直連桿，接住兩支叉的根部（叉心 70 → 310） */
+.examcomm__base {
+  position: absolute;
+  left: 212px;
+  top: 70px;
+  width: 14px;
+  height: 240px;
+  background: var(--color-forest-900);
+  border-radius: var(--radius-pill);
+}
+
+.examcomm__prong {
+  position: absolute;
+  left: 226px;
+  right: 0;
+  height: 140px;
+  display: flex;
+  align-items: center;
+}
+
+.examcomm__prong--trust {
+  --prong: var(--color-brand-primary);
+  --prong-halo: rgba(99, 165, 55, 0.16);
+  top: 0;
+}
+
+.examcomm__prong--awareness {
+  --prong: var(--color-orange);
+  --prong-halo: rgba(238, 123, 8, 0.16);
+  top: 240px;
+}
+
+/* 叉：從基座往右伸出（fragment 顯示時 scaleX 展開） */
+.examcomm__tine {
+  flex: none;
+  width: 210px;
+  height: 14px;
+  background: var(--prong);
+  border-radius: var(--radius-pill);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.examcomm__prong.visible .examcomm__tine {
+  transform: scaleX(1);
+}
+
+/* 叉尖共振弧：兩道向右開的弧，象徵敲擊後的共鳴 */
+.examcomm__tip {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin-left: 4px;
+}
+
+.examcomm__tip::before,
+.examcomm__tip::after {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  border: 3px solid transparent;
+  border-right-color: var(--prong);
+  border-radius: 50%;
+  content: '';
+  transform: translateY(-50%);
+  animation: examcomm-resonate 1.8s ease-in-out infinite;
+}
+
+.examcomm__tip::before {
+  width: 20px;
+  height: 20px;
+}
+
+.examcomm__tip::after {
+  width: 40px;
+  height: 40px;
+  animation-delay: 0.28s;
+}
+
+@keyframes examcomm-resonate {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.examcomm__prong-text {
+  min-width: 0;
+  margin-left: 26px;
+}
+
+.examcomm__prong-label {
+  margin: 0;
+  color: var(--prong);
+  font-family: var(--font-family-display);
+  font-size: 42px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+}
+
+.examcomm__prong-desc {
+  margin: 8px 0 0;
+  max-width: 440px;
+  color: rgba(69, 95, 81, 0.78);
+  font-size: 23px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.42;
+}
+
+/* ---- 底部錨句 ---- */
+.examcomm__anchor {
+  margin: 0;
+  padding-top: 22px;
+  border-top: 2px solid rgba(69, 95, 81, 0.2);
+  color: rgba(69, 95, 81, 0.7);
+  font-size: 28px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+}
+
+.examcomm__anchor b {
+  color: var(--color-text-heading);
+  font-weight: var(--font-weight-bold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .examcomm__tine {
+    transition: none;
+  }
+  .examcomm__tip::before,
+  .examcomm__tip::after {
+    animation: none;
+    opacity: 0.7;
+  }
+}
