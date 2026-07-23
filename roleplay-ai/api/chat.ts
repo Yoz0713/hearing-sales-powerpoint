@@ -122,31 +122,48 @@ export default async function handler(req: ReqLike, res: ResLike): Promise<void>
       json(res, 400, { error: 'messages 內容不合法' });
       return;
     }
+    // Gemini 要求 contents 以 user 開頭；濾掉開頭的 model 訊息（例如客人的開場白）。
+    if (contents.length === 0 && m.role !== 'user') continue;
     contents.push({ role: m.role, parts: [{ text: m.text }] });
   }
+  if (contents.length === 0) {
+    json(res, 400, { error: '沒有可送出的使用者訊息' });
+    return;
+  }
 
-  const config: Record<string, unknown> = {
+  const baseConfig: Record<string, unknown> = {
     systemInstruction,
     maxOutputTokens: OUT_TOKENS,
     temperature: 0.7,
-    // 關閉思考預算：Gemini flash 系列預設會「思考」，思考 token 會吃掉 maxOutputTokens，
-    // 導致回覆在中途被截斷。設 0 關閉，回覆更完整、更快、更省。
-    // ⚠️ 若模型不接受 thinkingBudget:0（回 400），刪掉這行、改把 maxOutputTokens 調到 ~2000。
-    thinkingConfig: { thinkingBudget: 0 },
   };
+
+  // 依序嘗試：JSON schema → 只要 JSON → 純文字（靠提示產生 JSON，前端寬鬆解析）。
+  // 不同模型對結構化輸出的支援不一；遇 400（參數不合法）就自動退到更相容的設定，避免整個掛掉。
+  const jsonModes: Record<string, unknown>[] = [];
   if (responseSchema && typeof responseSchema === 'object') {
-    config.responseMimeType = 'application/json';
-    config.responseSchema = responseSchema;
+    jsonModes.push({ responseMimeType: 'application/json', responseSchema });
+  }
+  jsonModes.push({ responseMimeType: 'application/json' });
+  jsonModes.push({});
+
+  const ai = new GoogleGenAI({ apiKey });
+  let lastErr: unknown;
+  for (const mode of jsonModes) {
+    try {
+      const response = await withRetry(() =>
+        ai.models.generateContent({ model: MODEL, contents, config: { ...baseConfig, ...mode } }),
+      );
+      json(res, 200, { text: response.text ?? '' });
+      return;
+    } catch (err) {
+      lastErr = err;
+      const msg = err instanceof Error ? err.message : String(err);
+      // 只有「參數不合法（400）」才退到更簡設定重試；其餘（金鑰、429…）直接回報。
+      if (!/\b400\b|invalid[_ ]argument/i.test(msg)) break;
+    }
   }
 
-  try {
-    const ai = new GoogleGenAI({ apiKey });
-    const response = await withRetry(() =>
-      ai.models.generateContent({ model: MODEL, contents, config }),
-    );
-    json(res, 200, { text: response.text ?? '' });
-  } catch (err) {
-    const detail = err instanceof Error ? err.message : '未知錯誤';
-    json(res, 502, { error: `Gemini 呼叫失敗：${detail}` });
-  }
+  const detail = lastErr instanceof Error ? lastErr.message : '未知錯誤';
+  const code = /\b429\b|resource_exhausted|quota/i.test(detail) ? 429 : 502;
+  json(res, code, { error: `Gemini 呼叫失敗：${detail}` });
 }

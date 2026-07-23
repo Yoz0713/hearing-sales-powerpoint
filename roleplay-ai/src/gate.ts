@@ -43,8 +43,8 @@ export function isOpen(state: GateState): boolean {
 
 /**
  * Gemini responseSchema（OpenAPI 子集）：三個布林 + reply。
- * propertyOrdering 讓模型先產生判斷、再依判斷寫回覆，較一致。
  * 型別用大寫字串，對應 @google/genai 的 Type 列舉值，以純物件從前端傳到代理函式。
+ * 註：不放 propertyOrdering，避免部分模型對此欄位回 400。
  */
 export const CONVERSE_SCHEMA = {
   type: 'OBJECT',
@@ -55,13 +55,21 @@ export const CONVERSE_SCHEMA = {
     reply: { type: 'STRING' },
   },
   required: ['lifeContext', 'realConcern', 'notPushy', 'reply'],
-  propertyOrdering: ['lifeContext', 'realConcern', 'notPushy', 'reply'],
 } as const;
+
+/** 從可能夾帶 ``` 圍欄或前後雜訊的文字中，抽出 JSON 物件字串。 */
+function extractJson(raw: string): string {
+  const fence = raw.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  const body = fence ? fence[1] : raw;
+  const start = body.indexOf('{');
+  const end = body.lastIndexOf('}');
+  return start !== -1 && end > start ? body.slice(start, end + 1) : body;
+}
 
 /** 寬鬆解析合併輸出：缺欄位保守處理（避免誤開門、避免空回覆當真）。 */
 export function parseConverse(raw: string): { reply: string; verdict: GateVerdict } {
   try {
-    const obj = JSON.parse(raw) as Partial<GateVerdict> & { reply?: unknown };
+    const obj = JSON.parse(extractJson(raw)) as Partial<GateVerdict> & { reply?: unknown };
     return {
       reply: typeof obj.reply === 'string' ? obj.reply : '',
       verdict: {
