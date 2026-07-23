@@ -47,7 +47,11 @@ import { ObjectionPricePage } from '../pages/ObjectionPricePage';
 import { ObjectionWaitDependencyPage } from '../pages/ObjectionWaitDependencyPage';
 import { ObjectionFamilyConsiderPage } from '../pages/ObjectionFamilyConsiderPage';
 import { RoleplayBriefPage } from '../pages/RoleplayBriefPage';
+import { RoleplayAiQrPage } from '../pages/RoleplayAiQrPage';
 import { SummaryUnderstandPage } from '../pages/SummaryUnderstandPage';
+import { SummaryDecisionPage } from '../pages/SummaryDecisionPage';
+import { ActionCommitmentPage } from '../pages/ActionCommitmentPage';
+import { BreakPage } from '../pages/BreakPage';
 import { outlineDraftSlides as draft } from './outline-draft.slides';
 
 export const slides: SlideEntry[] = [
@@ -130,7 +134,13 @@ export const slides: SlideEntry[] = [
     component: ResistanceCasePage,
   },
   draft.resistanceGuidance,
-  draft.breakPage,
+  {
+    id: 'break-page',
+    chapter: '改變動機',
+    title: '休息十分鐘',
+    previewShape: 'cover',
+    component: BreakPage,
+  },
   {
     id: 'consultative-process-overview',
     chapter: '選配流程',
@@ -334,6 +344,13 @@ export const slides: SlideEntry[] = [
     previewShape: 'split',
     component: RoleplayBriefPage,
   },
+  {
+    id: 'roleplay-ai-qr',
+    chapter: '異議實戰',
+    title: '掃碼，讓這位難搞的客人開口',
+    previewShape: 'split',
+    component: RoleplayAiQrPage,
+  },
   draft.roleplayObserver,
   {
     id: 'summary-understand',
@@ -342,8 +359,20 @@ export const slides: SlideEntry[] = [
     previewShape: 'cover',
     component: SummaryUnderstandPage,
   },
-  draft.summaryDecision,
-  draft.actionCommitment,
+  {
+    id: 'summary-decision',
+    chapter: '課程總結',
+    title: '成交，是協助客戶做出合適決定',
+    previewShape: 'cover',
+    component: SummaryDecisionPage,
+  },
+  {
+    id: 'action-commitment',
+    chapter: '課程總結',
+    title: '下一次選配，我準備改變什麼？',
+    previewShape: 'cover',
+    component: ActionCommitmentPage,
+  },
 ];
 
 /** 懸浮預覽卡標題：未指定 title 時回退為章節名。 */

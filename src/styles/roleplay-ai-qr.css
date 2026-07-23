@@ -1,0 +1,113 @@
+/* p43：角色扮演線上版 QR 頁。左側任務、右側大 QR 卡，沿用 counseling 頁首語彙。 */
+.roleplay-ai-qr {
+  justify-content: flex-start;
+  padding-top: 64px;
+  overflow: hidden;
+}
+
+.roleplay-ai-qr__heading {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.roleplay-ai-qr__heading .counseling-title {
+  max-width: 1500px;
+  margin: 0;
+  font-size: 68px;
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+}
+
+.roleplay-ai-qr__lead {
+  margin: 14px 0 0;
+  color: rgba(69, 95, 81, 0.8);
+  font-size: 27px;
+  line-height: 1.4;
+}
+
+.roleplay-ai-qr__rule {
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin-top: 25px;
+  background: linear-gradient(90deg, var(--color-brand-secondary), rgba(69, 95, 81, 0.08) 72%, transparent);
+}
+
+.roleplay-ai-qr__body {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: 1fr 620px;
+  gap: 72px;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.roleplay-ai-qr__role {
+  margin: 0 0 30px;
+  color: var(--color-brand-secondary);
+  font-family: var(--font-family-latin);
+  font-size: 24px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.14em;
+}
+
+.roleplay-ai-qr__tasks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roleplay-ai-qr__task {
+  position: relative;
+  padding: 0 0 26px 40px;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 34px;
+  line-height: 1.35;
+}
+
+.roleplay-ai-qr__task:last-child {
+  padding-bottom: 0;
+}
+
+.roleplay-ai-qr__task::before {
+  position: absolute;
+  top: 0.55em;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-brand-primary-bright);
+  content: '';
+}
+
+.roleplay-ai-qr__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding: 40px;
+  border: 2px solid rgba(69, 95, 81, 0.16);
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: var(--elevation-2);
+}
+
+.roleplay-ai-qr__code {
+  width: 420px;
+  height: 420px;
+}
+
+.roleplay-ai-qr__code svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.roleplay-ai-qr__scan {
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 30px;
+  font-weight: var(--font-weight-semibold);
+}

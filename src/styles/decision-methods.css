@@ -1,4 +1,4 @@
-/* D24：三條可選的對話收尾，最後回到客戶自己的決定。 */
+/* D24 (P37)：三條可選的對話收尾，最後回到客戶自己的決定。 */
 .decision-methods {
   justify-content: flex-start;
   padding-top: 60px;
@@ -24,24 +24,30 @@
   line-height: 1.4;
 }
 
-/* 三欄完全填滿一列；各路徑只在對話重心上不同，不做成交卡片。 */
+/* 三欄獨立圓角卡片佈局，充裕留白與亮點焦點 */
 .decision-methods__paths {
   display: grid;
   grid-auto-flow: dense;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
   flex: 1 1 auto;
   min-height: 0;
-  margin-top: 34px;
-  border-top: 1px solid rgba(69, 95, 81, 0.22);
-  border-bottom: 1px solid rgba(69, 95, 81, 0.22);
+  margin-top: 28px;
+  border-top: none;
+  border-bottom: none;
 }
 
 .decision-path {
   display: flex;
   flex-direction: column;
-  min-width: 0;
   box-sizing: border-box;
-  padding: 30px 40px 28px;
+  min-width: 0;
+  padding: 32px 36px 30px;
+  background: var(--color-surface-base);
+  border: 1px solid rgba(69, 95, 81, 0.18);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--elevation-1);
+  transition: opacity var(--duration-base) ease, transform var(--duration-base) ease;
 }
 
 .decision-path + .decision-path {
@@ -49,35 +55,37 @@
 }
 
 .decision-path--choice {
-  background: rgba(153, 203, 56, 0.11);
+  background: linear-gradient(135deg, rgba(153, 203, 56, 0.14), var(--color-surface-base) 70%);
+  border-color: rgba(99, 165, 55, 0.32);
 }
 
 .decision-path__name {
   margin: 0;
   color: var(--color-brand-secondary);
   font-family: var(--font-family-latin);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .decision-path h2 {
   max-width: 470px;
-  margin: 18px 0 0;
+  margin: 14px 0 0;
   color: var(--color-text-heading);
   font-family: var(--font-family-display);
-  font-size: 37px;
+  font-size: 34px;
   font-weight: var(--font-weight-bold);
-  line-height: 1.3;
+  line-height: 1.28;
 }
 
 .decision-path__cue {
-  margin: 28px 0 0;
-  padding: 18px 0;
-  border-top: 1px solid rgba(69, 95, 81, 0.16);
-  border-bottom: 1px solid rgba(69, 95, 81, 0.16);
-  color: rgba(69, 95, 81, 0.74);
-  font-size: 22px;
+  margin: 22px 0 0;
+  padding: 14px 0;
+  border-top: 1px solid rgba(69, 95, 81, 0.14);
+  border-bottom: 1px solid rgba(69, 95, 81, 0.14);
+  color: rgba(69, 95, 81, 0.76);
+  font-size: 21px;
   font-weight: var(--font-weight-semibold);
   line-height: 1.4;
 }
@@ -88,25 +96,27 @@
 
 .decision-path blockquote {
   margin: auto 0 0;
-  padding-top: 28px;
-  color: rgba(0, 0, 0, 0.76);
+  padding-top: 24px;
+  color: var(--color-text-heading);
   font-family: var(--font-family-display);
-  font-size: 26px;
+  font-size: 24px;
   font-weight: var(--font-weight-semibold);
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
+/* 頁尾猶豫迴圈區 */
 .decision-methods__loop {
   display: flex;
   flex: 0 0 auto;
   align-items: center;
   justify-content: space-between;
-  gap: 56px;
-  min-height: 104px;
+  gap: 48px;
+  min-height: 86px;
   box-sizing: border-box;
-  margin-top: 26px;
-  padding: 18px 30px 18px 34px;
+  margin-top: 24px;
+  padding: 16px 36px;
   border-left: 10px solid var(--color-orange);
+  border-radius: var(--radius-lg);
   background: var(--color-forest-900);
 }
 
@@ -116,17 +126,17 @@
 
 .decision-methods__loop p {
   margin: 0;
-  color: rgba(255, 255, 255, 0.68);
-  font-size: 21px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 20px;
   font-weight: var(--font-weight-semibold);
 }
 
 .decision-methods__loop strong {
   display: block;
-  margin-top: 4px;
+  margin-top: 2px;
   color: var(--color-text-on-brand);
   font-family: var(--font-family-display);
-  font-size: 31px;
+  font-size: 28px;
   line-height: 1.3;
 }
 
@@ -134,12 +144,13 @@
   flex: 1 1 auto;
   color: var(--color-brand-primary-bright);
   font-family: var(--font-family-display);
-  font-size: 26px;
+  font-size: 25px;
   font-weight: var(--font-weight-semibold);
   line-height: 1.35;
   text-align: right;
 }
 
+/* Fragment 進入過渡 */
 .decision-methods .fragment {
   transition:
     opacity var(--duration-base) ease,

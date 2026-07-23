@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { gsap } from 'gsap';
-import { BrandLogo } from '../components/brand/BrandLogo';
 import { SlideShell } from '../components/layouts/SlideShell';
 import { motion } from '../tokens/motion';
 
@@ -35,60 +34,51 @@ const CAPACITY_CLUES = [
 export function EconomicCapacitySignalsPage() {
   const animate = useCallback((scope: HTMLElement) => {
     gsap.timeline({ defaults: { ease: motion.ease.standard } })
-      .from(scope.querySelector('.js-capacity-nav'), {
-        y: -16,
+      .from(scope.querySelector('.js-capacity-kicker'), {
+        x: -28,
         opacity: 0,
-        duration: motion.duration.fast,
+        duration: motion.duration.base,
       })
       .from(scope.querySelector('.js-capacity-title'), {
         y: 24,
         opacity: 0,
         duration: motion.duration.base,
-      }, '-=0.2')
-      .from(scope.querySelector('.js-capacity-intro'), {
-        y: 16,
+      }, '-=0.22')
+      .from(scope.querySelector('.js-capacity-lead'), {
         opacity: 0,
         duration: motion.duration.base,
-      }, '-=0.25')
-      .from(scope.querySelector('.js-capacity-frame'), {
-        scaleX: 0,
-        transformOrigin: 'left center',
-        duration: motion.duration.slow,
-        ease: motion.ease.emphasis,
-      }, '-=0.2');
+      }, '-=0.15');
   }, []);
 
   return (
-    <SlideShell fullBleed className="economic-capacity economic-capacity--signals" animate={animate}>
-      <main className="economic-capacity__stage">
-        <header className="economic-capacity__nav js-capacity-nav">
-          <BrandLogo className="economic-capacity__logo" />
-          <i aria-hidden="true" />
-        </header>
+    <SlideShell className="counseling economic-capacity economic-capacity--signals" animate={animate}>
+      <header className="economic-capacity__heading-std">
+        <p className="counseling-kicker js-capacity-kicker">選配流程 · 經濟能力</p>
+        <h1 className="counseling-title js-capacity-title">客戶的生活裡，藏著經濟能力的線索</h1>
+        <p className="economic-capacity__lead js-capacity-lead">
+          從病史與生活軌跡中收集六項線索，形成試聽前的經濟能力假設。
+        </p>
+      </header>
 
-        <div className="economic-capacity__heading">
-          <h1 className="js-capacity-title">客戶的生活裡，藏著經濟能力的線索</h1>
-
-        </div>
-
-        <div className="capacity-clues js-capacity-frame" aria-label="六種經濟能力觀察線索">
-          {CAPACITY_CLUES.map((clue, index) => (
-            <article
-              key={clue.title}
-              className="capacity-clue fragment"
-              data-fragment-index={index}
-            >
-              <span className="capacity-clue__number" aria-hidden="true">
+      <main className="capacity-clues-grid" aria-label="六種經濟能力觀察線索">
+        {CAPACITY_CLUES.map((clue, index) => (
+          <article
+            key={clue.title}
+            className="capacity-clue-card fragment"
+            data-fragment-index={index}
+          >
+            <div className="capacity-clue-card__head">
+              <span className="capacity-clue-card__number" aria-hidden="true">
                 {String(index + 1).padStart(2, '0')}
               </span>
               <h2>{clue.title}</h2>
-              <p>{clue.detail}</p>
-            </article>
-          ))}
-        </div>
-
-
+            </div>
+            <p>{clue.detail}</p>
+          </article>
+        ))}
       </main>
+
+
     </SlideShell>
   );
 }

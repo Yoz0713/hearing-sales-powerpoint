@@ -1,4 +1,4 @@
-/* D23：輕度聽損的試聽，先讓效果被感覺到，再讓客戶理解每天配戴的價值。 */
+/* D23 (P36)：輕度聽損的試聽，先讓效果被感覺到，再讓客戶理解每天配戴的價值。 */
 .demo-validation {
   justify-content: flex-start;
   padding-top: 60px;
@@ -24,7 +24,7 @@
   line-height: 1.4;
 }
 
-/* 4 欄 × 2 列：2+2、1+3，四個重點完整填滿，不留下空白格。 */
+/* 4 欄 × 2 列優雅佈局：獨立圓角卡片與充裕間距 */
 .demo-validation__bento {
   display: grid;
   grid-auto-flow: dense;
@@ -34,59 +34,67 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-template-rows: 1fr 1fr;
   flex: 1 1 auto;
-  gap: 1px;
+  gap: 24px;
   min-height: 0;
   margin-top: 28px;
-  background: rgba(69, 95, 81, 0.24);
+  background: transparent;
 }
 
 .mild-trial {
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
   min-width: 0;
-  padding: 24px 28px;
-  background: rgba(255, 255, 255, 0.94);
+  padding: 28px 32px;
+  background: var(--color-surface-base);
+  border: 1px solid rgba(69, 95, 81, 0.18);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--elevation-1);
   overflow: hidden;
 }
 
-.mild-trial--volume { grid-area: volume; }
+.mild-trial--volume {
+  grid-area: volume;
+}
 
 .mild-trial--effort {
   grid-area: effort;
-  background:
-    linear-gradient(135deg, rgba(153, 203, 56, 0.2), rgba(255, 255, 255, 0.94) 64%);
+  background: linear-gradient(135deg, rgba(153, 203, 56, 0.14), var(--color-surface-base) 70%);
 }
 
 .mild-trial--lifestyle {
   grid-area: lifestyle;
   color: var(--color-text-on-brand);
   background: var(--color-forest-900);
+  border-color: var(--color-forest-900);
 }
 
 .mild-trial--wrs {
   display: grid;
   grid-area: wrs;
-  grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.4fr);
+  grid-template-columns: minmax(300px, 0.95fr) minmax(0, 1.4fr);
   align-items: center;
-  gap: 34px;
+  gap: 36px;
 }
 
 .mild-trial__eyebrow {
   margin: 0;
   color: var(--color-brand-secondary);
-  font-size: 17px;
+  font-family: var(--font-family-latin);
+  font-size: 18px;
   font-weight: var(--font-weight-bold);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .mild-trial h2 {
   max-width: 700px;
-  margin: 8px 0 0;
+  margin: 10px 0 0;
   color: var(--color-text-heading);
   font-family: var(--font-family-display);
-  font-size: 37px;
+  font-size: 34px;
   font-weight: var(--font-weight-bold);
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .mild-trial--lifestyle .mild-trial__eyebrow {
@@ -95,7 +103,7 @@
 
 .mild-trial--lifestyle h2 {
   color: var(--color-text-on-brand);
-  font-size: 32px;
+  font-size: 30px;
 }
 
 .mild-volume__signal {
@@ -103,50 +111,51 @@
   align-items: baseline;
   gap: 16px;
   margin-top: auto;
-  padding-top: 16px;
+  padding-top: 14px;
 }
 
 .mild-volume__signal strong {
-  color: var(--color-brand-secondary);
+  color: var(--color-orange);
   font-family: var(--font-family-latin);
-  font-size: 56px;
+  font-size: 52px;
   font-weight: var(--font-weight-bold);
-  letter-spacing: -0.05em;
+  letter-spacing: -0.04em;
   line-height: 0.95;
 }
 
 .mild-volume__signal span {
-  color: rgba(69, 95, 81, 0.72);
+  color: var(--color-brand-secondary);
   font-family: var(--font-family-display);
   font-size: 24px;
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
 }
 
 .mild-trial__body {
   max-width: 760px;
-  margin: 13px 0 0;
-  color: rgba(0, 0, 0, 0.76);
-  font-size: 22px;
-  line-height: 1.36;
+  margin: 12px 0 0;
+  color: rgba(69, 95, 81, 0.82);
+  font-size: 21px;
+  line-height: 1.4;
 }
 
 .mild-effort__contrast {
   display: grid;
-  grid-template-columns: 1fr 1.25fr;
+  grid-template-columns: 1fr 1.2fr;
   margin-top: auto;
-  border-top: 1px solid rgba(69, 95, 81, 0.18);
+  padding-top: 14px;
+  border-top: 1px solid rgba(69, 95, 81, 0.16);
 }
 
 .mild-effort__contrast p {
-  margin: 14px 0 0;
-  color: rgba(0, 0, 0, 0.75);
-  font-size: 22px;
-  line-height: 1.35;
+  margin: 0;
+  color: rgba(69, 95, 81, 0.82);
+  font-size: 21px;
+  line-height: 1.4;
 }
 
 .mild-effort__contrast p + p {
   padding-left: 20px;
-  border-left: 1px solid rgba(69, 95, 81, 0.18);
+  border-left: 1px solid rgba(69, 95, 81, 0.16);
 }
 
 .mild-effort__contrast span,
@@ -154,95 +163,100 @@
   display: block;
   margin-bottom: 4px;
   color: var(--color-brand-secondary);
+  font-family: var(--font-family-latin);
   font-size: 16px;
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.06em;
 }
 
 .mild-trial blockquote {
-  margin: 14px 0 0;
+  margin: 12px 0 0;
   color: var(--color-text-heading);
   font-family: var(--font-family-display);
-  font-size: 24px;
-  font-weight: var(--font-weight-semibold);
+  font-size: 23px;
+  font-weight: var(--font-weight-bold);
   line-height: 1.3;
 }
 
 .mild-lifestyle__list {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 16px;
   margin: auto 0 0;
 }
 
 .mild-lifestyle__list div {
   padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .mild-lifestyle__list dt {
   color: var(--color-brand-primary-bright);
   font-family: var(--font-family-display);
-  font-size: 23px;
+  font-size: 22px;
   font-weight: var(--font-weight-bold);
 }
 
 .mild-lifestyle__list dd {
-  margin: 7px 0 0;
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 20px;
-  line-height: 1.32;
+  margin: 6px 0 0;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 19px;
+  line-height: 1.35;
 }
 
 .mild-wrs__points {
   display: grid;
-  grid-template-columns: 0.82fr 1.3fr;
-  gap: 26px;
+  grid-template-columns: 0.85fr 1.3fr;
+  gap: 24px;
   margin: 0;
 }
 
 .mild-wrs__points p {
   margin: 0;
-  color: rgba(0, 0, 0, 0.76);
-  font-size: 23px;
-  line-height: 1.38;
+  color: rgba(69, 95, 81, 0.82);
+  font-size: 22px;
+  line-height: 1.4;
 }
 
 .mild-wrs__points p + p {
-  padding-left: 26px;
-  border-left: 1px solid rgba(69, 95, 81, 0.18);
+  padding-left: 24px;
+  border-left: 1px solid rgba(69, 95, 81, 0.16);
 }
 
-/* 最後才收斂為一個能直接使用的試聽結論。 */
+/* 頁尾收尾條 */
 .demo-validation__action {
   display: flex;
   flex: 0 0 auto;
-  align-items: baseline;
-  gap: 22px;
-  min-height: 78px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  min-height: 84px;
   box-sizing: border-box;
-  margin-top: 20px;
-  padding: 16px 28px;
-  border-left: 10px solid var(--color-brand-primary-bright);
+  margin-top: 24px;
+  padding: 16px 36px;
+  border-radius: var(--radius-lg);
   color: var(--color-text-on-brand);
   background: var(--color-forest-900);
 }
 
 .demo-validation__action span {
   flex: 0 0 auto;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 21px;
-  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-primary-bright);
+  font-family: var(--font-family-latin);
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
 }
 
 .demo-validation__action strong {
   font-family: var(--font-family-display);
-  font-size: 30px;
+  font-size: 28px;
   font-weight: var(--font-weight-semibold);
-  line-height: 1.28;
+  line-height: 1.3;
 }
 
-/* Reveal 管理每個完整 bento 區塊；GSAP 不觸碰 fragment。 */
+/* Reveal.js fragment 進入過渡 */
 .demo-validation .fragment {
   transition:
     opacity var(--duration-base) ease,
@@ -251,22 +265,22 @@
 
 .demo-validation .mild-trial--volume.fragment:not(.visible) {
   opacity: 0;
-  transform: translateX(-28px) scale(0.98);
+  transform: translateX(-24px);
 }
 
 .demo-validation .mild-trial--effort.fragment:not(.visible) {
   opacity: 0;
-  transform: translateX(28px) scale(0.98);
+  transform: translateX(24px);
 }
 
 .demo-validation .mild-trial--lifestyle.fragment:not(.visible) {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(20px);
 }
 
 .demo-validation .mild-trial--wrs.fragment:not(.visible) {
   opacity: 0;
-  transform: translateY(24px) scale(0.985);
+  transform: translateY(20px);
 }
 
 .demo-validation .demo-validation__action.fragment:not(.visible) {

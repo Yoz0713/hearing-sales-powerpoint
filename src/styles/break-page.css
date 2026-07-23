@@ -1,0 +1,143 @@
+/* D13 (P14)：中場休息頁 - 極簡深色靜謐風格 */
+.break-page {
+  position: relative;
+  color: var(--color-text-on-brand);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(153, 203, 56, 0.12), transparent 75%),
+    linear-gradient(135deg, #1d3326 0%, var(--color-forest-900) 50%, #15261c 100%);
+  overflow: hidden;
+}
+
+.break-page__backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.break-page__halo {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 900px;
+  height: 900px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 100px rgba(153, 203, 56, 0.04), 0 0 0 240px rgba(78, 179, 207, 0.03);
+}
+
+.break-page__stage {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  width: 1920px;
+  height: 1080px;
+  padding: 64px 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.break-page__header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.break-page__logo .brand-logo__img {
+  height: 44px;
+}
+
+.break-page__tag {
+  color: var(--color-brand-primary-bright);
+  font-family: var(--font-family-latin);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.12em;
+  padding: 6px 20px;
+  border: 1px solid rgba(153, 203, 56, 0.35);
+  border-radius: var(--radius-pill);
+  background: rgba(153, 203, 56, 0.08);
+}
+
+.break-page__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.break-page__title {
+  margin: 0;
+  color: var(--color-text-on-brand);
+  font-family: var(--font-family-display);
+  font-size: 110px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
+.break-page__time-badge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 36px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(12px);
+}
+
+.time-badge__target {
+  color: var(--color-orange);
+  font-family: var(--font-family-latin);
+  font-size: 42px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.06em;
+}
+
+.time-badge__label {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.04em;
+}
+
+.break-page__next {
+  width: 100%;
+  max-width: 960px;
+}
+
+.next-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 20px 40px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(8px);
+}
+
+.next-card__label {
+  flex: 0 0 auto;
+  color: var(--color-brand-primary-bright);
+  font-family: var(--font-family-latin);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.next-card__text {
+  margin: 0;
+  color: var(--color-text-on-brand);
+  font-family: var(--font-family-display);
+  font-size: 26px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.35;
+}

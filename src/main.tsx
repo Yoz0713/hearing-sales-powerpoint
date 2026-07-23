@@ -24,10 +24,14 @@ import './styles/objection-steps.css';
 import './styles/objection-price.css';
 import './styles/objection-duo.css';
 import './styles/roleplay-brief.css';
+import './styles/roleplay-ai-qr.css';
 import './styles/decision-methods.css';
 import './styles/examination-signals.css';
 import './styles/learning-chapter.css';
 import './styles/summary-understand.css';
+import './styles/summary-decision.css';
+import './styles/action-commitment.css';
+import './styles/break-page.css';
 import './styles/app.css';
 import { App } from './App';
 

@@ -1,157 +1,122 @@
-/* D18 / D18.5：從生活線索形成經濟能力假設，並在報價前完成等級範圍判斷。 */
-.economic-capacity {
-  color: var(--color-text-heading);
-  background:
-    radial-gradient(circle at 84% 76%, rgba(178, 226, 90, 0.12), transparent 30%),
-    var(--color-surface-base);
+/* D18 (P34)：客戶的生活裡，藏著經濟能力的線索 - 新標竿 Layout */
+.economic-capacity--signals {
+  justify-content: flex-start;
+  padding-top: 60px;
   overflow: hidden;
 }
 
-.economic-capacity__stage {
-  box-sizing: border-box;
-  width: 1920px;
-  height: 1080px;
-  padding: 54px 88px 56px;
-  display: grid;
-  grid-template-rows: 56px auto minmax(0, 1fr) auto;
-  row-gap: 26px;
-  overflow: hidden;
+.economic-capacity__heading-std {
+  flex: 0 0 auto;
 }
 
-.economic-capacity__nav {
-  min-width: 0;
-  display: grid;
-  grid-template-columns: auto minmax(80px, 1fr) auto;
-  align-items: center;
-  gap: 28px;
-}
-
-.economic-capacity__logo .brand-logo__img {
-  height: 48px;
-}
-
-.economic-capacity__nav > i {
-  height: 1px;
-  background: rgba(69, 95, 81, 0.18);
-}
-
-.economic-capacity__nav > span {
-  color: rgba(69, 95, 81, 0.62);
-  font-size: 20px;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.12em;
-}
-
-.economic-capacity__heading {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 520px;
-  align-items: end;
-  gap: 72px;
-}
-
-.economic-capacity__heading h1,
-.economic-timing__heading h1 {
+.economic-capacity__heading-std .counseling-title {
+  max-width: 1560px;
   margin: 0;
-  max-width: 1180px;
-  color: var(--color-text-heading);
-  font-family: var(--font-family-display);
-  font-size: 62px;
-  font-weight: var(--font-weight-bold);
-  line-height: 1.16;
-  letter-spacing: -0.025em;
+  font-size: 60px;
+  line-height: 1.12;
+  letter-spacing: 0.02em;
 }
 
-.economic-capacity__heading p,
-.economic-timing__heading p {
-  margin: 0 0 6px;
-  max-width: 530px;
-  color: rgba(69, 95, 81, 0.72);
-  font-size: 25px;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.5;
+.economic-capacity__lead {
+  margin: 12px 0 0;
+  color: rgba(69, 95, 81, 0.8);
+  font-size: 26px;
+  line-height: 1.4;
 }
 
-/* 3 × 2 恰好填滿六個線索；邊框共線，形成一張觀察表而非六張浮卡。 */
-.capacity-clues {
-  min-height: 0;
+.capacity-clues-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(0, 1fr));
-  grid-auto-flow: dense;
-  border-top: 2px solid var(--color-forest-900);
-  border-left: 1px solid rgba(69, 95, 81, 0.18);
+  gap: 24px;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: 28px;
 }
 
-.capacity-clue {
-  position: relative;
+.capacity-clue-card {
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
-  min-width: 0;
-  padding: 30px 34px 28px;
-  display: grid;
-  grid-template-columns: 58px minmax(0, 1fr);
-  grid-template-rows: auto 1fr;
-  column-gap: 20px;
-  align-content: center;
-  background: rgba(255, 255, 255, 0.48);
-  border-right: 1px solid rgba(69, 95, 81, 0.18);
-  border-bottom: 1px solid rgba(69, 95, 81, 0.18);
-  transform: translateY(14px);
-  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.45s ease;
+  padding: 26px 30px;
+  background: var(--color-surface-base);
+  border: 1px solid rgba(69, 95, 81, 0.18);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-1);
+  transition: opacity var(--duration-base) ease, transform var(--duration-base) ease;
 }
 
-.capacity-clue.visible {
-  transform: none;
+.capacity-clue-card__head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
 }
 
-.capacity-clue.current-fragment {
-  background: rgba(178, 226, 90, 0.12);
-}
-
-.capacity-clue__number {
-  grid-row: 1 / span 2;
-  color: rgba(69, 95, 81, 0.28);
+.capacity-clue-card__number {
+  color: var(--color-brand-secondary);
   font-family: var(--font-family-latin);
   font-size: 24px;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
 }
 
-.capacity-clue h2 {
+.capacity-clue-card h2 {
   margin: 0;
   color: var(--color-text-heading);
   font-family: var(--font-family-display);
-  font-size: 34px;
+  font-size: 32px;
   font-weight: var(--font-weight-bold);
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
-.capacity-clue p {
-  margin: 12px 0 0;
-  max-width: 450px;
-  color: rgba(69, 95, 81, 0.74);
-  font-size: 24px;
+.capacity-clue-card p {
+  margin: 14px 0 0;
+  color: rgba(69, 95, 81, 0.78);
+  font-size: 22px;
   font-weight: var(--font-weight-semibold);
-  line-height: 1.42;
+  line-height: 1.45;
 }
 
-.capacity-principle {
-  padding-top: 18px;
+.economic-capacity__footer {
   display: flex;
-  align-items: baseline;
-  gap: 20px;
-  border-top: 3px solid var(--color-orange);
-  font-size: 30px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  min-height: 84px;
+  box-sizing: border-box;
+  margin-top: 24px;
+  padding: 16px 36px;
+  background: var(--color-forest-900);
+  border-radius: var(--radius-lg);
+}
+
+.economic-capacity__footer span {
+  color: var(--color-orange);
+  font-family: var(--font-family-latin);
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.economic-capacity__footer strong {
+  color: var(--color-text-on-brand);
+  font-family: var(--font-family-display);
+  font-size: 28px;
+  font-weight: var(--font-weight-semibold);
   line-height: 1.3;
 }
 
-.capacity-principle span {
-  color: var(--color-orange);
-  font-weight: var(--font-weight-bold);
+/* Fragment 進入過渡 */
+.economic-capacity--signals .capacity-clue-card.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(24px);
 }
 
-.capacity-principle b {
-  color: var(--color-text-heading);
-  font-weight: var(--font-weight-bold);
+.economic-capacity--signals .economic-capacity__footer.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(18px);
 }
 
 /* ---- D18.5：報價前完成判斷 ---- */
