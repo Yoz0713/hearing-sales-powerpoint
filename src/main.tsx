@@ -16,8 +16,18 @@ import './styles/lifestyle-context.css';
 import './styles/economic-capacity.css';
 import './styles/examination-communication.css';
 import './styles/report-sequence.css';
+import './styles/counseling-audiogram.css';
+import './styles/trial-readiness.css';
+import './styles/plan-selection.css';
+import './styles/demo-validation.css';
+import './styles/objection-steps.css';
+import './styles/objection-price.css';
+import './styles/objection-duo.css';
+import './styles/roleplay-brief.css';
+import './styles/decision-methods.css';
 import './styles/examination-signals.css';
 import './styles/learning-chapter.css';
+import './styles/summary-understand.css';
 import './styles/app.css';
 import { App } from './App';
 

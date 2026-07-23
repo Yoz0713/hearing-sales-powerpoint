@@ -3,107 +3,78 @@ import { gsap } from 'gsap';
 import { SlideShell } from '../components/layouts/SlideShell';
 import { motion } from '../tokens/motion';
 
-type Tier = 'data' | 'life' | 'agree';
-
-interface ReportStep {
-  key: string;
-  index: string;
-  /** 這一步在做什麼（動作名，襯線）。 */
-  move: string;
-  /** 這一步實際會說出口的一句話。 */
-  say: string;
-  tier: Tier;
-  /** 整體結論與生活連結是兩個要被記住的錨點：實心節點。 */
-  anchor?: boolean;
-}
-
-/** 數據 → 困難 → 生活 → 認同 → 方向：一路把冷數字翻回客戶的生活。 */
-const STEPS: ReportStep[] = [
-  { key: 'sum', index: '01', move: '讀報告重點', say: '最吃力的是聽清楚子音。', tier: 'data', anchor: true },
-  { key: 'diff', index: '02', move: '對照病史', say: '這也對上您說的逐年變差。', tier: 'data' },
-  { key: 'life', index: '03', move: '連回 COSI', say: '所以家族聚餐才特別吃力。', tier: 'life', anchor: true },
-  { key: 'agree', index: '04', move: '說出關聯', say: '數字正在解釋您的生活困擾。', tier: 'agree' },
-  { key: 'next', index: '05', move: '邀請確認', say: '這和您遇到的一樣嗎？', tier: 'agree' },
-];
-
 /**
- * D19：報告不是念數字，而是建立共同理解。
- * 左側一張冷冰冰的檢查報告，沿著青→橘→綠的閱讀路徑五步回溫成客戶點得了頭的話，
- * 最後落進底部確認句。整體結論與生活連結（實心節點）是要被記住的兩個錨點。
+ * D19：用年齡常模解釋客戶的聽力位置，再把落差連回 COSI 情境。
+ * 常模數值須依門市採用的資料來源、頻率與性別計算，頁面不虛構固定區間。
  */
 export function ReportSequencePage() {
-  // GSAP 只負責標題、報告晶片與軸線的進場；五步與確認句交給 Reveal 原生 fragment。
+  // GSAP 只負責頁首與結構線；三個講解主題交給 Reveal 原生 fragments。
   const animate = useCallback((scope: HTMLElement) => {
     gsap.timeline({ defaults: { ease: motion.ease.standard } })
-      .from(scope.querySelector('.js-report-kicker'), { x: -28, opacity: 0, duration: motion.duration.base })
-      .from(scope.querySelector('.js-report-title'), { y: 22, opacity: 0, duration: motion.duration.base }, '-=0.25')
-      .from(scope.querySelector('.js-report-intro'), { opacity: 0, duration: motion.duration.base }, '-=0.15')
-      .from(scope.querySelector('.js-report-origin'), {
-        x: -20,
+      .from(scope.querySelector('.js-report-kicker'), {
+        x: -28,
         opacity: 0,
         duration: motion.duration.base,
-        ease: motion.ease.emphasis,
-      }, '-=0.1')
-      .from(scope.querySelector('.js-report-spine'), {
-        scaleX: 0,
-        transformOrigin: 'left center',
-        duration: motion.duration.slow,
-        ease: motion.ease.emphasis,
-      }, '-=0.35');
+      })
+      .from(scope.querySelector('.js-report-title'), {
+        y: 22,
+        opacity: 0,
+        duration: motion.duration.base,
+      }, '-=0.25')
+      .from(scope.querySelector('.js-report-intro'), {
+        opacity: 0,
+        duration: motion.duration.base,
+      }, '-=0.25');
   }, []);
 
   return (
     <SlideShell className="counseling report-slide" animate={animate}>
       <header className="report-heading">
         <p className="counseling-kicker js-report-kicker">衛教與諮商</p>
-        <h1 className="counseling-title js-report-title">報告不是念數字，而是建立共同理解</h1>
-        <p className="report__intro js-report-intro">
-          別急著逐格念數字——先把它翻成一句，客戶點得了頭的話。
-        </p>
+        <h1 className="counseling-title js-report-title">透過講解報告， <br /> 讓客戶看懂自己的位置</h1>
       </header>
 
-      <div className="report-path" aria-label="從檢查數據到共同理解的五步閱讀路徑">
-        <figure className="report-origin js-report-origin">
-          <figcaption className="report-origin__eyebrow">你手上的</figcaption>
-          <p className="report-origin__value">
-            55<span>dB HL</span>
-          </p>
-          <svg className="report-origin__audiogram" viewBox="0 0 104 46" aria-hidden="true" focusable="false">
-            <polyline points="10,11 40,17 72,31 96,39" fill="none" />
-            <circle cx="10" cy="11" r="4.5" />
-            <circle cx="40" cy="17" r="4.5" />
-            <circle cx="72" cy="31" r="4.5" />
-            <circle cx="96" cy="39" r="4.5" />
-          </svg>
-          <p className="report-origin__caption">一張檢查報告</p>
-        </figure>
+      <main className="report-story" aria-label="同年齡比較、同聽力反查年齡，再連結 COSI 困擾">
+        <article className="report-age-peer fragment" data-fragment-index="0">
+          <p className="report-story__eyebrow"><span className="report-story__index">01</span>　同年齡比較</p>
+          <h2>跟我一樣年紀的人，<br />正常聽力落在哪裡？</h2>
+          <div className="report-compare" aria-label="依客戶年齡查詢同齡正常範圍，再標示客戶聽閾">
+            <div>
+              <span>客戶年齡</span>
+              <strong>例：50 歲</strong>
+            </div>
+            <b aria-hidden="true">→</b>
+            <div>
+              <span>同齡其他客人</span>
+              <strong>正常範圍</strong>
+            </div>
+          </div>
+        </article>
 
-        <ol className="report-path__flow">
-          <span className="report-path__spine js-report-spine" aria-hidden="true" />
-          {STEPS.map((step, i) => (
-            <li
-              key={step.key}
-              className={`report-station report-station--${step.tier}${step.anchor ? ' report-station--anchor' : ''} fragment`}
-              data-fragment-index={i}
-            >
-              <p className="report-station__move">
-                <span className="report-station__index">{step.index}</span>
-                {step.move}
-              </p>
-              <span className="report-station__node" aria-hidden="true" />
-              <p className="report-station__say">{step.say}</p>
-            </li>
-          ))}
-        </ol>
-      </div>
+        <article className="report-hearing-age fragment" data-fragment-index="1">
+          <p className="report-story__eyebrow"><span className="report-story__index">02</span>　同聽力反查</p>
+          <h2>跟我相同的聽力，<br />通常是幾歲的人？</h2>
+          <div className="report-compare" aria-label="依客戶目前聽閾反查常見年齡帶">
+            <div>
+              <span>目前聽閾</span>
+              <strong>例：40 dB HL</strong>
+            </div>
+            <b aria-hidden="true">→</b>
+            <div>
+              <span>同聽力其他客人</span>
+              <strong>68~75 歲</strong>
+            </div>
+          </div>
+        </article>
 
-      <footer className="report-confirm fragment" data-fragment-index={STEPS.length}>
-        <div className="report-confirm__main">
+        <article className="report-cosi fragment" data-fragment-index="2">
+          <p className="report-cosi__label"><span className="report-story__index">03</span>　連結 COSI</p>
+          <blockquote>聽誰講話都可以，唯獨孫子講話的時候都聽不清楚。</blockquote>
+          <strong>透過聽力報告解釋為什麼會有這樣的狀況</strong>
+        </article>
+      </main>
 
-          <p className="report-confirm__quote">「這和您剛才描述的情況一致嗎？」</p>
-        </div>
-        <p className="report-confirm__note">一句話，收束整份報告</p>
-      </footer>
+
     </SlideShell>
   );
 }

@@ -41,7 +41,7 @@ export function ImpressionAppearancePage() {
     <SlideShell animate={animate}>
       <div className="impression-appearance">
         <p className="impression-appearance__lead js-appearance-lead">
-          如何營造那十分關鍵的 55% (視覺) 呢？
+          如何營造那十分關鍵的 <span className="impression-percent">55%</span> (視覺) 呢？
         </p>
         <div className="tip-grid">
           {TIPS.map((tip) => (

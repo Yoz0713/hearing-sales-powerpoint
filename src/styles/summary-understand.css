@@ -1,0 +1,176 @@
+/* D31：三個順序以連續橫列收斂，不重述案例或增加圖表。 */
+.summary-understand {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 86% 76%, rgba(153, 203, 56, 0.22), transparent 29%),
+    linear-gradient(108deg, #fff 0 45%, #f2f7e9 100%);
+}
+
+.summary-understand__stage {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 52px 88px 70px;
+  display: grid;
+  grid-template-rows: 58px minmax(0, 1fr);
+  row-gap: 40px;
+  overflow: hidden;
+}
+
+.summary-understand__nav {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 42px;
+}
+
+.summary-understand__logo {
+  width: 208px;
+}
+
+.summary-understand__nav-trail {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.summary-understand__nav-trail span {
+  flex: none;
+  color: rgba(69, 95, 81, 0.62);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.1em;
+}
+
+.summary-understand__nav-trail i {
+  width: 100%;
+  height: 1px;
+  display: block;
+  background: rgba(69, 95, 81, 0.22);
+}
+
+.summary-understand__content {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto 5px minmax(0, 1fr);
+  row-gap: 26px;
+}
+
+.summary-understand__heading {
+  min-width: 0;
+}
+
+.summary-understand__heading p,
+.summary-understand__heading h1 {
+  margin: 0;
+}
+
+.summary-understand__heading p {
+  color: var(--color-brand-secondary);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+}
+
+.summary-understand__heading h1 {
+  margin-top: 10px;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 62px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.12;
+}
+
+.summary-understand__guide {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--color-brand-primary-bright) 0 34%,
+    var(--color-brand-accent) 34% 68%,
+    var(--color-orange) 68% 100%
+  );
+}
+
+.summary-understand__sequence {
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  list-style: none;
+  border-top: 1px solid rgba(69, 95, 81, 0.22);
+  overflow: hidden;
+}
+
+.summary-understand__line {
+  --summary-accent: var(--color-brand-secondary);
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr);
+  align-items: center;
+  gap: 30px;
+  border-bottom: 1px solid rgba(69, 95, 81, 0.22);
+  transition: transform 620ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 520ms ease;
+}
+
+.summary-understand__line--life {
+  --summary-accent: var(--color-cyan);
+}
+
+.summary-understand__line--reason {
+  --summary-accent: var(--color-orange);
+}
+
+.summary-understand__line.fragment:not(.visible) {
+  transform: translateX(-34px);
+}
+
+.summary-understand__index {
+  color: var(--summary-accent);
+  font-family: var(--font-family-latin);
+  font-size: 28px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-understand__line p {
+  min-width: 0;
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 72px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+.summary-understand__line strong {
+  color: var(--summary-accent);
+  font-weight: var(--font-weight-bold);
+}
+
+.summary-understand__action {
+  position: relative;
+}
+
+.summary-understand__extension {
+  width: 220px;
+  height: 4px;
+  margin-left: 30px;
+  display: inline-block;
+  vertical-align: middle;
+  background: var(--color-orange);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .summary-understand__line {
+    transition: none;
+  }
+}

@@ -1,0 +1,285 @@
+/* D26：一句「太貴」對稱分岔成效果（青）與預算（橘），再收束到同一方案。
+   與 objection-steps.css 共用頁首、卡片與節點語彙。 */
+.objection-price {
+  justify-content: flex-start;
+  padding-top: 64px;
+  overflow: hidden;
+}
+
+.objection-price__heading {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.objection-price__heading .counseling-title {
+  max-width: 1620px;
+  margin: 0;
+  font-size: 66px;
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+}
+
+.objection-price__lead {
+  margin: 14px 0 0;
+  color: rgba(69, 95, 81, 0.8);
+  font-size: 27px;
+  line-height: 1.4;
+}
+
+.objection-price__rule {
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin-top: 25px;
+  background: linear-gradient(90deg, var(--color-brand-secondary), rgba(69, 95, 81, 0.08) 72%, transparent);
+}
+
+/* ---- 對稱主流程：中央 stem → 分岔 → 收束，全部對齊垂直中軸 ---- */
+.objection-price__flow {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  margin-top: 28px;
+}
+
+.objection-price__stem {
+  flex: 0 0 auto;
+  text-align: center;
+}
+
+/* 三句「太貴」＋ 理解句：讓學員先判斷更接近哪一種顧慮。 */
+.op-tones__label {
+  margin: 0;
+  color: var(--color-brand-secondary);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.06em;
+}
+
+.op-tones__chips {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.op-tones__chips li {
+  padding: 9px 20px;
+  border: 1px solid rgba(69, 95, 81, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 23px;
+  line-height: 1.2;
+}
+
+.op-understand {
+  margin: 18px 0 0;
+  color: rgba(69, 95, 81, 0.72);
+  font-size: 23px;
+  line-height: 1.4;
+}
+
+/* 中央辨識問句：不預設答案的軸點，兩個顧慮各染上對應分支色。 */
+.op-pivot {
+  position: relative;
+  max-width: 1120px;
+  margin: 22px auto 0;
+  padding: 20px 40px;
+  border: 2px solid rgba(69, 95, 81, 0.2);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--elevation-1);
+}
+
+.op-pivot__label {
+  margin: 0 0 8px;
+  color: var(--color-forest-900);
+  font-family: var(--font-family-latin);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.1em;
+}
+
+.op-pivot__q {
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 34px;
+  line-height: 1.3;
+}
+
+.op-pivot__effect {
+  color: var(--color-brand-accent);
+  font-weight: var(--font-weight-bold);
+}
+
+.op-pivot__budget {
+  color: var(--color-orange);
+  font-weight: var(--font-weight-bold);
+}
+
+/* ---- 分岔：中央 fork 線 + 兩條等重分支 ---- */
+.op-split {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  margin-top: 4px;
+}
+
+.op-fork {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 30px;
+}
+
+.op-fork path {
+  fill: none;
+  stroke: rgba(69, 95, 81, 0.3);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+.op-branches {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  min-height: 0;
+  margin-top: 6px;
+}
+
+.op-branch {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 32px 28px;
+  border: 2px solid rgba(69, 95, 81, 0.14);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+/* 鏡像重點條：效果在外側左、預算在外側右。 */
+.op-branch::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  content: '';
+}
+
+.op-branch__eyebrow {
+  margin: 0;
+  font-size: 21px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+}
+
+.op-branch__worry {
+  margin: 14px 0 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.op-branch__action {
+  margin: 16px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(69, 95, 81, 0.14);
+  color: rgba(0, 0, 0, 0.74);
+  font-size: 24px;
+  line-height: 1.5;
+}
+
+/* 效果分支：青色（回到需求與試聽） */
+.op-branch--effect {
+  border-color: rgba(78, 179, 207, 0.32);
+  background: rgba(78, 179, 207, 0.07);
+}
+
+.op-branch--effect::before {
+  left: 0;
+  background: var(--color-brand-accent);
+}
+
+.op-branch--effect .op-branch__eyebrow {
+  color: var(--color-brand-accent);
+}
+
+/* 預算分支：橘色（談整體成本結構） */
+.op-branch--budget {
+  border-color: rgba(238, 123, 8, 0.34);
+  background: rgba(238, 123, 8, 0.06);
+}
+
+.op-branch--budget::before {
+  right: 0;
+  background: var(--color-orange);
+}
+
+.op-branch--budget .op-branch__eyebrow {
+  color: var(--color-orange);
+}
+
+/* ---- 收束帶：兩條路回到同一個合適方案 ---- */
+.op-converge {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 22px;
+  flex: 0 0 auto;
+  min-height: 74px;
+  margin-top: 22px;
+  padding: 15px 24px 17px;
+  border-left: 10px solid var(--color-brand-primary-bright);
+  color: var(--color-text-on-brand);
+  background: var(--color-forest-900);
+}
+
+.op-converge__label {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 24px;
+}
+
+.op-converge strong {
+  font-family: var(--font-family-display);
+  font-size: 32px;
+  line-height: 1.25;
+}
+
+/* ---- Fragment 逐步顯示（GSAP 不碰這些節點的 opacity） ---- */
+.objection-price .fragment {
+  transition:
+    opacity var(--duration-base) ease,
+    transform var(--duration-base) ease;
+}
+
+.objection-price .op-tones.fragment:not(.visible),
+.objection-price .op-pivot.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(-14px);
+}
+
+.objection-price .op-split.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.objection-price .op-converge.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .objection-price .fragment {
+    transition: none;
+  }
+}

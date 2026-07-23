@@ -29,16 +29,25 @@ import { ImpressionProvocationPage } from '../pages/ImpressionProvocationPage';
 import { ImpressionRhythmPage } from '../pages/ImpressionRhythmPage';
 import { ScenarioPage } from '../pages/ScenarioPage';
 import { CounselingPerspectivePage } from '../pages/CounselingPerspectivePage';
+import { TrialReadinessPage } from '../pages/TrialReadinessPage';
+import { PlanSelectionPage } from '../pages/PlanSelectionPage';
 import { CounselingMotivationPage } from '../pages/CounselingMotivationPage';
 import { CounselingHiddenMotivePage } from '../pages/CounselingHiddenMotivePage';
 import { CounselingHistoryPage } from '../pages/CounselingHistoryPage';
 import { CounselingFlowPage } from '../pages/CounselingFlowPage';
 import { CounselingOtoscopyPage } from '../pages/CounselingOtoscopyPage';
 import { CounselingTympanogramPage } from '../pages/CounselingTympanogramPage';
-import { CounselingAudiogramPage } from '../pages/CounselingAudiogramPage';
 import { CounselingMclPage } from '../pages/CounselingMclPage';
 import { CounselingWrsPage } from '../pages/CounselingWrsPage';
 import { CounselingWrsBenefitPage } from '../pages/CounselingWrsBenefitPage';
+import { DemoValidationPage } from '../pages/DemoValidationPage';
+import { DecisionMethodsPage } from '../pages/DecisionMethodsPage';
+import { ObjectionStepsPage } from '../pages/ObjectionStepsPage';
+import { ObjectionPricePage } from '../pages/ObjectionPricePage';
+import { ObjectionWaitDependencyPage } from '../pages/ObjectionWaitDependencyPage';
+import { ObjectionFamilyConsiderPage } from '../pages/ObjectionFamilyConsiderPage';
+import { RoleplayBriefPage } from '../pages/RoleplayBriefPage';
+import { SummaryUnderstandPage } from '../pages/SummaryUnderstandPage';
 import { outlineDraftSlides as draft } from './outline-draft.slides';
 
 export const slides: SlideEntry[] = [
@@ -207,20 +216,6 @@ export const slides: SlideEntry[] = [
     component: LifestyleContextPage,
   },
   {
-    id: 'economic-capacity-signals',
-    chapter: '選配流程',
-    title: '客戶的生活裡，藏著經濟能力的線索',
-    previewShape: 'content',
-    component: EconomicCapacitySignalsPage,
-  },
-  {
-    id: 'economic-assessment-timing',
-    chapter: '選配流程',
-    title: '經濟能力，要在試聽前完成判斷',
-    previewShape: 'content',
-    component: EconomicAssessmentTimingPage,
-  },
-  {
     id: 'examination-communication',
     chapter: '選配流程',
     title: '檢查的過程，也在建立信任與病識感',
@@ -244,7 +239,7 @@ export const slides: SlideEntry[] = [
   {
     id: 'report-sequence',
     chapter: '選配流程',
-    title: '報告不是念數字，而是建立共同理解',
+    title: '不要只報數字，讓客戶看懂自己的位置',
     previewShape: 'content',
     component: ReportSequencePage,
   },
@@ -255,12 +250,55 @@ export const slides: SlideEntry[] = [
     previewShape: 'split',
     component: CounselingPerspectivePage,
   },
-  draft.interventionScale,
-  draft.necessityConversation,
-  draft.planSelection,
-  draft.demoValidation,
-  draft.decisionMethods,
-  draft.objectionSteps,
+  {
+    id: 'trial-readiness',
+    chapter: '選配流程',
+    title: '先讓客戶想嘗試，再討論介入',
+    previewShape: 'content',
+    component: TrialReadinessPage,
+  },
+  {
+    id: 'economic-assessment-timing',
+    chapter: '選配流程',
+    title: '經濟能力，要在試聽前完成判斷',
+    previewShape: 'content',
+    component: EconomicAssessmentTimingPage,
+  },
+  {
+    id: 'economic-capacity-signals',
+    chapter: '選配流程',
+    title: '客戶的生活裡，藏著經濟能力的線索',
+    previewShape: 'content',
+    component: EconomicCapacitySignalsPage,
+  },
+  {
+    id: 'plan-selection',
+    chapter: '選配流程',
+    title: '用需求合理化，推到客戶預算的上限',
+    previewShape: 'content',
+    component: PlanSelectionPage,
+  },
+  {
+    id: 'demo-validation',
+    chapter: '選配流程',
+    title: '輕度聽損的試聽，要讓效果被感覺到',
+    previewShape: 'content',
+    component: DemoValidationPage,
+  },
+  {
+    id: 'decision-methods',
+    chapter: '選配流程',
+    title: '成交不是施壓，是幫客戶整理決定',
+    previewShape: 'content',
+    component: DecisionMethodsPage,
+  },
+  {
+    id: 'objection-steps',
+    chapter: '異議實戰',
+    title: '異議不是拒絕，是還有疑慮沒被理解',
+    previewShape: 'content',
+    component: ObjectionStepsPage,
+  },
   {
     id: 'scenario',
     chapter: '異議實戰',
@@ -268,12 +306,42 @@ export const slides: SlideEntry[] = [
     previewShape: 'split',
     component: ScenarioPage,
   },
-  draft.objectionPrice,
-  draft.objectionWaitDependency,
-  draft.objectionFamilyConsider,
-  draft.roleplayBrief,
+  {
+    id: 'objection-price',
+    chapter: '異議實戰',
+    title: '「太貴了」背後，是預算還是效果？',
+    previewShape: 'split',
+    component: ObjectionPricePage,
+  },
+  {
+    id: 'objection-wait-dependency',
+    chapter: '異議實戰',
+    title: '「還不嚴重」與「會不會依賴」',
+    previewShape: 'split',
+    component: ObjectionWaitDependencyPage,
+  },
+  {
+    id: 'objection-family-consider',
+    chapter: '異議實戰',
+    title: '「回去討論」與「再考慮看看」',
+    previewShape: 'split',
+    component: ObjectionFamilyConsiderPage,
+  },
+  {
+    id: 'roleplay-brief',
+    chapter: '異議實戰',
+    title: '三分鐘顧問式對話',
+    previewShape: 'split',
+    component: RoleplayBriefPage,
+  },
   draft.roleplayObserver,
-  draft.summaryUnderstand,
+  {
+    id: 'summary-understand',
+    chapter: '課程總結',
+    title: '先理解人，再提出方案',
+    previewShape: 'cover',
+    component: SummaryUnderstandPage,
+  },
   draft.summaryDecision,
   draft.actionCommitment,
 ];

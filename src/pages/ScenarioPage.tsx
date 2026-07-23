@@ -128,7 +128,7 @@ export function ScenarioPage() {
                         {opt.icon}
                       </span>
                       <div className="flip-card__identity-text">
-                        <span className="flip-card__title">{opt.label}</span>
+                        <span className="flip-card__title scenario-option__label">{opt.label}</span>
                       </div>
                     </div>
                     <blockquote className="flip-card__quote">
@@ -144,7 +144,7 @@ export function ScenarioPage() {
                         {opt.icon}
                       </span>
                       <div className="flip-card__identity-text">
-                        <span className="flip-card__eyebrow">{opt.label}</span>
+                        <span className="flip-card__eyebrow scenario-option__label">{opt.label}</span>
                         {isRecommended && <span className="flip-card__badge">🌟 推薦解法</span>}
                         <span className="flip-card__title">{opt.ratingTitle}</span>
                       </div>

@@ -1,0 +1,301 @@
+/* D29：三分鐘顧問式對話。左客戶（深）／右聽力師（淺）以明暗分界，
+   中上方為講師啟動的倒數計時。內容一次顯示（GSAP 進場）。 */
+.roleplay-brief {
+  justify-content: flex-start;
+  padding-top: 60px;
+  overflow: hidden;
+}
+
+/* ---- 頁首：標題（左）＋ 倒數計時（右、置上顯眼） ---- */
+.roleplay-brief__head {
+  display: grid;
+  flex: 0 0 auto;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 56px;
+}
+
+.roleplay-brief__intro {
+  min-width: 0;
+}
+
+.roleplay-brief__intro .counseling-title {
+  margin: 0;
+  font-size: 72px;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+}
+
+.roleplay-brief__lead {
+  margin: 14px 0 0;
+  color: rgba(69, 95, 81, 0.8);
+  font-size: 26px;
+  line-height: 1.4;
+}
+
+/* ---- 計時器 ---- */
+.roleplay-timer {
+  box-sizing: border-box;
+  width: 470px;
+  padding: 20px 32px 24px;
+  border: 2px solid rgba(69, 95, 81, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--elevation-2);
+  text-align: center;
+}
+
+.roleplay-timer__caption {
+  margin: 0;
+  color: var(--color-brand-secondary);
+  font-family: var(--font-family-latin);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.14em;
+}
+
+.roleplay-timer__clock {
+  margin: 4px 0 0;
+  color: var(--color-forest-900);
+  font-family: var(--font-family-latin);
+  font-size: 96px;
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.roleplay-timer__colon {
+  margin: 0 4px;
+  color: rgba(69, 95, 81, 0.4);
+}
+
+.roleplay-timer__track {
+  position: relative;
+  height: 8px;
+  margin: 16px 0 0;
+  border-radius: 999px;
+  background: rgba(69, 95, 81, 0.12);
+  overflow: hidden;
+}
+
+.roleplay-timer__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--color-brand-primary-bright);
+  transform-origin: left center;
+  transition: transform 1s linear;
+}
+
+.roleplay-timer.is-warning .roleplay-timer__clock {
+  color: var(--color-orange);
+}
+
+.roleplay-timer.is-warning .roleplay-timer__fill {
+  background: var(--color-orange);
+}
+
+.roleplay-timer.is-done .roleplay-timer__clock {
+  color: rgba(69, 95, 81, 0.45);
+}
+
+.roleplay-timer.is-done .roleplay-timer__caption {
+  color: var(--color-orange);
+}
+
+.roleplay-timer__controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.roleplay-timer__btn {
+  min-width: 96px;
+  padding: 9px 22px;
+  border: 2px solid rgba(69, 95, 81, 0.3);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-forest-900);
+  font-family: var(--font-family-base);
+  font-size: 21px;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease, border-color var(--duration-fast) ease;
+}
+
+.roleplay-timer__btn:hover {
+  border-color: var(--color-brand-secondary);
+}
+
+.roleplay-timer__btn--primary {
+  border-color: var(--color-forest-900);
+  background: var(--color-forest-900);
+  color: var(--color-text-on-brand);
+}
+
+.roleplay-timer__btn--primary:hover {
+  background: var(--color-brand-secondary);
+  border-color: var(--color-brand-secondary);
+}
+
+.roleplay-timer__btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.roleplay-timer__btn:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+/* ---- 角色舞台：左客戶（深）／右聽力師（淺），中線分界 ---- */
+.roleplay-stage {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: 1fr 1fr;
+  min-height: 0;
+  margin-top: 30px;
+  border: 2px solid rgba(69, 95, 81, 0.18);
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.roleplay-side {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 44px 52px;
+}
+
+.roleplay-side__role {
+  margin: 0 0 26px;
+  font-family: var(--font-family-latin);
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.16em;
+}
+
+/* 左：客戶（深色明暗對比） */
+.roleplay-side--customer {
+  background:
+    radial-gradient(circle at 82% 12%, rgba(78, 179, 207, 0.16), transparent 34%),
+    var(--color-forest-900);
+  color: var(--color-text-on-brand);
+}
+
+.roleplay-side--customer .roleplay-side__role {
+  color: var(--color-brand-primary-bright);
+}
+
+.roleplay-side__facts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roleplay-side__facts li {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 18px;
+  font-size: 32px;
+  line-height: 1.4;
+}
+
+.roleplay-side__facts li::before {
+  position: absolute;
+  top: 0.6em;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-brand-primary-bright);
+  content: '';
+}
+
+.roleplay-side__line {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.roleplay-side__line-label {
+  margin: 0 0 10px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 22px;
+}
+
+.roleplay-side__line-quote {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-family-display);
+  font-size: 46px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+}
+
+/* 右：聽力師（淺色） */
+.roleplay-side--audiologist {
+  border-left: 2px solid rgba(69, 95, 81, 0.18);
+  background: linear-gradient(160deg, #ffffff 0 58%, #f2f6ec 100%);
+  color: var(--color-text-heading);
+}
+
+.roleplay-side--audiologist .roleplay-side__role {
+  color: var(--color-brand-secondary);
+}
+
+.roleplay-side__task {
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 40px;
+  line-height: 1.32;
+}
+
+.roleplay-side__limits {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(69, 95, 81, 0.16);
+}
+
+.roleplay-side__limits-label {
+  margin: 0 0 14px;
+  color: var(--color-orange);
+  font-family: var(--font-family-latin);
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.1em;
+}
+
+.roleplay-side__limits ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roleplay-side__limits li {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 12px;
+  color: rgba(0, 0, 0, 0.76);
+  font-size: 26px;
+  line-height: 1.4;
+}
+
+.roleplay-side__limits li::before {
+  position: absolute;
+  top: 0.55em;
+  left: 2px;
+  width: 14px;
+  height: 2px;
+  background: var(--color-orange);
+  content: '';
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roleplay-timer__fill {
+    transition: none;
+  }
+}

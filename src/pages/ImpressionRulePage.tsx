@@ -31,7 +31,7 @@ export function ImpressionRulePage() {
     <SlideShell animate={animate}>
       <div className="impression-rule">
         <p className="layout-bignumber__eyebrow js-rule-eyebrow">第一印象最重要的部分是什麼呢?</p>
-        <h2 className="layout-bignumber__title js-rule-title">7-38-55 法則</h2>
+        <h2 className="layout-bignumber__title js-rule-title"><span className="impression-rule__numbers">7-38-55</span> 法則</h2>
 
         <div className="stat-breakdown stat-breakdown--vertical" role="img" aria-label="第一印象由視覺 55%、聲音與語調 38%、語言內容 7% 組成">
           {SEGMENTS.map((seg) => (

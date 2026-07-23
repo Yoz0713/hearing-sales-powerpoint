@@ -35,7 +35,7 @@ export function ImpressionTonePage() {
     <SlideShell animate={animate}>
       <div className="impression-tone">
         <p className="impression-tone__lead js-tone-lead">
-          如何營造那關鍵的 38% (聲音與語調) 呢？
+          如何營造那關鍵的 <span className="impression-percent">38%</span> (聲音與語調) 呢？
         </p>
         <div className="tip-grid">
           {TIPS.map((tip) => (

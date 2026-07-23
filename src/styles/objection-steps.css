@@ -1,0 +1,281 @@
+/* D25：接住 → 釐清 → 回應三群組的往返式異議處理路徑。 */
+.objection-steps {
+  justify-content: flex-start;
+  padding-top: 64px;
+  overflow: hidden;
+}
+
+.objection-steps__heading {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.objection-steps__heading .counseling-title {
+  max-width: 1620px;
+  margin: 0;
+  font-size: 66px;
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+}
+
+.objection-steps__lead {
+  margin: 14px 0 0;
+  color: rgba(69, 95, 81, 0.8);
+  font-size: 27px;
+  line-height: 1.4;
+}
+
+.objection-steps__rule {
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin-top: 25px;
+  background: linear-gradient(90deg, var(--color-brand-secondary), rgba(69, 95, 81, 0.08) 72%, transparent);
+}
+
+/* ---- 路徑：三群組（列 1）＋ 回連帶（列 2，橫跨釐清與回應） ---- */
+.objection-steps__route {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 0.92fr 1.05fr;
+  grid-template-rows: auto auto;
+  column-gap: 42px;
+  row-gap: 20px;
+  margin-top: 34px;
+}
+
+.objection-group {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 452px;
+  padding: 30px 30px 34px;
+  border: 2px solid rgba(69, 95, 81, 0.14);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* 群組之間的方向箭頭（往返路徑：接住 → 釐清 → 回應）。 */
+.objection-group--catch::after,
+.objection-group--clarify::after {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: -33px;
+  width: 30px;
+  height: 2px;
+  background: rgba(69, 95, 81, 0.4);
+  content: '';
+}
+
+.objection-group--catch::before,
+.objection-group--clarify::before {
+  position: absolute;
+  z-index: 3;
+  top: calc(50% - 6px);
+  right: -34px;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid rgba(69, 95, 81, 0.4);
+  border-right: 2px solid rgba(69, 95, 81, 0.4);
+  content: '';
+  transform: rotate(45deg);
+}
+
+.objection-group__eyebrow {
+  margin: 0 0 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(69, 95, 81, 0.14);
+  color: var(--color-brand-secondary);
+  font-size: 21px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+}
+
+.objection-group__steps {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.objection-step {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.objection-step__node {
+  display: grid;
+  flex: 0 0 auto;
+  width: 50px;
+  height: 50px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--color-text-on-brand);
+  background: var(--color-brand-secondary);
+  font-family: var(--font-family-latin);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.objection-step__body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.objection-step__body strong {
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.objection-step__body span {
+  color: rgba(0, 0, 0, 0.72);
+  font-size: 23px;
+  line-height: 1.45;
+}
+
+/* ---- 接住：青色（資訊連結、接住客戶） ---- */
+.objection-group--catch {
+  border-color: rgba(78, 179, 207, 0.32);
+  background: rgba(78, 179, 207, 0.07);
+}
+
+.objection-group--catch .objection-group__eyebrow {
+  color: var(--color-brand-accent);
+  border-color: rgba(78, 179, 207, 0.28);
+}
+
+.objection-group--catch .objection-step__node {
+  background: var(--color-brand-accent);
+}
+
+/* ---- 釐清：橘色（疑慮與轉折，路徑的軸點） ---- */
+.objection-group--clarify {
+  justify-content: center;
+  border-color: rgba(238, 123, 8, 0.34);
+  background:
+    radial-gradient(circle at 50% 30%, rgba(238, 123, 8, 0.12), transparent 60%),
+    rgba(238, 123, 8, 0.06);
+}
+
+.objection-group--clarify .objection-group__eyebrow {
+  color: var(--color-orange);
+  border-color: rgba(238, 123, 8, 0.28);
+}
+
+.objection-group--clarify .objection-group__steps {
+  flex: 0 0 auto;
+}
+
+.objection-group--clarify .objection-step__node {
+  background: var(--color-orange);
+}
+
+.objection-group--clarify .objection-step__body strong {
+  font-size: 36px;
+}
+
+/* ---- 回應：綠色（正向行動、回到共同決策） ---- */
+.objection-group--respond {
+  border-color: rgba(55, 167, 111, 0.34);
+  background: rgba(55, 167, 111, 0.08);
+}
+
+.objection-group--respond .objection-step__node {
+  background: var(--color-brand-secondary);
+}
+
+/* ---- 回連帶：⑤ 未解除 → 回到 ③ 再釐清 ---- */
+.objection-loop {
+  display: flex;
+  grid-column: 2 / 4;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 26px;
+  border: 2px dashed rgba(238, 123, 8, 0.5);
+  border-radius: 14px;
+  background: rgba(238, 123, 8, 0.05);
+}
+
+.objection-loop__arrow {
+  flex: 0 0 auto;
+  color: var(--color-orange);
+  font-size: 34px;
+  line-height: 1;
+}
+
+.objection-loop p {
+  margin: 0;
+  color: var(--color-text-heading);
+  font-size: 23px;
+  line-height: 1.35;
+}
+
+.objection-loop p strong {
+  color: var(--color-orange);
+  font-weight: var(--font-weight-bold);
+}
+
+/* ---- 收尾：深綠示範題橫帶，接入既有情境翻牌頁 ---- */
+.objection-steps__close {
+  display: flex;
+  align-items: baseline;
+  gap: 22px;
+  min-height: 74px;
+  margin-top: 22px;
+  padding: 15px 24px 17px;
+  border-left: 10px solid var(--color-brand-primary-bright);
+  color: var(--color-text-on-brand);
+  background: var(--color-forest-900);
+}
+
+.objection-steps__close span {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 24px;
+}
+
+.objection-steps__close strong {
+  font-family: var(--font-family-display);
+  font-size: 32px;
+  line-height: 1.25;
+}
+
+/* ---- Fragment 逐步顯示（GSAP 不碰這些節點的 opacity） ---- */
+.objection-steps .fragment {
+  transition:
+    opacity var(--duration-base) ease,
+    transform var(--duration-base) ease;
+}
+
+.objection-steps .objection-group.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateX(-28px);
+}
+
+.objection-steps .objection-loop.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(-14px);
+}
+
+.objection-steps .objection-steps__close.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .objection-steps .fragment {
+    transition: none;
+  }
+}

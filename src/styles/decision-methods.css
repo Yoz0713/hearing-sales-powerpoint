@@ -1,0 +1,173 @@
+/* D24：三條可選的對話收尾，最後回到客戶自己的決定。 */
+.decision-methods {
+  justify-content: flex-start;
+  padding-top: 60px;
+  overflow: hidden;
+}
+
+.decision-methods__heading {
+  flex: 0 0 auto;
+}
+
+.decision-methods__heading .counseling-title {
+  max-width: 1560px;
+  margin: 0;
+  font-size: 60px;
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+}
+
+.decision-methods__lead {
+  margin: 12px 0 0;
+  color: rgba(69, 95, 81, 0.8);
+  font-size: 26px;
+  line-height: 1.4;
+}
+
+/* 三欄完全填滿一列；各路徑只在對話重心上不同，不做成交卡片。 */
+.decision-methods__paths {
+  display: grid;
+  grid-auto-flow: dense;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: 34px;
+  border-top: 1px solid rgba(69, 95, 81, 0.22);
+  border-bottom: 1px solid rgba(69, 95, 81, 0.22);
+}
+
+.decision-path {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 30px 40px 28px;
+}
+
+.decision-path + .decision-path {
+  border-left: 1px solid rgba(69, 95, 81, 0.18);
+}
+
+.decision-path--choice {
+  background: rgba(153, 203, 56, 0.11);
+}
+
+.decision-path__name {
+  margin: 0;
+  color: var(--color-brand-secondary);
+  font-family: var(--font-family-latin);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+}
+
+.decision-path h2 {
+  max-width: 470px;
+  margin: 18px 0 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 37px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.3;
+}
+
+.decision-path__cue {
+  margin: 28px 0 0;
+  padding: 18px 0;
+  border-top: 1px solid rgba(69, 95, 81, 0.16);
+  border-bottom: 1px solid rgba(69, 95, 81, 0.16);
+  color: rgba(69, 95, 81, 0.74);
+  font-size: 22px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+}
+
+.decision-path--action .decision-path__cue {
+  color: var(--color-text-heading);
+}
+
+.decision-path blockquote {
+  margin: auto 0 0;
+  padding-top: 28px;
+  color: rgba(0, 0, 0, 0.76);
+  font-family: var(--font-family-display);
+  font-size: 26px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.45;
+}
+
+.decision-methods__loop {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 56px;
+  min-height: 104px;
+  box-sizing: border-box;
+  margin-top: 26px;
+  padding: 18px 30px 18px 34px;
+  border-left: 10px solid var(--color-orange);
+  background: var(--color-forest-900);
+}
+
+.decision-methods__loop > div {
+  flex: 0 0 auto;
+}
+
+.decision-methods__loop p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 21px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.decision-methods__loop strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--color-text-on-brand);
+  font-family: var(--font-family-display);
+  font-size: 31px;
+  line-height: 1.3;
+}
+
+.decision-methods__loop .decision-loop__questions {
+  flex: 1 1 auto;
+  color: var(--color-brand-primary-bright);
+  font-family: var(--font-family-display);
+  font-size: 26px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.35;
+  text-align: right;
+}
+
+.decision-methods .fragment {
+  transition:
+    opacity var(--duration-base) ease,
+    transform var(--duration-base) ease;
+}
+
+.decision-methods .decision-path--summary.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateX(-28px);
+}
+
+.decision-methods .decision-path--choice.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+.decision-methods .decision-path--action.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateX(28px);
+}
+
+.decision-methods .decision-methods__loop.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .decision-methods .fragment {
+    transition: none;
+  }
+}

@@ -1581,91 +1581,6 @@ body {
   stroke-dasharray: 860;
 }
 
-.counseling-audiogram {
-  display: grid;
-  grid-template-columns: .92fr 1.08fr;
-  gap: 64px;
-  align-items: center;
-}
-
-.audiogram-notes {
-  margin: var(--space-8) 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.audiogram-notes li {
-  margin-bottom: var(--space-4);
-  padding-left: var(--space-5);
-  border-left: 6px solid var(--color-brand-secondary);
-  color: var(--color-text-heading);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-normal);
-}
-
-.audiogram-visual {
-  position: relative;
-  height: 590px;
-  padding: 26px;
-  box-sizing: border-box;
-  background: var(--color-surface-muted);
-  border-radius: var(--radius-xl);
-}
-
-.audiogram-visual svg {
-  width: 100%;
-  height: 100%;
-}
-
-.audiogram-axis {
-  fill: none;
-  stroke: var(--color-forest-900);
-  stroke-width: 7;
-}
-
-.audiogram-guide {
-  fill: none;
-  stroke: rgba(69, 95, 81, .28);
-  stroke-width: 5;
-  stroke-dasharray: 14 16;
-}
-
-.audiogram-line {
-  fill: none;
-  stroke: var(--color-brand-primary);
-  stroke-width: 13;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.audiogram-visual circle {
-  fill: var(--color-brand-primary-bright);
-  stroke: var(--color-forest-900);
-  stroke-width: 5;
-}
-
-.audiogram-quiet,
-.audiogram-speech {
-  position: absolute;
-  z-index: 1;
-  padding: 10px 14px;
-  color: var(--color-text-heading);
-  background: rgba(255, 255, 255, .86);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-caption);
-  line-height: 1.35;
-}
-
-.audiogram-quiet {
-  right: 28px;
-  top: 104px;
-}
-
-.audiogram-speech {
-  right: 28px;
-  top: 278px;
-}
-
 .counseling-mcl {
   display: grid;
   grid-template-columns: 640px 1fr;
@@ -4322,4 +4237,62 @@ body {
   .sales-behavior__conclusion {
     transition: none;
   }
+}
+
+/* ---- Manifest 字體層級補強：指定頁面只升級標題、金句與數字標記 ---- */
+.course-objectives__title,
+.course-objectives__path h2,
+.course-positioning__title,
+.course-positioning__principle strong,
+.course-positioning__close strong,
+.course-positioning__visual figcaption strong,
+.warmup-experience__question,
+.sales-behavior__heading h1,
+.sales-behavior__panel-heading strong,
+.sales-behavior__behaviors strong,
+.sales-behavior__conclusion strong,
+.impression-speed .layout-bignumber__title,
+.impression-speed .impression-speed__twist-body,
+.impression-rule .layout-bignumber__title,
+.impression-rule .impression-speed__twist-body,
+.impression-appearance__lead,
+.impression-tone__lead,
+.impression-appearance .flip-card__title,
+.impression-tone .flip-card__title,
+.impression-chapter__title,
+.counseling-history .counseling-title,
+.counseling-history .history-chart__tab,
+.counseling-history .impression-speed__twist-body,
+.counseling-motivation--redesign .counseling-title,
+.counseling-motivation--redesign .motivation-subtitle,
+.counseling-motivation--redesign .motivation-question-title,
+.counseling-motivation--redesign .motivation-truth-title,
+.counseling-perspective .counseling-display,
+.counseling-perspective .perspective-panel h2,
+.lifepath-heading .counseling-title,
+.report-heading .counseling-title,
+.trial-readiness__heading .counseling-title,
+.plan-selection__heading .counseling-title,
+.demo-validation__heading .counseling-title,
+.decision-methods__heading .counseling-title,
+.objection-steps__heading .counseling-title,
+.objection-price__heading .counseling-title,
+.objection-duo__heading .counseling-title,
+.roleplay-brief__intro .counseling-title,
+.scenario-page .scenario-intro__question,
+.scenario-page .flip-card__title {
+  font-family: var(--font-family-display);
+}
+
+.course-objectives__path-index,
+.course-objectives__marquee-track span,
+.course-positioning__principle span,
+.impression-speed .layout-bignumber__value,
+.impression-rule__numbers,
+.impression-rule .vertical-stat__value,
+.impression-percent,
+.counseling-motivation--redesign .motive-card__index,
+.report-story__index,
+.scenario-page .scenario-option__label {
+  font-family: var(--font-family-latin);
 }

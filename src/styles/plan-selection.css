@@ -1,0 +1,241 @@
+/* D22：確認預算後，以生活需求合理化到可負擔範圍內的上限方案。 */
+.plan-selection {
+  justify-content: flex-start;
+  padding-top: 60px;
+  overflow: hidden;
+}
+
+.plan-selection__heading {
+  flex: 0 0 auto;
+}
+
+.plan-selection__heading .counseling-title {
+  max-width: 1560px;
+  margin: 0;
+  font-size: 60px;
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+}
+
+.plan-selection__lead {
+  margin: 12px 0 0;
+  color: rgba(69, 95, 81, 0.8);
+  font-size: 26px;
+  line-height: 1.4;
+}
+
+/* ── 起手方式比較 ─────────────────────────────────────────── */
+.plan-selection__comparison {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  margin-top: 28px;
+}
+
+.plan-comparison__premise {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0 0 18px;
+  color: rgba(69, 95, 81, 0.82);
+  font-size: 24px;
+  line-height: 1.35;
+}
+
+.plan-comparison__premise span,
+.plan-path__head > div > p,
+.plan-path__outcome,
+.plan-path__steps span,
+.plan-path__conclusion span {
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+}
+
+.plan-comparison__premise span {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  color: var(--color-text-on-brand);
+  background: var(--color-forest-900);
+}
+
+.plan-comparison__paths {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  min-height: 0;
+}
+
+.plan-comparison__path {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border: 1px solid rgba(69, 95, 81, 0.2);
+  background: rgba(255, 255, 255, 0.84);
+  overflow: hidden;
+}
+
+.plan-comparison__path--standard {
+  border-top: 8px solid var(--color-cyan);
+}
+
+.plan-comparison__path--premium {
+  border-top: 8px solid var(--color-brand-secondary);
+  background: linear-gradient(135deg, rgba(153, 203, 56, 0.15), rgba(255, 255, 255, 0.94) 56%);
+}
+
+.plan-path__head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px 18px;
+  border-bottom: 1px solid rgba(69, 95, 81, 0.15);
+}
+
+.plan-path__number {
+  color: rgba(69, 95, 81, 0.3);
+  font-family: var(--font-family-latin);
+  font-size: 34px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.04em;
+}
+
+.plan-path__head > div {
+  flex: 1 1 auto;
+}
+
+.plan-path__head > div > p {
+  margin: 0 0 5px;
+  color: rgba(69, 95, 81, 0.58);
+}
+
+.plan-path__head h2 {
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 32px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.18;
+}
+
+.plan-path__outcome {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  color: var(--color-orange);
+  border: 1px solid rgba(238, 123, 8, 0.34);
+}
+
+.plan-comparison__path--premium .plan-path__outcome {
+  color: var(--color-brand-secondary);
+  border-color: rgba(55, 167, 111, 0.38);
+  background: rgba(55, 167, 111, 0.08);
+}
+
+.plan-path__steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-path__steps li {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 142px;
+  padding: 22px 24px;
+}
+
+.plan-path__steps li + li {
+  border-left: 1px solid rgba(69, 95, 81, 0.13);
+}
+
+.plan-path__steps span {
+  color: rgba(69, 95, 81, 0.58);
+}
+
+.plan-path__steps strong {
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 25px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.32;
+}
+
+.plan-path__conclusion {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: auto 24px 22px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(69, 95, 81, 0.16);
+  color: rgba(0, 0, 0, 0.76);
+  font-size: 23px;
+  line-height: 1.34;
+}
+
+.plan-path__conclusion span {
+  flex: 0 0 auto;
+  color: var(--color-orange);
+}
+
+.plan-comparison__path--premium .plan-path__conclusion span {
+  color: var(--color-brand-secondary);
+}
+
+/* ── 原則收尾帶 ───────────────────────────────────────────── */
+.plan-selection__close {
+  display: flex;
+  align-items: baseline;
+  gap: 22px;
+  min-height: 70px;
+  margin-top: 20px;
+  padding: 14px 26px 16px;
+  border-left: 10px solid var(--color-brand-primary-bright);
+  color: var(--color-text-on-brand);
+  background: var(--color-forest-900);
+}
+
+.plan-selection__close span {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 24px;
+}
+
+.plan-selection__close strong {
+  font-family: var(--font-family-display);
+  font-size: 31px;
+  line-height: 1.25;
+}
+
+/* ── Fragments：兩種起手方式完整出現，最後帶出既有收尾帶 ─────── */
+.plan-selection .fragment {
+  transition:
+    opacity var(--duration-base) ease,
+    transform var(--duration-base) ease;
+}
+
+.plan-selection .plan-comparison__path--standard.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.plan-selection .plan-comparison__path--premium.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.plan-selection .plan-selection__close.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan-selection .fragment {
+    transition: none;
+  }
+}

@@ -1,281 +1,223 @@
-/* D19：報告不是念數字，而是建立共同理解。
-   左側一張冷冰冰的檢查報告（數字＋聽力圖斜坡），沿著青→橘→綠的閱讀路徑五步回溫成
-   客戶點得了頭的話，最後落進底部深綠確認句。色彩用量集中在細軸線＋小節點：
-   青＝資訊、橘＝生活連結（樞紐）、綠＝認同與方向；其餘保持中性。 */
-
-/* 兩個 class 提高權重，穩定勝過 app.css 較晚載入的 .slide-shell{display:flex}。 */
+/* D19：兩種年齡常模比較，最後收束到 COSI。全頁只以橘色強調生活連結。 */
 .slide-shell.report-slide {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  row-gap: 26px;
+  grid-template-rows: auto auto auto;
+  align-content: center;
+  row-gap: 20px;
+  padding-top: 66px;
+  padding-bottom: 62px;
   overflow: hidden;
 }
 
 .report-heading {
   min-width: 0;
+  height: fit-content;
+}
+
+.report-heading .counseling-title {
+  max-width: 1640px;
+  font-size: 68px;
+  letter-spacing: 0.025em;
 }
 
 .report__intro {
-  margin: 18px 0 0;
-  max-width: 1200px;
-  color: rgba(69, 95, 81, 0.74);
-  font-size: var(--font-size-body-lg);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-normal);
-}
-
-/* ---- 閱讀路徑：左側報告晶片 + 右側五步軸線 ---- */
-.report-path {
-  min-height: 0;
-  display: grid;
-  grid-template-columns: 176px minmax(0, 1fr);
-  column-gap: 34px;
-  align-items: center;
-}
-
-/* 報告晶片：冷色、方正、像一台聽力計讀數，代表「你手上的數字」。 */
-.report-origin {
-  align-self: center;
-  margin: 0;
-  padding: 20px 22px 18px;
-  display: grid;
-  justify-items: start;
-  gap: 4px;
-  background: rgba(78, 179, 207, 0.08);
-  border: 1px solid rgba(78, 179, 207, 0.4);
-  border-radius: var(--radius-lg);
-}
-
-.report-origin__eyebrow {
-  margin: 0;
-  color: var(--color-cyan);
-  font-size: 15px;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: var(--letter-spacing-caps);
-}
-
-.report-origin__value {
-  margin: 2px 0 0;
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  color: var(--color-text-heading);
-  font-family: var(--font-family-latin);
-  font-size: 56px;
-  font-weight: 700;
-  line-height: 0.9;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.03em;
-}
-
-.report-origin__value span {
-  color: rgba(69, 95, 81, 0.55);
-  font-size: 18px;
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: 0;
-}
-
-.report-origin__audiogram {
-  width: 104px;
-  height: 46px;
-  margin-top: 6px;
-}
-
-.report-origin__audiogram polyline {
-  stroke: var(--color-cyan);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.report-origin__audiogram circle {
-  fill: var(--color-surface-base);
-  stroke: var(--color-cyan);
-  stroke-width: 2.5;
-}
-
-.report-origin__caption {
-  margin: 6px 0 0;
-  color: rgba(69, 95, 81, 0.55);
-  font-size: 16px;
-  font-weight: var(--font-weight-semibold);
-}
-
-/* 五步在同一條軸線上：動作名在上、節點在線、說出口的話在下。
-   固定列高讓五個節點與軸線精準對齊。 */
-.report-path__flow {
-  position: relative;
-  min-width: 0;
-  height: 214px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-}
-
-/* 軸線：青 → 橘 → 綠，從報告晶片那側往右畫出；left 負值讓它接上晶片。 */
-.report-path__spine {
-  position: absolute;
-  z-index: 0;
-  left: -34px;
-  right: 4px;
-  top: 56px;
-  height: 4px;
-  transform: translateY(-50%);
-  transform-origin: left center;
-  background: linear-gradient(
-    90deg,
-    var(--color-cyan) 0%,
-    var(--color-cyan) 30%,
-    var(--color-orange) 50%,
-    var(--color-brand-primary) 72%,
-    var(--color-forest-900) 100%
-  );
-  border-radius: var(--radius-pill);
-  pointer-events: none;
-}
-
-.report-station {
-  position: relative;
-  min-width: 0;
-  display: grid;
-  grid-template-rows: 44px 24px 1fr;
-  justify-items: center;
-  padding: 0 14px;
-  text-align: center;
-  transform: translateY(16px);
-  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
-}
-
-.report-station.visible {
-  transform: none;
-}
-
-.report-station__move {
-  grid-row: 1;
-  margin: 0;
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  color: var(--color-text-heading);
-  font-family: var(--font-family-display);
+  max-width: 1240px;
+  margin: 15px 0 0;
+  color: rgba(69, 95, 81, 0.72);
   font-size: 27px;
-  font-weight: var(--font-weight-bold);
-  line-height: 1.1;
-}
-
-.report-station__index {
-  color: rgba(69, 95, 81, 0.4);
-  font-family: var(--font-family-latin);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-}
-
-/* 節點：預設空心 tier 色環；錨點（整體結論、生活連結）填實，作為要記住的兩站。 */
-.report-station__node {
-  grid-row: 2;
-  align-self: center;
-  z-index: 1;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--color-surface-base);
-  border: 5px solid var(--tier-color, var(--color-brand-primary));
-  box-shadow: 0 0 0 6px var(--tier-halo, rgba(99, 165, 55, 0.12));
-}
-
-.report-station--anchor .report-station__node {
-  background: var(--tier-color);
-}
-
-.report-station__say {
-  grid-row: 3;
-  margin: 14px 0 0;
-  max-width: 260px;
-  color: rgba(69, 95, 81, 0.82);
-  font-family: var(--font-family-display);
-  font-size: 25px;
   font-weight: var(--font-weight-semibold);
+  line-height: 1.45;
+}
+
+.report-story {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 4.3fr)) minmax(0, 5.4fr);
+  align-items: stretch;
+  min-height: 0;
+  border-top: 1px solid rgba(69, 95, 81, 0.18);
+  border-bottom: 1px solid rgba(69, 95, 81, 0.18);
+}
+
+.report-age-peer,
+.report-hearing-age,
+.report-cosi {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.report-age-peer {
+  padding: 34px 44px 28px 0;
+}
+
+.report-hearing-age {
+  padding: 34px 44px 28px;
+  border-left: 1px solid rgba(69, 95, 81, 0.16);
+}
+
+.report-cosi {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 18px 0 18px 38px;
+  padding: 34px 46px 36px;
+  border-left: 9px solid var(--color-orange);
+  background: rgba(238, 123, 8, 0.075);
+}
+
+.report-story__eyebrow,
+.report-cosi__label {
+  margin: 0 0 18px;
+  color: var(--color-brand-secondary);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+}
+
+.report-age-peer h2,
+.report-hearing-age h2 {
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 38px;
+  font-weight: var(--font-weight-bold);
   line-height: 1.32;
 }
 
-/* tier 配色：青＝資訊、橘＝生活連結、綠＝認同與方向。 */
-.report-station--data {
-  --tier-color: var(--color-cyan);
-  --tier-halo: rgba(78, 179, 207, 0.12);
-}
-
-.report-station--life {
-  --tier-color: var(--color-orange);
-  --tier-halo: rgba(238, 123, 8, 0.14);
-}
-
-.report-station--agree {
-  --tier-color: var(--color-brand-primary);
-  --tier-halo: rgba(99, 165, 55, 0.12);
-}
-
-/* 生活連結是全頁樞紐：橘色節點放大，說出口的話也轉橘、加重。 */
-.report-station--life .report-station__node {
-  width: 26px;
-  height: 26px;
-}
-
-.report-station--life .report-station__say {
-  color: var(--color-orange);
-  font-weight: var(--font-weight-bold);
-}
-
-.report-station--life .report-station__index {
-  color: rgba(238, 123, 8, 0.7);
-}
-
-/* ---- 底部確認句：深綠橫條，路徑的落點 ---- */
-.report-confirm {
+.report-compare {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 44px;
-  padding: 26px 40px;
-  background: var(--color-forest-900);
-  border-radius: var(--radius-lg);
+  gap: 16px;
+  margin-top: 34px;
+  padding: 22px 0;
+  border-top: 1px solid rgba(69, 95, 81, 0.18);
+  border-bottom: 1px solid rgba(69, 95, 81, 0.18);
 }
 
-.report-confirm__main {
+.report-compare>div {
+  flex: 1 1 0;
   min-width: 0;
 }
 
-.report-confirm__eyebrow {
-  margin: 0 0 6px;
+.report-compare span {
+  display: block;
+  margin-bottom: 7px;
+  color: rgba(69, 95, 81, 0.72);
+  font-size: 19px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+}
+
+.report-compare strong {
+  display: block;
+  color: var(--color-text-heading);
+  font-size: 26px;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+
+.report-compare b {
+  flex: none;
+  color: rgba(69, 95, 81, 0.42);
+  font-size: 28px;
+  font-weight: var(--font-weight-regular);
+}
+
+.report-story__explain {
+  max-width: 500px;
+  margin: 24px 0 0;
+  color: rgba(0, 0, 0, 0.74);
+  font-size: 24px;
+  line-height: 1.52;
+}
+
+.report-cosi__label {
   color: var(--color-orange);
-  font-size: 17px;
+}
+
+.report-cosi h2 {
+  margin: 0 0 22px;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 30px;
   font-weight: var(--font-weight-bold);
-  letter-spacing: var(--letter-spacing-caps);
+  line-height: 1.35;
+}
+
+.report-cosi blockquote {
+  max-width: 700px;
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 41px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.3;
+}
+
+.report-cosi>strong {
+  max-width: 710px;
+  margin-top: 30px;
+  color: var(--color-orange);
+  font-family: var(--font-family-display);
+  font-size: 29px;
+  line-height: 1.42;
+}
+
+.report-confirm {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 34px;
+  min-height: 78px;
+  box-sizing: border-box;
+  padding: 18px 30px;
+  border-radius: 0;
+  background: var(--color-forest-900);
+}
+
+.report-confirm__prompt {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 22px;
+  font-weight: var(--font-weight-semibold);
 }
 
 .report-confirm__quote {
   margin: 0;
   color: var(--color-text-on-brand);
   font-family: var(--font-family-display);
-  font-size: 42px;
+  font-size: 34px;
   font-weight: var(--font-weight-bold);
-  line-height: 1.14;
+  line-height: 1.25;
 }
 
-.report-confirm__note {
-  flex: none;
-  max-width: 360px;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 21px;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
+.report-slide .fragment {
+  transition:
+    opacity var(--duration-base) ease,
+    transform var(--duration-base) ease;
+}
+
+.report-slide .report-age-peer.fragment:not(.visible),
+.report-slide .report-hearing-age.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateX(-24px);
+}
+
+.report-slide .report-cosi.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.report-slide .report-confirm.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(18px);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .report-station {
+  .report-slide .fragment {
     transition: none;
   }
 }

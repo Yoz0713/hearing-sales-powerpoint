@@ -1,0 +1,217 @@
+/* D27／D28 共用：兩則異議並置的「對話解剖」版型。
+   每欄三層——客戶說 → 真正在意 → 這樣回應——兩欄等高等重。
+   與 objection-steps／objection-price 共用頁首、色票與 fragment 手法。 */
+.objection-duo {
+  justify-content: flex-start;
+  padding-top: 64px;
+  overflow: hidden;
+}
+
+.objection-duo__heading {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.objection-duo__heading .counseling-title {
+  max-width: 1620px;
+  margin: 0;
+  font-size: 66px;
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+}
+
+.objection-duo__lead {
+  margin: 14px 0 0;
+  color: rgba(69, 95, 81, 0.8);
+  font-size: 27px;
+  line-height: 1.4;
+}
+
+.objection-duo__rule {
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin-top: 25px;
+  background: linear-gradient(90deg, var(--color-brand-secondary), rgba(69, 95, 81, 0.08) 72%, transparent);
+}
+
+/* ---- 主體：兩欄等寬 ---- */
+.objection-duo__pair {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.duo-cols {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  min-height: 0;
+}
+
+.duo-col {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 32px 30px;
+  border: 2px solid rgba(69, 95, 81, 0.16);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.duo-col__head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.duo-col__type {
+  margin: 0;
+  color: var(--color-brand-secondary);
+  font-family: var(--font-family-latin);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.1em;
+}
+
+.duo-col__tag {
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 34px;
+  line-height: 1.15;
+}
+
+/* ---- 三層對話 ---- */
+.duo-layer {
+  padding-top: 18px;
+  margin-top: 18px;
+  border-top: 1px solid rgba(69, 95, 81, 0.14);
+}
+
+.duo-layer:first-of-type {
+  border-top: none;
+}
+
+.duo-layer__role {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+}
+
+.duo-layer__role--quote {
+  color: rgba(69, 95, 81, 0.55);
+}
+
+.duo-layer__role--concern {
+  color: var(--color-orange);
+}
+
+.duo-layer__role--respond {
+  color: var(--color-brand-secondary);
+}
+
+.duo-quote {
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 30px;
+  line-height: 1.3;
+}
+
+.duo-text {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.74);
+  font-size: 23px;
+  line-height: 1.5;
+}
+
+.duo-layer--respond .duo-text {
+  color: var(--color-text-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ---- 收尾帶（深綠）：D27 為結語；D28 為共同後續節點 ---- */
+.duo-close {
+  display: flex;
+  align-items: baseline;
+  gap: 22px;
+  flex: 0 0 auto;
+  min-height: 74px;
+  margin-top: 22px;
+  padding: 15px 26px 17px;
+  border-left: 10px solid var(--color-brand-primary-bright);
+  color: var(--color-text-on-brand);
+  background: var(--color-forest-900);
+}
+
+.duo-close__label {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 24px;
+}
+
+.duo-close strong {
+  font-family: var(--font-family-display);
+  font-size: 31px;
+  line-height: 1.25;
+}
+
+/* ---- D28 專屬：兩條未完成對話線收束到共同節點 ---- */
+.objection-consider .duo-col {
+  border-bottom-style: dashed;
+  border-bottom-color: rgba(69, 95, 81, 0.28);
+}
+
+.duo-merge {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 26px;
+  margin-top: 2px;
+}
+
+.duo-merge path {
+  fill: none;
+  stroke: rgba(69, 95, 81, 0.3);
+  stroke-width: 1.4;
+  stroke-dasharray: 5 5;
+  vector-effect: non-scaling-stroke;
+}
+
+.objection-consider .duo-close {
+  justify-content: center;
+  margin-top: 4px;
+}
+
+/* ---- Fragment 逐步顯示（GSAP 不碰這些節點的 opacity） ---- */
+.objection-duo .fragment {
+  transition:
+    opacity var(--duration-base) ease,
+    transform var(--duration-base) ease;
+}
+
+.objection-duo .duo-col.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.objection-duo .duo-col--right.fragment:not(.visible) {
+  transform: translateY(20px);
+}
+
+.objection-duo .duo-close.fragment:not(.visible),
+.objection-duo .duo-merge.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .objection-duo .fragment {
+    transition: none;
+  }
+}

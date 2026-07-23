@@ -23,7 +23,6 @@ interface ExamSignalsSpec {
   /** trust＝信任感（綠）、awareness＝病識感（橘）。決定整頁單一強調色。 */
   variant: 'trust' | 'awareness';
   /** 承接 D19.1 音叉分出的支線名。 */
-  branch: string;
   title: ReactNode;
   intro: string;
   themes: ExamTheme[];
@@ -33,7 +32,6 @@ interface ExamSignalsSpec {
 
 const TRUST: ExamSignalsSpec = {
   variant: 'trust',
-  branch: '這一支：信任感',
   title: (
     <>
       如何在檢查過程中，增加客戶的<em>信任感</em>？
@@ -80,7 +78,6 @@ const TRUST: ExamSignalsSpec = {
 
 const AWARENESS: ExamSignalsSpec = {
   variant: 'awareness',
-  branch: '這一支：病識感',
   title: (
     <>
       如何在檢查過程中，喚起客戶的<em>病識感</em>？
@@ -144,7 +141,6 @@ function ExamSignalsPage({ spec }: { spec: ExamSignalsSpec }) {
         <header className="exam-signals__head">
           <p className="exam-signals__eyebrow js-exam-eyebrow">
             衛教與諮商 · 檢查中的溝通
-            <span className="exam-signals__branch">{spec.branch}</span>
           </p>
           <h1 className="exam-signals__title js-exam-title">{spec.title}</h1>
           <p className="exam-signals__intro js-exam-intro">{spec.intro}</p>
