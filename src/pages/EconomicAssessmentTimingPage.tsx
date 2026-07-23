@@ -49,7 +49,7 @@ export function EconomicAssessmentTimingPage() {
         </header>
 
         <div className="economic-timing__heading">
-          <h1 className="js-timing-title">經濟能力，要在試聽開始前完成判斷</h1>
+          <h1 className="js-timing-title">經濟能力要在試聽前完成判斷</h1>
           <p className="js-timing-intro">
             等級建議要接得住客戶的生活需求，也要落在他能承擔的範圍。
           </p>

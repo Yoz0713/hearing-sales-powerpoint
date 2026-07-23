@@ -120,6 +120,69 @@
 }
 
 /* ---- D18.5：報價前完成判斷 ---- */
+/*
+ * D18 的 signals 版面已改為 counseling shell；D18.5 仍使用原本的
+ * economic-capacity 結構。因此將畫布與 header 基礎樣式限定回 timing，
+ * 避免後續調整 D18 時一併影響此頁的 1920 × 1080 grid。
+ */
+.economic-capacity--timing {
+  color: var(--color-text-heading);
+  background:
+    radial-gradient(circle at 84% 76%, rgba(178, 226, 90, 0.12), transparent 30%),
+    var(--color-surface-base);
+  overflow: hidden;
+}
+
+.economic-capacity--timing .economic-capacity__stage {
+  box-sizing: border-box;
+  display: grid;
+  width: 1920px;
+  height: 1080px;
+  padding: 54px 88px 56px;
+  overflow: hidden;
+}
+
+.economic-capacity--timing .economic-capacity__nav {
+  display: grid;
+  grid-template-columns: auto minmax(80px, 1fr) auto;
+  align-items: center;
+  gap: 28px;
+}
+
+.economic-capacity--timing .economic-capacity__nav > i {
+  display: block;
+  height: 1px;
+  background: rgba(31, 82, 69, 0.22);
+}
+
+.economic-capacity--timing .economic-capacity__nav > span {
+  color: rgba(31, 82, 69, 0.66);
+  font-family: var(--font-family-latin);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.economic-capacity--timing .economic-timing__heading h1 {
+  max-width: 1320px;
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.18;
+}
+
+.economic-capacity--timing .economic-timing__heading p {
+  max-width: 1040px;
+  margin: 14px 0 0;
+  color: rgba(31, 82, 69, 0.72);
+  font-size: 27px;
+  letter-spacing: 0.03em;
+  line-height: 1.55;
+}
+
 .economic-timing__stage {
   grid-template-rows: 56px auto minmax(0, 1fr) auto auto;
   row-gap: 18px;

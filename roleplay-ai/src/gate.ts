@@ -1,9 +1,9 @@
 /**
- * 關卡機制（寫在前端）。判定「學員這一則有沒有問對問題」，
- * 用獨立的判定呼叫（判官≠演員）以求可靠。schema 與判定 prompt 都在這裡。
+ * 關卡機制（寫在前端）。本版把「判定」與「回覆」合併成單次結構化輸出：
+ * 模型一次回傳三個布林判斷 + 陳先生的回覆。判斷排在 reply 之前（先判定、再一致地寫回覆）。
  */
 
-/** 三個判定準則。 */
+/** 三個判定準則（針對學員最新一則訊息）。 */
 export interface GateVerdict {
   /** 是否問了關於「生活情境」的開放式問題（作息、社交、什麼場合／跟誰聽不清）。 */
   lifeContext: boolean;
@@ -41,41 +41,36 @@ export function isOpen(state: GateState): boolean {
   return state.lifeContext && state.realConcern;
 }
 
-/** 判定用的 systemInstruction（送給判官模型）。 */
-export const GATE_SYSTEM = `你是一位聽力師培訓的評分助理。對話中，一位「學員（聽力師）」正在和一位難搞的長輩客戶陳先生對話。
-
-請只針對【對話中最後一則「學員」訊息】做判斷，並依 schema 回傳 JSON（不要多餘文字）：
-
-- lifeContext：這則訊息是否用開放式問題，試圖了解客戶的「生活情境」？（例如：什麼場合／跟誰在一起時聽不清、平常的作息與社交、看電視講電話的情形。單純問「有沒有比較聽不到」這種封閉、表面的問句不算。）
-- realConcern：這則訊息是否試圖了解客戶「價格以外、真正在意或擔心的事」？（例如：對戴助聽器的顧慮、面子、對效果的不確定、過去經驗。只談價格或規格不算。）
-- notPushy：這則訊息是否「沒有」急著介紹產品、報價、比規格或說服客戶？（沒有推銷 = true；有推銷或催促 = false。）
-
-只評最後一則學員訊息本身，不要因為前面幾則就給分。`;
-
 /**
- * Gemini responseSchema（OpenAPI 子集）。型別用大寫字串，對應 @google/genai 的 Type 列舉值，
- * 以純物件形式從前端傳到代理函式再交給 SDK。
+ * Gemini responseSchema（OpenAPI 子集）：三個布林 + reply。
+ * propertyOrdering 讓模型先產生判斷、再依判斷寫回覆，較一致。
+ * 型別用大寫字串，對應 @google/genai 的 Type 列舉值，以純物件從前端傳到代理函式。
  */
-export const GATE_SCHEMA = {
+export const CONVERSE_SCHEMA = {
   type: 'OBJECT',
   properties: {
     lifeContext: { type: 'BOOLEAN' },
     realConcern: { type: 'BOOLEAN' },
     notPushy: { type: 'BOOLEAN' },
+    reply: { type: 'STRING' },
   },
-  required: ['lifeContext', 'realConcern', 'notPushy'],
+  required: ['lifeContext', 'realConcern', 'notPushy', 'reply'],
+  propertyOrdering: ['lifeContext', 'realConcern', 'notPushy', 'reply'],
 } as const;
 
-/** 寬鬆解析判官回傳的 JSON，缺欄位一律當 false（保守：避免誤開門）。 */
-export function parseVerdict(raw: string): GateVerdict {
+/** 寬鬆解析合併輸出：缺欄位保守處理（避免誤開門、避免空回覆當真）。 */
+export function parseConverse(raw: string): { reply: string; verdict: GateVerdict } {
   try {
-    const obj = JSON.parse(raw) as Partial<GateVerdict>;
+    const obj = JSON.parse(raw) as Partial<GateVerdict> & { reply?: unknown };
     return {
-      lifeContext: obj.lifeContext === true,
-      realConcern: obj.realConcern === true,
-      notPushy: obj.notPushy !== false,
+      reply: typeof obj.reply === 'string' ? obj.reply : '',
+      verdict: {
+        lifeContext: obj.lifeContext === true,
+        realConcern: obj.realConcern === true,
+        notPushy: obj.notPushy !== false,
+      },
     };
   } catch {
-    return { lifeContext: false, realConcern: false, notPushy: true };
+    return { reply: '', verdict: { lifeContext: false, realConcern: false, notPushy: true } };
   }
 }

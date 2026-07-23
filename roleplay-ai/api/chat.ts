@@ -5,14 +5,14 @@
  */
 import { GoogleGenAI } from '@google/genai';
 
-// ⚠️ 使用者指定的模型字串。正式 model ID 請於 Google AI Studio / Gemini API 文件確認後再改這一行。
-const MODEL = 'gemini-3.6-flash';
+// 使用者指定的模型字串。
+const MODEL = 'gemini-3.5-flash-lite';
 
 // 防呆上限
 const MAX_MESSAGES = 60;
 const MAX_TEXT_LEN = 2000;
 const MAX_SYSTEM_LEN = 8000;
-const OUT_TOKENS = { gate: 256, reply: 512 } as const;
+const OUT_TOKENS = 800;
 
 // best-effort per-IP 速率限制（serverless 實例為短命，故僅為盡力而為；正式可換平台 KV）。
 const WINDOW_MS = 60_000;
@@ -98,15 +98,10 @@ export default async function handler(req: ReqLike, res: ResLike): Promise<void>
     return;
   }
 
-  const task = body?.task;
   const systemInstruction = body?.systemInstruction;
   const messages = body?.messages;
   const responseSchema = body?.responseSchema;
 
-  if (task !== 'gate' && task !== 'reply') {
-    json(res, 400, { error: 'task 必須是 gate 或 reply' });
-    return;
-  }
   if (typeof systemInstruction !== 'string' || systemInstruction.length > MAX_SYSTEM_LEN) {
     json(res, 400, { error: 'systemInstruction 不合法' });
     return;
@@ -132,10 +127,14 @@ export default async function handler(req: ReqLike, res: ResLike): Promise<void>
 
   const config: Record<string, unknown> = {
     systemInstruction,
-    maxOutputTokens: task === 'gate' ? OUT_TOKENS.gate : OUT_TOKENS.reply,
-    temperature: task === 'gate' ? 0 : 0.85,
+    maxOutputTokens: OUT_TOKENS,
+    temperature: 0.7,
+    // 關閉思考預算：Gemini flash 系列預設會「思考」，思考 token 會吃掉 maxOutputTokens，
+    // 導致回覆在中途被截斷。設 0 關閉，回覆更完整、更快、更省。
+    // ⚠️ 若模型不接受 thinkingBudget:0（回 400），刪掉這行、改把 maxOutputTokens 調到 ~2000。
+    thinkingConfig: { thinkingBudget: 0 },
   };
-  if (task === 'gate' && responseSchema && typeof responseSchema === 'object') {
+  if (responseSchema && typeof responseSchema === 'object') {
     config.responseMimeType = 'application/json';
     config.responseSchema = responseSchema;
   }

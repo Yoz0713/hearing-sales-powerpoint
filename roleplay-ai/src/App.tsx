@@ -1,20 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { BACKGROUND_STORY, OPENING_LINE, buildSystemPrompt } from './persona';
 import {
-  ACTOR_SYSTEM_CLOSED,
-  ACTOR_SYSTEM_OPEN,
-  BACKGROUND_STORY,
-  OPENING_LINE,
-} from './persona';
-import {
-  GATE_SCHEMA,
-  GATE_SYSTEM,
+  CONVERSE_SCHEMA,
   INITIAL_GATE_STATE,
   isOpen,
   mergeVerdict,
-  parseVerdict,
+  parseConverse,
   type GateState,
 } from './gate';
-import { askActor, judgeGate, type ChatMsg } from './api';
+import { converse, type ChatMsg } from './api';
 
 const MAX_INPUT = 300;
 const MAX_TURNS = 24; // 使用者發言上限，超過就收尾
@@ -49,14 +43,12 @@ export function App() {
     setError(null);
 
     try {
-      // 1) 判定這一則命中哪些關卡準則
-      const verdict = parseVerdict(await judgeGate(GATE_SYSTEM, GATE_SCHEMA, history));
-      const nextGate = mergeVerdict(gate, verdict);
-      setGate(nextGate);
-
-      // 2) 依關卡狀態選人設，讓客戶回覆
-      const system = isOpen(nextGate) ? ACTOR_SYSTEM_OPEN : ACTOR_SYSTEM_CLOSED;
-      const reply = await askActor(system, history);
+      // 單次呼叫：同時判定這一則命中的準則 + 產生陳先生的回覆。
+      // 系統提示帶入「目前累積關卡狀態」，模型據此決定是否在這一則鬆口。
+      const { reply, verdict } = parseConverse(
+        await converse(buildSystemPrompt(gate), CONVERSE_SCHEMA, history),
+      );
+      setGate(mergeVerdict(gate, verdict));
       setMessages([...history, { role: 'model', text: reply || '……（陳先生沉默了一下）' }]);
     } catch (err) {
       setError(err instanceof Error ? err.message : '連線出了點問題，請再試一次。');

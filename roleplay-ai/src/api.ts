@@ -6,10 +6,9 @@ export interface ChatMsg {
 }
 
 interface ChatRequest {
-  task: 'gate' | 'reply';
   systemInstruction: string;
   messages: ChatMsg[];
-  /** 僅 gate 任務使用：Gemini responseSchema。 */
+  /** Gemini responseSchema（結構化輸出）。 */
   responseSchema?: unknown;
 }
 
@@ -21,22 +20,25 @@ async function postChat(body: ChatRequest): Promise<string> {
   });
   if (!res.ok) {
     const detail = await res.text().catch(() => '');
-    throw new Error(`代理回應 ${res.status}${detail ? `：${detail}` : ''}`);
+    console.error('chat 代理錯誤', res.status, detail);
+    const friendly =
+      res.status === 429
+        ? '陳先生一時忙不過來（系統額度用量已達上限），請稍等一下再試。'
+        : '連線出了點問題，請再試一次。';
+    throw new Error(friendly);
   }
   const data = (await res.json()) as { text?: string };
   return data.text ?? '';
 }
 
-/** 讓客戶（演員）回覆。systemInstruction 依關卡狀態選 closed/open。 */
-export function askActor(systemInstruction: string, messages: ChatMsg[]): Promise<string> {
-  return postChat({ task: 'reply', systemInstruction, messages });
-}
-
-/** 判定最後一則學員訊息命中的關卡準則，回傳 JSON 字串。 */
-export function judgeGate(
+/**
+ * 單次呼叫：同時產生陳先生的回覆與關卡判定。
+ * 回傳結構化輸出的 JSON 字串，交由 gate.parseConverse 解析。
+ */
+export function converse(
   systemInstruction: string,
   responseSchema: unknown,
   messages: ChatMsg[],
 ): Promise<string> {
-  return postChat({ task: 'gate', systemInstruction, messages, responseSchema });
+  return postChat({ systemInstruction, messages, responseSchema });
 }

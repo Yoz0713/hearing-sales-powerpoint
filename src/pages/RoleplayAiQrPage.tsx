@@ -10,7 +10,7 @@ import { motion } from '../tokens/motion';
  *
  * ⚠️ 部署 roleplay-ai App 後，把下面的 ROLEPLAY_URL 換成正式網址，QR 會自動更新。
  */
-const ROLEPLAY_URL = 'https://roleplay-ai.example.com';
+const ROLEPLAY_URL = 'https://hearing-sales-powerpoint-4uei.vercel.app/';
 
 const TASKS = [
   '用開放式問題，問他的生活與感受',
