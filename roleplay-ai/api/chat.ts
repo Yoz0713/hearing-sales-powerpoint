@@ -10,9 +10,10 @@ const MODEL = 'gemini-3.5-flash-lite';
 
 // 防呆上限
 const MAX_MESSAGES = 60;
-const MAX_TEXT_LEN = 2000;
+// 單則上限放寬到 12000，是因為課後回饋會把整份逐字稿當成一則訊息送出。
+const MAX_TEXT_LEN = 12000;
 const MAX_SYSTEM_LEN = 8000;
-const OUT_TOKENS = 800;
+const OUT_TOKENS = 1400;
 
 // best-effort per-IP 速率限制（serverless 實例為短命，故僅為盡力而為；正式可換平台 KV）。
 const WINDOW_MS = 60_000;

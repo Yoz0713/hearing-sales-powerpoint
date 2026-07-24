@@ -70,7 +70,7 @@ export function PlanSelectionPage() {
     <SlideShell className="counseling plan-selection" animate={animate}>
       <header className="plan-selection__heading">
         <p className="counseling-kicker js-plan-kicker">提出方案</p>
-        <h1 className="counseling-title js-plan-title">想推頂級款?</h1>
+        <h1 className="counseling-title js-plan-title">如何提高單價</h1>
         <p className="plan-selection__lead js-plan-lead">
           先抓出客戶預算的上限，再來結合COSI困擾做說明
         </p>
@@ -83,34 +83,34 @@ export function PlanSelectionPage() {
 
         <div className="plan-comparison__paths">
           {COMPARISON_PATHS.map((path, index) => (
-          <article
-            key={path.key}
-            className={`plan-comparison__path plan-comparison__path--${path.key} fragment`}
-            data-fragment-index={index}
-          >
-            <div className="plan-path__head">
-              <span className="plan-path__number">{path.number}</span>
-              <div>
-                <p>{path.eyebrow}</p>
-                <h2>{path.title}</h2>
+            <article
+              key={path.key}
+              className={`plan-comparison__path plan-comparison__path--${path.key} fragment`}
+              data-fragment-index={index}
+            >
+              <div className="plan-path__head">
+                <span className="plan-path__number">{path.number}</span>
+                <div>
+                  <p>{path.eyebrow}</p>
+                  <h2>{path.title}</h2>
+                </div>
+                <span className="plan-path__outcome">{path.outcome}</span>
               </div>
-              <span className="plan-path__outcome">{path.outcome}</span>
-            </div>
 
-            <ol className="plan-path__steps">
-              {path.steps.map((step) => (
-                <li key={step.label}>
-                  <span>{step.label}</span>
-                  <strong>{step.copy}</strong>
-                </li>
-              ))}
-            </ol>
+              <ol className="plan-path__steps">
+                {path.steps.map((step) => (
+                  <li key={step.label}>
+                    <span>{step.label}</span>
+                    <strong>{step.copy}</strong>
+                  </li>
+                ))}
+              </ol>
 
-            <p className="plan-path__conclusion">
-              <span>結果</span>
-              {path.conclusion}
-            </p>
-          </article>
+              <p className="plan-path__conclusion">
+                <span>結果</span>
+                {path.conclusion}
+              </p>
+            </article>
           ))}
         </div>
       </main>

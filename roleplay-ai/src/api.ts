@@ -42,3 +42,15 @@ export function converse(
 ): Promise<string> {
   return postChat({ systemInstruction, messages, responseSchema });
 }
+
+/**
+ * 課後回饋：把整份逐字稿當成單一則使用者訊息送出（不沿用對話歷史，
+ * 避免模型把角色扮演的往返當成自己講過的話）。
+ */
+export function requestReview(
+  systemInstruction: string,
+  responseSchema: unknown,
+  transcript: string,
+): Promise<string> {
+  return postChat({ systemInstruction, messages: [{ role: 'user', text: transcript }], responseSchema });
+}
