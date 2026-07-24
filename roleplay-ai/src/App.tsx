@@ -18,6 +18,8 @@ import {
   type Stage,
 } from './gate';
 import { converse, requestReview, type ChatMsg } from './api';
+import { createMetrics, recordReply, recordSend, type Metrics } from './metrics';
+import { calculateRating } from './rating';
 import { MissionBrief } from './MissionBrief';
 import { useViewportFit } from './useViewportFit';
 
@@ -51,6 +53,8 @@ export function App() {
   const [review, setReview] = useState<ReviewResult | null>(null);
   const [reviewing, setReviewing] = useState(false);
   const [briefOpen, setBriefOpen] = useState(false);
+  // 時間與次數統計。與 gate 分開存，理由見 metrics.ts 的檔頭。
+  const [metrics, setMetrics] = useState<Metrics>(() => createMetrics(Date.now()));
 
   const stage = stageOf(gate);
   const hits = hitCount(gate);
@@ -91,6 +95,9 @@ export function App() {
     setInput('');
     setBusy(true);
     setError(null);
+    // 思考時間在送出當下就結算：訊息已經進對話了，後面呼叫失敗也不該讓這一回合憑空消失。
+    const sentAt = Date.now();
+    setMetrics((m) => recordSend(m, sentAt));
 
     try {
       // 單次呼叫：同時判定這一則命中的準則 + 產生陳先生的回覆。
@@ -99,6 +106,7 @@ export function App() {
         await converse(buildSystemPrompt(gate), CONVERSE_SCHEMA, history),
       );
       setGate(mergeVerdict(gate, verdict));
+      setMetrics((m) => recordReply(m, Date.now(), verdict));
       setMessages([...history, { role: 'model', text: reply || '……（陳先生沉默了一下）' }]);
     } catch (err) {
       setError(err instanceof Error ? err.message : '連線出了點問題，請再試一次。');
@@ -110,7 +118,6 @@ export function App() {
   const openReview = useCallback(async () => {
     if (reviewing) return;
     setReviewing(true);
-    setError(null);
     try {
       const raw = await requestReview(
         buildReviewPrompt(gate, userTurns),
@@ -118,17 +125,19 @@ export function App() {
         formatTranscript(messages),
       );
       setReview(parseReview(raw));
-      setScreen('report');
     } catch {
-      setError('回饋還沒產出來，請再按一次。');
+      setReview(null);
     } finally {
       setReviewing(false);
+      // 評等與數據是本機算的，講師點評抓不到也要看得到；報告頁裡再給重試。
+      setScreen('report');
     }
   }, [reviewing, gate, userTurns, messages]);
 
   const restart = () => {
     setMessages([{ role: 'model', text: OPENING_LINE }]);
     setGate(INITIAL_GATE_STATE);
+    setMetrics(createMetrics(Date.now()));
     setInput('');
     setError(null);
     setReview(null);
@@ -143,7 +152,14 @@ export function App() {
           <MissionBrief />
         </div>
         <footer className="brief-foot">
-          <button className="btn btn--go" onClick={() => setScreen('chat')}>
+          <button
+            className="btn btn--go"
+            onClick={() => {
+              // 思考時間從進門市那一刻開始算，第一句才有起點。
+              setMetrics(createMetrics(Date.now()));
+              setScreen('chat');
+            }}
+          >
             進入門市
           </button>
         </footer>
@@ -151,7 +167,8 @@ export function App() {
     );
   }
 
-  if (screen === 'report' && review) {
+  if (screen === 'report') {
+    const rating = calculateRating(gate, metrics, userTurns);
     return (
       <main className="screen screen--report">
         <div className="report-scroll">
@@ -169,9 +186,52 @@ export function App() {
             ))}
           </ol>
 
-          {review.summary && <p className="report-summary">{review.summary}</p>}
+          {/* 評等：等級 + 三軸拆解。分數不做黑箱，每一軸都把依據的原始數字放在旁邊。 */}
+          <section className={`rating rating--${rating.tier.toLowerCase()}`}>
+            <div className="rating__head">
+              <span className="rating__tier">{rating.tier}</span>
+              <div className="rating__id">
+                <p className="rating__title">{rating.title}</p>
+                <p className="rating__score">
+                  <span className="rating__score-num">{rating.score}</span>
+                  <span className="rating__score-max">/ 100</span>
+                </p>
+              </div>
+            </div>
 
-          {review.didWell.length > 0 && (
+            <dl className="rating__axes">
+              {rating.axes.map((axis) => (
+                <div className="rating__axis" key={axis.key}>
+                  <dt>{axis.label}</dt>
+                  <dd className="rating__axis-evidence">{axis.evidence}</dd>
+                  <dd className="rating__axis-score">{axis.score}</dd>
+                </div>
+              ))}
+            </dl>
+
+            <p className="rating__aside">
+              平均思考{' '}
+              <span className="rating__aside-num">
+                {rating.avgThoughtSec === null ? '—' : rating.avgThoughtSec.toFixed(1)}
+              </span>{' '}
+              秒／句
+              <span className="rating__aside-note">不列入評分</span>
+            </p>
+          </section>
+
+          {!review && (
+            <section className="report-block report-block--retry">
+              <h2>講師點評</h2>
+              <p className="report-item__detail">點評這次沒有載入。上面的評等與數據是本機算的，不受影響。</p>
+              <button className="btn btn--ghost" onClick={() => void openReview()} disabled={reviewing}>
+                {reviewing ? '重抓中…' : '重抓點評'}
+              </button>
+            </section>
+          )}
+
+          {review?.summary && <p className="report-summary">{review.summary}</p>}
+
+          {review && review.didWell.length > 0 && (
             <section className="report-block report-block--good">
               <h2>你做對的地方</h2>
               {review.didWell.map((item, i) => (
@@ -183,7 +243,7 @@ export function App() {
             </section>
           )}
 
-          {review.toImprove.length > 0 && (
+          {review && review.toImprove.length > 0 && (
             <section className="report-block report-block--work">
               <h2>下次可以更好</h2>
               {review.toImprove.map((item, i) => (
@@ -195,7 +255,7 @@ export function App() {
             </section>
           )}
 
-          {review.keyMoment && (
+          {review?.keyMoment && (
             <section className="report-block report-block--key">
               <h2>關鍵訊號</h2>
               <p className="report-item__detail">{review.keyMoment}</p>
@@ -248,11 +308,17 @@ export function App() {
             <span /><span /><span />
           </div>
         )}
-        {/* 教練提示：一次只出現一則，優先講最急的那件事。 */}
+        {/*
+          教練提示：一次只出現一則。
+          先講「你剛剛那一則」的問題（離題／時機未到／太推銷），這幾則任何階段都要能出現；
+          都沒問題時才回到階段層級的指引。順序＝優先權，別依賴階段去擋訊息層級的提示。
+        */}
         {!busy && (() => {
+          if (gate.lastOffTopic)
+            return <p className="coach-hint">陳先生聽不懂這句話。回到他的聽力、生活和感受上。</p>;
           if (gate.lastInviteDeclined)
             return <p className="coach-hint">他還沒準備好。先把他真正的擔心接住，再邀請他。</p>;
-          if (stage === 'closed' && !gate.lastNotPushy)
+          if (!gate.lastNotPushy)
             return <p className="coach-hint">先別急著介紹產品，試著多問問他的生活與感受。</p>;
           if (stage === 'open')
             return (

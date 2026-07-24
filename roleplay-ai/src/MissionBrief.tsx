@@ -7,10 +7,7 @@ import { MISSION } from './persona';
 export function MissionBrief() {
   return (
     <>
-      <p className="brief-eyebrow">
-        <span className="brief-eyebrow__mark" aria-hidden="true" />
-        任務簡報
-      </p>
+
 
       <blockquote className="brief-quote">
         {MISSION.blockLine.split('\n').map((line, i) => (

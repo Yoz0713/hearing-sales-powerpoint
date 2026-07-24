@@ -347,7 +347,7 @@ export const slides: SlideEntry[] = [
   {
     id: 'roleplay-ai-qr',
     chapter: '異議實戰',
-    title: '掃碼，讓這位難搞的客人開口',
+    title: '隨堂測驗',
     previewShape: 'split',
     component: RoleplayAiQrPage,
   },

@@ -18,6 +18,11 @@ export interface GateVerdict {
   invited: boolean;
   /** 這一則是否「沒有」急著介紹產品／報價／說服（true = 沒有推銷）。 */
   notPushy: boolean;
+  /**
+   * 這一則是否離題／無厘頭／亂碼，與這場諮詢無關。
+   * 獨立於 notPushy：離題不是推銷，硬塞進 notPushy 只會讓教練提示對不上學員說的話。
+   */
+  offTopic: boolean;
 }
 
 /** 累積的關卡狀態（跨回合累加）。 */
@@ -34,6 +39,8 @@ export interface GateState {
   lastNotPushy: boolean;
   /** 最近一則是否邀約被婉拒（供即時教練提示）。 */
   lastInviteDeclined: boolean;
+  /** 最近一則是否離題（供即時教練提示）。 */
+  lastOffTopic: boolean;
 }
 
 export const INITIAL_GATE_STATE: GateState = {
@@ -44,6 +51,7 @@ export const INITIAL_GATE_STATE: GateState = {
   earlyInvites: 0,
   lastNotPushy: true,
   lastInviteDeclined: false,
+  lastOffTopic: false,
 };
 
 /** 對話階段。 */
@@ -68,6 +76,11 @@ export function stageOf(state: GateState): Stage {
  * 邀約則允許同一則同時「回應顧慮 + 提出邀約」（真實銷售常見的自然說法）。
  */
 export function mergeVerdict(state: GateState, v: GateVerdict): GateState {
+  // 離題的訊息不推進任何關卡：亂打一通不該解鎖進度，也不該被當成推銷或邀約。
+  if (v.offTopic) {
+    return { ...state, lastNotPushy: true, lastInviteDeclined: false, lastOffTopic: true };
+  }
+
   const wasOpen = isOpen(state);
   const addressedConcern = state.addressedConcern || (wasOpen && v.addressedConcern);
   const inviteWelcome = wasOpen && addressedConcern;
@@ -82,11 +95,12 @@ export function mergeVerdict(state: GateState, v: GateVerdict): GateState {
     earlyInvites: state.earlyInvites + (declined ? 1 : 0),
     lastNotPushy: v.notPushy,
     lastInviteDeclined: declined,
+    lastOffTopic: false,
   };
 }
 
 /**
- * Gemini responseSchema（OpenAPI 子集）：五個布林 + reply。
+ * Gemini responseSchema（OpenAPI 子集）：六個布林 + reply。
  * 型別用大寫字串，對應 @google/genai 的 Type 列舉值，以純物件從前端傳到代理函式。
  * 註：不放 propertyOrdering，避免部分模型對此欄位回 400。
  */
@@ -98,9 +112,18 @@ export const CONVERSE_SCHEMA = {
     addressedConcern: { type: 'BOOLEAN' },
     invited: { type: 'BOOLEAN' },
     notPushy: { type: 'BOOLEAN' },
+    offTopic: { type: 'BOOLEAN' },
     reply: { type: 'STRING' },
   },
-  required: ['lifeContext', 'realConcern', 'addressedConcern', 'invited', 'notPushy', 'reply'],
+  required: [
+    'lifeContext',
+    'realConcern',
+    'addressedConcern',
+    'invited',
+    'notPushy',
+    'offTopic',
+    'reply',
+  ],
 } as const;
 
 /** 課後回饋報告的結構。 */
@@ -161,6 +184,7 @@ export function parseConverse(raw: string): { reply: string; verdict: GateVerdic
         addressedConcern: obj.addressedConcern === true,
         invited: obj.invited === true,
         notPushy: obj.notPushy !== false,
+        offTopic: obj.offTopic === true,
       },
     };
   } catch {
@@ -172,6 +196,7 @@ export function parseConverse(raw: string): { reply: string; verdict: GateVerdic
         addressedConcern: false,
         invited: false,
         notPushy: true,
+        offTopic: false,
       },
     };
   }
