@@ -45,29 +45,29 @@
 .decision-diagnostic__head,
 .hesitation-path {
   display: grid;
-  grid-template-columns: 0.78fr 1.15fr 1.62fr;
+  grid-template-columns: 0.7fr 1.24fr 1.53fr;
   column-gap: 24px;
 }
 
 .decision-diagnostic__head {
   flex: 0 0 auto;
-  padding: 0 0 12px 30px;
-  color: rgba(69, 95, 81, 0.5);
-  font-size: 18px;
+  padding: 0 0 14px 30px;
+  color: rgba(69, 95, 81, 0.62);
+  font-size: 19px;
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.1em;
 }
 
-/* 第三欄表頭往內縮，對齊回補區塊自己的內距。 */
+/* 第三欄表頭往內縮，對齊回補區塊的色點左緣。 */
 .decision-diagnostic__head span:last-child {
-  padding-left: 62px;
+  padding-left: 74px;
 }
 
 .decision-diagnostic__rows {
   display: grid;
   grid-template-rows: repeat(3, minmax(0, 1fr));
   flex: 1 1 auto;
-  gap: 18px;
+  gap: 20px;
   min-height: 0;
 }
 
@@ -78,7 +78,7 @@
   min-width: 0;
   min-height: 0;
   padding-left: 28px;
-  border: 2px solid rgba(69, 95, 81, 0.16);
+  border: 2px solid rgba(69, 95, 81, 0.18);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.9);
   overflow: hidden;
@@ -90,7 +90,7 @@
   margin: 0;
   color: var(--color-text-heading);
   font-family: var(--font-family-display);
-  font-size: 34px;
+  font-size: 38px;
   font-weight: var(--font-weight-bold);
   line-height: 1.24;
 }
