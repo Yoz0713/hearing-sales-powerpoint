@@ -107,13 +107,15 @@
   transform: rotate(45deg);
 }
 
+/* text-indent 抵銷全形「的字身左留白，讓引言與表頭真正切齊。 */
 .hesitation-path__voice {
   margin: 0;
   color: rgba(0, 0, 0, 0.72);
   font-family: var(--font-family-display);
-  font-size: 25px;
+  font-size: 27px;
   font-weight: var(--font-weight-regular);
   line-height: 1.45;
+  text-indent: -0.4em;
 }
 
 /* 回補區：切齊卡片右緣的語意色塊，是每一列的視覺重心。 */
@@ -124,29 +126,29 @@
   flex-direction: column;
   justify-content: center;
   min-width: 0;
-  padding: 20px 28px 20px 62px;
-  background: rgba(69, 95, 81, 0.06);
+  padding: 20px 28px 20px 74px;
+  background: rgba(69, 95, 81, 0.08);
 }
 
 /* 全頁唯一朝左的元素：判斷完要回到前面的步驟，不是繼續往前推。 */
 .hesitation-path__turn {
   position: absolute;
   top: 50%;
-  left: 20px;
-  width: 26px;
-  height: 2px;
-  margin-top: -1px;
+  left: 22px;
+  width: 34px;
+  height: 3px;
+  margin-top: -2px;
   background: currentColor;
 }
 
 .hesitation-path__turn::after {
   position: absolute;
-  top: -5px;
+  top: -6px;
   left: -1px;
-  width: 10px;
-  height: 10px;
-  border-bottom: 2px solid currentColor;
-  border-left: 2px solid currentColor;
+  width: 13px;
+  height: 13px;
+  border-bottom: 3px solid currentColor;
+  border-left: 3px solid currentColor;
   content: '';
   transform: rotate(45deg);
 }
@@ -157,7 +159,7 @@
   gap: 12px;
   margin: 0;
   color: var(--color-text-heading);
-  font-size: 25px;
+  font-size: 27px;
   font-weight: var(--font-weight-bold);
   line-height: 1.28;
 }
@@ -172,20 +174,20 @@
 }
 
 .hesitation-path__move {
-  margin-top: 10px;
+  margin-top: 12px;
   color: rgba(0, 0, 0, 0.72);
-  font-size: 24px;
+  font-size: 25px;
   font-weight: var(--font-weight-semibold);
   line-height: 1.4;
 }
 
 /* ---- 三種病因的語意色：只用在邊框、色點、回補底色，文字一律維持深色 ---- */
 .hesitation-path--necessity {
-  border-color: rgba(78, 179, 207, 0.34);
+  border-color: rgba(78, 179, 207, 0.42);
 }
 
 .hesitation-path--necessity .hesitation-path__return {
-  background: rgba(78, 179, 207, 0.1);
+  background: rgba(78, 179, 207, 0.17);
 }
 
 .hesitation-path--necessity .hesitation-path__turn,
@@ -194,11 +196,11 @@
 }
 
 .hesitation-path--effect {
-  border-color: rgba(238, 123, 8, 0.34);
+  border-color: rgba(238, 123, 8, 0.42);
 }
 
 .hesitation-path--effect .hesitation-path__return {
-  background: rgba(238, 123, 8, 0.09);
+  background: rgba(238, 123, 8, 0.14);
 }
 
 .hesitation-path--effect .hesitation-path__turn,
@@ -207,11 +209,11 @@
 }
 
 .hesitation-path--decision-maker {
-  border-color: rgba(55, 167, 111, 0.34);
+  border-color: rgba(55, 167, 111, 0.42);
 }
 
 .hesitation-path--decision-maker .hesitation-path__return {
-  background: rgba(55, 167, 111, 0.1);
+  background: rgba(55, 167, 111, 0.15);
 }
 
 .hesitation-path--decision-maker .hesitation-path__turn,
@@ -227,7 +229,7 @@
   gap: 22px;
   min-height: 74px;
   box-sizing: border-box;
-  margin-top: 20px;
+  margin-top: 28px;
   padding: 15px 24px 17px;
   border-left: 10px solid var(--color-brand-primary-bright);
   color: var(--color-text-on-brand);
