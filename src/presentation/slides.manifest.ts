@@ -1,6 +1,5 @@
 import type { Chapter, PreviewShape, SlideEntry } from '../types/presentation';
 import { CoverPage } from '../pages/CoverPage';
-import { CoursePositioningPage } from '../pages/CoursePositioningPage';
 import { CourseObjectivesPage } from '../pages/CourseObjectivesPage';
 import { WarmupExperiencePage } from '../pages/WarmupExperiencePage';
 import { SalesBehaviorContrastPage } from '../pages/SalesBehaviorContrastPage';
@@ -46,13 +45,12 @@ import { ObjectionStepsPage } from '../pages/ObjectionStepsPage';
 import { ObjectionPricePage } from '../pages/ObjectionPricePage';
 import { ObjectionWaitDependencyPage } from '../pages/ObjectionWaitDependencyPage';
 import { ObjectionFamilyConsiderPage } from '../pages/ObjectionFamilyConsiderPage';
-import { RoleplayBriefPage } from '../pages/RoleplayBriefPage';
 import { RoleplayAiQrPage } from '../pages/RoleplayAiQrPage';
+import { RoleplayObserverPage } from '../pages/RoleplayObserverPage';
 import { SummaryUnderstandPage } from '../pages/SummaryUnderstandPage';
 import { SummaryDecisionPage } from '../pages/SummaryDecisionPage';
 import { ActionCommitmentPage } from '../pages/ActionCommitmentPage';
 import { BreakPage } from '../pages/BreakPage';
-import { outlineDraftSlides as draft } from './outline-draft.slides';
 
 export const slides: SlideEntry[] = [
   { id: 'cover', chapter: '課程導覽', title: '銷售經驗分享', previewShape: 'cover', component: CoverPage },
@@ -69,13 +67,6 @@ export const slides: SlideEntry[] = [
     title: '認識自己',
     previewShape: 'cover',
     component: SelfAwarenessChapterPage,
-  },
-  {
-    id: 'course-positioning',
-    chapter: '開場與風格',
-    title: '從介紹產品，到協助客戶做決定',
-    previewShape: 'split',
-    component: CoursePositioningPage,
   },
   {
     id: 'warmup-experience',
@@ -120,20 +111,12 @@ export const slides: SlideEntry[] = [
     component: ResistanceReasonsPage,
   },
   {
-    id: 'counseling-hidden-motive',
-    chapter: '改變動機',
-    title: '客戶說出口的，只是冰山一角',
-    previewShape: 'content',
-    component: CounselingHiddenMotivePage,
-  },
-  {
     id: 'resistance-case',
     chapter: '改變動機',
     title: '王先生不是不需要，而是還沒準備好',
     previewShape: 'split',
     component: ResistanceCasePage,
   },
-  draft.resistanceGuidance,
   {
     id: 'break-page',
     chapter: '改變動機',
@@ -154,6 +137,16 @@ export const slides: SlideEntry[] = [
     title: '第一印象',
     previewShape: 'cover',
     component: ImpressionChapterPage,
+  },
+  // 客戶一進門講的是防備話（問題）→ 下一頁的第一印象目標就是讓他敢說真話（解法）。
+  // chapter 必須是「選配流程」：deriveChapters 依相鄰相同 chapter 聚合，
+  // 沿用舊的「改變動機」會在這裡切出一個只有一頁的假章節。
+  {
+    id: 'counseling-hidden-motive',
+    chapter: '選配流程',
+    title: '客戶說出口的，只是冰山一角',
+    previewShape: 'content',
+    component: CounselingHiddenMotivePage,
   },
   {
     id: 'reception-trust',
@@ -207,7 +200,7 @@ export const slides: SlideEntry[] = [
   {
     id: 'counseling-history',
     chapter: '選配流程',
-    title: '病史詢問，看見耳朵之外的全貌',
+    title: '病史問得深，後續才有切入點',
     previewShape: 'content',
     component: CounselingHistoryPage,
   },
@@ -298,7 +291,7 @@ export const slides: SlideEntry[] = [
   {
     id: 'decision-methods',
     chapter: '選配流程',
-    title: '成交不是施壓，是幫客戶整理決定',
+    title: '客戶仍然猶豫，就先不要再推',
     previewShape: 'content',
     component: DecisionMethodsPage,
   },
@@ -338,20 +331,19 @@ export const slides: SlideEntry[] = [
     component: ObjectionFamilyConsiderPage,
   },
   {
-    id: 'roleplay-brief',
-    chapter: '異議實戰',
-    title: '三分鐘顧問式對話',
-    previewShape: 'split',
-    component: RoleplayBriefPage,
-  },
-  {
     id: 'roleplay-ai-qr',
     chapter: '異議實戰',
     title: '隨堂測驗',
     previewShape: 'split',
     component: RoleplayAiQrPage,
   },
-  draft.roleplayObserver,
+  {
+    id: 'roleplay-observer',
+    chapter: '異議實戰',
+    title: '觀察的不是話術，是客戶有沒有被理解',
+    previewShape: 'content',
+    component: RoleplayObserverPage,
+  },
   {
     id: 'summary-understand',
     chapter: '課程總結',

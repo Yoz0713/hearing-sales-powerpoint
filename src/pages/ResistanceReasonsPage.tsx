@@ -26,7 +26,7 @@ const REASON_ZONES: ReasonZone[] = [
   {
     key: 'awareness',
     label: '病識感',
-    prompt: '問題離自己還很遠',
+    prompt: '不願意承認',
     reasons: [
       { text: '我沒有那麼嚴重', x: '8%', y: '28%', rotate: '-2deg', size: '44px', decoration: 'underline' },
       { text: '現在還能忍', x: '50%', y: '51%', rotate: '2deg', size: '39px', decoration: 'circle' },
@@ -36,7 +36,7 @@ const REASON_ZONES: ReasonZone[] = [
   {
     key: 'identity',
     label: '身份焦慮',
-    prompt: '害怕改變別人眼中的自己',
+    prompt: '害怕被貼標籤',
     reasons: [
       { text: '戴了就代表老了', x: '27%', y: '31%', rotate: '2deg', size: '44px', decoration: 'circle' },
       { text: '我怕以後會依賴', x: '45%', y: '66%', rotate: '-2deg', size: '39px', decoration: 'slash' },
@@ -109,7 +109,7 @@ export function ResistanceReasonsPage() {
         <div className="resistance-wall__intro">
           <h1 className="resistance-wall__title js-reasons-title">客戶為什麼不願意現在處理？</h1>
           <p className="resistance-wall__lead js-reasons-lead">
-            不是藉口，而是還沒有被理解的顧慮。
+            不一定是藉口，而是還沒有被理解的顧慮。
           </p>
         </div>
 

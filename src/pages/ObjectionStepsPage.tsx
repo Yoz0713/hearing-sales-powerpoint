@@ -63,10 +63,10 @@ export function ObjectionStepsPage() {
   return (
     <SlideShell className="counseling objection-steps" animate={animate}>
       <header className="objection-steps__heading">
-        <p className="counseling-kicker js-objection-kicker">異議處理</p>
-        <h1 className="counseling-title js-objection-title">異議不是拒絕，是還有疑慮沒被理解</h1>
+        <p className="counseling-kicker js-objection-kicker">顧慮處理</p>
+        <h1 className="counseling-title js-objection-title">考慮不是拒絕，是還有疑慮沒被理解</h1>
         <p className="objection-steps__lead js-objection-lead">
-          每一句異議，都是一個還沒被接住的顧慮。
+          每一句再想看看，都是一個個還沒被了解的顧慮。
         </p>
         <span className="objection-steps__rule js-objection-rule" aria-hidden="true" />
       </header>

@@ -111,9 +111,8 @@ export function CounselingHiddenMotivePage() {
         </div>
 
         <footer className="unspoken__close fragment" data-fragment-index={INSIGHTS.length + 1}>
-          <span className="unspoken__close-eyebrow">先接住情緒，再談方案</span>
           <p className="unspoken__close-text">
-            客戶不是不說，是還沒覺得安全。別急著推銷——先讓他願意把水面下的話講出來。
+            客戶不是不說，是還沒覺得安全。別急著推銷——先讓他願意把內心話講出來。
           </p>
         </footer>
       </main>

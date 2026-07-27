@@ -3,33 +3,33 @@ import { gsap } from 'gsap';
 import { SlideShell } from '../components/layouts/SlideShell';
 import { motion } from '../tokens/motion';
 
-const METHODS = [
+const HESITATION_PATHS = [
   {
-    key: 'summary',
-    name: '總結式',
-    question: '把客戶已經說過的話，整理成一個決定。',
-    cue: '目標　／　試聽感受　／　目前顧慮',
-    line: '「您最在意的是聚餐聽清楚；剛才也感受到人聲更容易辨識。」',
+    key: 'necessity',
+    question: '卡在哪裡？',
+    answer: '「我覺得現在還好，還沒有非戴不可。」',
+    diagnosis: '介入必要性還沒成立',
+    nextMove: '回到病史、COSI 與報告，讓他自己說出生活影響。',
   },
   {
-    key: 'choice',
-    name: '二選一',
-    question: '把差異說清楚，讓客戶依優先順序選。',
-    cue: '預算先控制　或　多人情境處理能力',
-    line: '「您想先保留預算彈性，還是把聚餐時的處理能力放在前面？」',
+    key: 'effect',
+    question: '還有什麼疑慮？',
+    answer: '「不確定戴了有沒有差，也怕自己戴不習慣。」',
+    diagnosis: '效果還沒被感覺',
+    nextMove: '回到最在意的場景試聽，只驗證一個具體差異。',
   },
   {
-    key: 'action',
-    name: '行動式',
-    question: '方向明確後，才一起約定下一步。',
-    cue: '確認方向　→　安排下一個具體行動',
-    line: '「如果方向已經清楚，我們就把下一步安排好。」',
+    key: 'decision-maker',
+    question: '誰需要一起討論？',
+    answer: '「我要回去問女兒，她也會一起決定。」',
+    diagnosis: '關鍵決策者不在場',
+    nextMove: '邀請家人加入，同步理解結果、需求與方案差異。',
   },
 ] as const;
 
-/** D24：三種收尾不是話術選單，而是幫客戶整理已經形成的決定。 */
+/** D24：客戶猶豫時，先診斷是哪一段尚未完成，再回到前段補足。 */
 export function DecisionMethodsPage() {
-  // GSAP 僅負責頁首進場；收尾路徑與猶豫迴圈交給 Reveal fragments。
+  // GSAP 僅負責頁首進場；三條診斷路徑與結論交給 Reveal fragments。
   const animate = useCallback((scope: HTMLElement) => {
     gsap.timeline({ defaults: { ease: motion.ease.standard } })
       .from(scope.querySelector('.js-decision-kicker'), {
@@ -52,33 +52,46 @@ export function DecisionMethodsPage() {
     <SlideShell className="counseling decision-methods" animate={animate}>
       <header className="decision-methods__heading">
         <p className="counseling-kicker js-decision-kicker">最後決定</p>
-        <h1 className="counseling-title js-decision-title">成交不是施壓，是幫客戶整理決定</h1>
+        <h1 className="counseling-title js-decision-title">客戶仍然猶豫，就先不要再推</h1>
         <p className="decision-methods__lead js-decision-lead">
-          同一個客戶，可以用不同方式收尾；共同目的只有一個：讓決定回到客戶手上。
+          猶豫通常不是最後一句話沒說好，而是前面有一段還沒完成。
         </p>
+        <span className="decision-methods__rule" aria-hidden="true" />
       </header>
 
-      <main className="decision-methods__paths" aria-label="三種自然推進方式">
-        {METHODS.map((method, index) => (
-          <article
-            key={method.key}
-            className={`decision-path decision-path--${method.key} fragment`}
-            data-fragment-index={index}
-          >
-            <p className="decision-path__name">{method.name}</p>
-            <h2>{method.question}</h2>
-            <p className="decision-path__cue">{method.cue}</p>
-            <blockquote>{method.line}</blockquote>
-          </article>
-        ))}
+      <main className="decision-diagnostic" aria-label="客戶猶豫時的三條診斷路徑">
+        <div className="decision-diagnostic__head" aria-hidden="true">
+          <span>先問</span>
+          <span>客戶可能在說</span>
+          <span>判斷後，回到前段補</span>
+        </div>
+
+        <div className="decision-diagnostic__rows">
+          {HESITATION_PATHS.map((path, index) => (
+            <article
+              key={path.key}
+              className={`hesitation-path hesitation-path--${path.key} fragment`}
+              data-fragment-index={index}
+            >
+              <h2 className="hesitation-path__ask">{path.question}</h2>
+              <blockquote className="hesitation-path__voice">{path.answer}</blockquote>
+              <div className="hesitation-path__return">
+                {/* 全頁唯一朝左的元素：回補的方向與前兩欄相反。 */}
+                <span className="hesitation-path__turn" aria-hidden="true" />
+                <p className="hesitation-path__diagnosis">{path.diagnosis}</p>
+                <strong className="hesitation-path__move">{path.nextMove}</strong>
+              </div>
+            </article>
+          ))}
+        </div>
       </main>
 
-      <footer className="decision-methods__loop fragment" data-fragment-index={METHODS.length}>
-        <div>
-          <p>如果客戶仍然猶豫</p>
-          <strong>不要再推一次，先回到理解。</strong>
-        </div>
-        <p className="decision-loop__questions">卡在哪裡？　還有什麼疑慮？　誰需要一起討論？</p>
+      <footer
+        className="decision-methods__close fragment"
+        data-fragment-index={HESITATION_PATHS.length}
+      >
+        <span>先找出哪一段沒完成，再回去補</span>
+        <strong>不要把同一套產品再講一次。</strong>
       </footer>
     </SlideShell>
   );

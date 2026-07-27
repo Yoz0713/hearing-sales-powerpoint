@@ -36,6 +36,10 @@ const PROCESS_STAGES: ProcessStage[] = [
   },
 ];
 
+const PROCESS_STEPS = PROCESS_STAGES.flatMap((stage) => (
+  stage.steps.map((title) => ({ stage: stage.key, title }))
+));
+
 const TEN_DOTS = Array.from({ length: 10 }, (_, index) => index);
 
 /** D14：用三個客戶決策問題統整十個顧問式選配步驟。 */
@@ -66,20 +70,14 @@ export function ConsultativeProcessOverviewPage() {
         duration: motion.duration.slow,
         ease: motion.ease.emphasis,
       }, '-=0.46')
-      .from(scope.querySelectorAll('.js-process-overview-stage'), {
-        y: 62,
-        scale: 0.96,
+      // 每一步自帶一段時間軸，逐一進場時這條線就像由左往右畫出來。
+      .from(scope.querySelectorAll('.js-process-overview-step'), {
+        y: 20,
         opacity: 0,
         duration: motion.duration.base,
-        stagger: 0.12,
+        stagger: 0.055,
         ease: motion.ease.emphasis,
-      }, '-=0.3')
-      .from(scope.querySelector('.js-process-overview-track'), {
-        scaleX: 0,
-        transformOrigin: 'left center',
-        duration: motion.duration.slow,
-        ease: motion.ease.emphasis,
-      }, '-=0.22');
+      }, '-=0.42');
   }, []);
 
   return (
@@ -114,35 +112,43 @@ export function ConsultativeProcessOverviewPage() {
           </div>
         </div>
 
-        <div className="process-overview__path" aria-label="顧問式選配的三個決策階段">
-          <div className="process-overview__track js-process-overview-track" aria-hidden="true" />
-          {PROCESS_STAGES.map((stage, index) => (
-            <article
-              key={stage.key}
-              className={`process-overview__phase process-overview__phase--${stage.key} process-overview__phase--span-${stage.span} js-process-overview-stage`}
-            >
-              <span className="process-overview__phase-index" aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <blockquote>{stage.question}</blockquote>
-              <h2>{stage.title}</h2>
-              <ul
-                className="process-overview__steps fragment"
+        {/*
+          問題在上、流程在下，共用同一個 10 欄網格：面板跨 4／3／3 欄，
+          正好蓋住它所回答的那幾步。對應關係靠「精確對齊＋共用階段色」講完，
+          不需要再加括號或連接線。
+        */}
+        <div className="process-overview__map">
+          <div className="process-overview__questions" aria-label="客戶心裡的三個問題">
+            {PROCESS_STAGES.map((stage, index) => (
+              <article
+                key={stage.key}
+                className={`process-question process-question--${stage.key} process-question--span-${stage.span} fragment`}
                 data-fragment-index={index}
-                style={{ gridTemplateColumns: `repeat(${stage.steps.length}, minmax(0, 1fr))` }}
-                aria-label={`${stage.title}所包含的步驟`}
               >
-                {stage.steps.map((step) => (
-                  <li key={step}><span>{step}</span></li>
-                ))}
-              </ul>
-            </article>
-          ))}
+                <p className="process-question__label">
+                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  {stage.title}
+                </p>
+                <blockquote className="process-question__ask">{stage.question}</blockquote>
+              </article>
+            ))}
+          </div>
+
+          <ol className="process-overview__flow" aria-label="顧問式選配的十個流程">
+            {PROCESS_STEPS.map((step, index) => (
+              <li
+                key={step.title}
+                className={`process-step process-step--${step.stage} js-process-overview-step`}
+              >
+                <span className="process-step__index">{String(index + 1).padStart(2, '0')}</span>
+                <strong className="process-step__name">{step.title}</strong>
+              </li>
+            ))}
+          </ol>
         </div>
 
         <footer className="process-overview__handoff fragment" data-fragment-index={3}>
-          <p><strong>十步</strong>是工作順序，<strong>三階段</strong>才是客戶的決策歷程。</p>
-
+          <p>我們的流程有<strong>十個</strong>階段，但客戶心裡只有<strong>三個問題</strong>。</p>
         </footer>
       </main>
     </SlideShell>

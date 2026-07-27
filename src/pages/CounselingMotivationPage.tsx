@@ -11,13 +11,18 @@ export function CounselingMotivationPage() {
       .from(scope.querySelector('.js-motivation-intro'), { opacity: 0, duration: motion.duration.base }, '-=0.15');
   }, []);
 
+  /**
+   * 一律是客戶自己的主訴，不放「醫生叫我來／藥局轉介」這類轉介型說法——
+   * 那是冰山頁（接待現場的防備話）的守備範圍。這一頁講的是另一種失敗：
+   * 客戶講的是真話，但每一句都還不夠具體到可以選配。維持 6 筆，版面才不會破。
+   */
   const motives = [
-    '醫生叫我來',
-    '沒做過覺得新奇',
-    '藥局同仁轉介',
-    '想買助聽器',
-    '耳鳴不舒服',
     '聽不清楚',
+    '耳鳴不舒服',
+    '想試看看助聽器',
+    '電視要開很大聲',
+    '講電話很吃力',
+    '想知道有沒有退化',
   ];
 
   return (
@@ -25,12 +30,12 @@ export function CounselingMotivationPage() {
       <p className="counseling-kicker js-motivation-kicker">衛教與諮商</p>
       <h1 className="counseling-title js-motivation-title">好不好奇，客戶為什麼來？</h1>
       <p className="counseling-intro js-motivation-intro">
-        聽力師常遇到各種檢查動機，但這些往往只是「表面動機」。
+        這些都是客戶的真話——但沒有一句，足夠你做選配。
       </p>
 
       <div className="motivation-container">
         <div className="motivation-side motivation-side--left">
-          <h2 className="motivation-subtitle">常見的來訪動機</h2>
+          <h2 className="motivation-subtitle">客戶最常講的困擾</h2>
           <div className="motive-grid">
             <div className="motive-group fragment" data-fragment-index="1">
               {motives.slice(0, 3).map((m, idx) => (
@@ -53,16 +58,16 @@ export function CounselingMotivationPage() {
 
         <div className="motivation-side motivation-side--right">
           <div className="motivation-question-box fragment" data-fragment-index="3">
-            <h3 className="motivation-question-title">真的只是這樣嗎？</h3>
+            <h3 className="motivation-question-title">這樣夠你選配嗎？</h3>
           </div>
 
           <div className="motivation-truth-box fragment" data-fragment-index="4">
-            <h2 className="motivation-truth-title">懷疑表面動機，尋找真實場景</h2>
+            <h2 className="motivation-truth-title">問到人事時地物，才叫需求</h2>
             <p className="motivation-truth-desc">
-              「只是藥局同仁轉介來檢查就來了……」
+              他說：「我就是聽不清楚。」
             </p>
             <p className="motivation-truth-insight">
-              其實，客戶可能早已在日常生活中（例如家人抱怨電視開太大聲、溝通時常漏聽），感受到聽力困難，我們要做的就是盡可能挖掘這些客戶較深的需求。
+              「聽不清楚」是症狀，不是需求。要再追下去：跟誰講話？在什麼場合？多久發生一次？聽不到的當下會發生什麼事？——追到這一層，才有東西可以選配。
             </p>
           </div>
         </div>

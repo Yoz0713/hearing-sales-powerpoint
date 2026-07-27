@@ -174,7 +174,7 @@ export function ImpressionRhythmPage() {
       animate={animate}
     >
       <header className="impression-rhythm__heading">
-        <h1 className="impression-rhythm__title js-rhythm-title">什麼時候該表現出嚴肅感？</h1>
+        <h1 className="impression-rhythm__title js-rhythm-title">什麼時候要停止輕鬆的氛圍?</h1>
       </header>
 
       <div ref={stageRef} className="impression-rhythm__stage">

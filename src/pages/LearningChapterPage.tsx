@@ -30,8 +30,8 @@ const CUSTOMER_UNDERSTANDING: LearningChapterSpec = {
   title: '理解客戶',
   lead: '先聽懂沒有行動背後的顧慮，才能找到真正的改變理由。',
   orbitWords: ['表面', '顧慮', '動機'],
-  path: ['聽見表面', '理解顧慮', '找到動機'],
-  ghostWord: '靠近',
+  path: ['質疑表面', '理解顧慮', '找到動機'],
+  ghostWord: '傾聽',
 };
 
 function LearningChapterPage({ spec }: { spec: LearningChapterSpec }) {

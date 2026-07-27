@@ -82,7 +82,7 @@ export function DemoValidationPage() {
             <h2>WRS 是及早處理的理由</h2>
           </div>
           <div className="mild-wrs__points">
-            <p><span>WRS 高低</span>對應現在的語音理解狀態。</p>
+            <p><span>WRS 高低</span>是否在黃金治療期內。</p>
             <p><span>年紀輕就已有聽損</span>越早處理，越早維持聽覺刺激與溝通能力。</p>
           </div>
         </article>

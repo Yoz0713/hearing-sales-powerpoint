@@ -5,6 +5,7 @@ import {
   type PresentationView,
 } from '../context/PresentationViewContext';
 import { SlideIndexContext } from '../context/SlideIndexContext';
+import { ObserverMarksProvider } from '../context/ObserverMarksContext';
 import { useReveal } from '../hooks/useReveal';
 import { useGlobalHotkeys } from '../hooks/useGlobalHotkeys';
 import { usePositionPersistence } from '../hooks/usePositionPersistence';
@@ -113,7 +114,10 @@ export function Presentation() {
     <RevealControlContext.Provider value={control}>
       <PresentationViewContext.Provider value={view}>
         <div className="reveal" ref={rootRef}>
-          <SlidesDeck />
+          {/* 只包 .slides：標記變動不得波及 chrome（見 ObserverMarksProvider 註解）。 */}
+          <ObserverMarksProvider>
+            <SlidesDeck />
+          </ObserverMarksProvider>
         </div>
         <ProgressBar />
         <SlidePreviewNav />

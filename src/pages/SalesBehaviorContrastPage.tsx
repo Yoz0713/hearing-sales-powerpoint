@@ -8,7 +8,7 @@ import warmthImage from '../../assets/impression-appearance/smile.png';
 import confusedCustomerImage from '../../assets/困惑的長輩.svg';
 
 const LIKED_BEHAVIORS = ['願意傾聽', '理解需求', '釐清問題', '給予方案'];
-const DISLIKED_BEHAVIORS = ['急著介紹', '只顧講話', '目的很強', '忽略需求'];
+const DISLIKED_BEHAVIORS = ['照SOP走', '只顧講話', '目的很強', '忽略需求'];
 
 interface RevealFragmentEvent extends Event {
   fragment?: Element;
@@ -113,27 +113,27 @@ export function SalesBehaviorContrastPage() {
           </h1>
         </div>
 
-        <div className="sales-behavior__contrast" aria-label="客戶喜歡與不喜歡的銷售行為對照">
-          <article className="sales-behavior__panel sales-behavior__panel--liked fragment" data-fragment-index="0">
-            <img className="sales-behavior__photo js-behavior-media" src={warmthImage} alt="聽力師對客戶溫暖微笑" />
-            <div className="sales-behavior__panel-shade" aria-hidden="true" />
-            <div className="sales-behavior__panel-heading">
-              <span>客戶喜歡</span>
-              <strong>感受到被理解</strong>
-            </div>
-            <div className="sales-behavior__behaviors">
-              {LIKED_BEHAVIORS.map((behavior) => <strong key={behavior}>{behavior}</strong>)}
-            </div>
-          </article>
-
-          <article className="sales-behavior__panel sales-behavior__panel--disliked fragment" data-fragment-index="1">
+        <div className="sales-behavior__contrast" aria-label="客戶不喜歡與喜歡的銷售行為對照">
+          <article className="sales-behavior__panel sales-behavior__panel--disliked fragment" data-fragment-index="0">
             <img className="sales-behavior__illustration js-behavior-media" src={confusedCustomerImage} alt="面對推銷感到困惑的長輩" />
             <div className="sales-behavior__panel-heading">
-              <span>客戶不喜歡</span>
+              <span>傳統銷售</span>
               <strong>感受到被推著走</strong>
             </div>
             <div className="sales-behavior__behaviors">
               {DISLIKED_BEHAVIORS.map((behavior) => <strong key={behavior}>{behavior}</strong>)}
+            </div>
+          </article>
+
+          <article className="sales-behavior__panel sales-behavior__panel--liked fragment" data-fragment-index="1">
+            <img className="sales-behavior__photo js-behavior-media" src={warmthImage} alt="聽力師對客戶溫暖微笑" />
+            <div className="sales-behavior__panel-shade" aria-hidden="true" />
+            <div className="sales-behavior__panel-heading">
+              <span>顧問式銷售</span>
+              <strong>感受到被理解</strong>
+            </div>
+            <div className="sales-behavior__behaviors">
+              {LIKED_BEHAVIORS.map((behavior) => <strong key={behavior}>{behavior}</strong>)}
             </div>
           </article>
         </div>
@@ -143,7 +143,7 @@ export function SalesBehaviorContrastPage() {
             <span>顧問式銷售的核心就是</span>
           </div>
           <div className="sales-behavior__conclusion-actions">
-            <strong className="js-conclusion-word">理解</strong><i /><strong className="js-conclusion-word">提問</strong><i /><strong className="js-conclusion-word">引導</strong>
+            <strong className="js-conclusion-word">提問</strong><i /><strong className="js-conclusion-word">傾聽</strong><i /><strong className="js-conclusion-word">引導</strong>
           </div>
         </footer>
       </main>

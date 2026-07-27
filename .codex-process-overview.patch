@@ -1,0 +1,105 @@
+*** Begin Patch
+*** Update File: src/pages/ConsultativeProcessOverviewPage.tsx
+@@
+ const PROCESS_STAGES: ProcessStage[] = [
+@@
+   },
+ ];
+ 
++const PROCESS_STEPS = PROCESS_STAGES.flatMap((stage) => (
++  stage.steps.map((title) => ({ stage: stage.key, title }))
++));
++
+ const TEN_DOTS = Array.from({ length: 10 }, (_, index) => index);
+@@
+       .from(scope.querySelector('.js-process-overview-compression'), {
+         scale: 0.8,
+         rotate: -3,
+         opacity: 0,
+         duration: motion.duration.slow,
+         ease: motion.ease.emphasis,
+       }, '-=0.46')
+-      .from(scope.querySelectorAll('.js-process-overview-stage'), {
+-        y: 62,
+-        scale: 0.96,
+-        opacity: 0,
++      .from(scope.querySelector('.js-process-overview-track'), {
++        scaleX: 0,
++        transformOrigin: 'left center',
++        duration: motion.duration.slow,
++        ease: motion.ease.emphasis,
++      }, '-=0.28')
++      .from(scope.querySelectorAll('.js-process-overview-step'), {
++        y: 24,
++        scale: 0.88,
++        opacity: 0,
+         duration: motion.duration.base,
+-        stagger: 0.12,
++        stagger: 0.055,
+         ease: motion.ease.emphasis,
+-      }, '-=0.3')
+-      .from(scope.querySelector('.js-process-overview-track'), {
+-        scaleX: 0,
+-        transformOrigin: 'left center',
+-        duration: motion.duration.slow,
+-        ease: motion.ease.emphasis,
+-      }, '-=0.22');
++      }, '-=0.52');
+@@
+-        <div className="process-overview__path" aria-label="顧問式選配的三個決策階段">
+-          <div className="process-overview__track js-process-overview-track" aria-hidden="true" />
+-          {PROCESS_STAGES.map((stage, index) => (
+-            <article
+-              key={stage.key}
+-              className={`process-overview__phase process-overview__phase--${stage.key} process-overview__phase--span-${stage.span} js-process-overview-stage`}
+-            >
+-              <span className="process-overview__phase-index" aria-hidden="true">
+-                {String(index + 1).padStart(2, '0')}
+-              </span>
+-              <blockquote>{stage.question}</blockquote>
+-              <h2>{stage.title}</h2>
+-              <ul
+-                className="process-overview__steps fragment"
+-                data-fragment-index={index}
+-                style={{ gridTemplateColumns: `repeat(${stage.steps.length}, minmax(0, 1fr))` }}
+-                aria-label={`${stage.title}所包含的步驟`}
+-              >
+-                {stage.steps.map((step) => (
+-                  <li key={step}><span>{step}</span></li>
+-                ))}
+-              </ul>
+-            </article>
+-          ))}
++        <div className="process-overview__journey">
++          <ol className="process-overview__workflow" aria-label="顧問式選配的十個流程">
++            <div className="process-overview__track js-process-overview-track" aria-hidden="true" />
++            {PROCESS_STEPS.map((step, index) => (
++              <li
++                key={step.title}
++                className={`process-overview__workflow-step process-overview__workflow-step--${step.stage} js-process-overview-step`}
++              >
++                <span>{String(index + 1).padStart(2, '0')}</span>
++                <strong>{step.title}</strong>
++              </li>
++            ))}
++          </ol>
++
++          <div className="process-overview__phases" aria-label="十個流程所對應的三個客戶決策階段">
++            {PROCESS_STAGES.map((stage, index) => (
++              <article
++                key={stage.key}
++                className={`process-overview__phase process-overview__phase--${stage.key} process-overview__phase--span-${stage.span} fragment`}
++                data-fragment-index={index}
++              >
++                <span className="process-overview__phase-index" aria-hidden="true">
++                  {String(index + 1).padStart(2, '0')}
++                </span>
++                <div>
++                  <blockquote>{stage.question}</blockquote>
++                  <h2>{stage.title}</h2>
++                </div>
++              </article>
++            ))}
++          </div>
+         </div>
+*** End Patch

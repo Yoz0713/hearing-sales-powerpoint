@@ -76,10 +76,7 @@ export function PlanSelectionPage() {
         </p>
       </header>
       <main className="plan-selection__comparison" aria-label="高階款的試聽起手方式比較">
-        <p className="plan-comparison__premise">
-          <span>前提</span>
-          客戶預算範圍已抓準，目標是推高階款。
-        </p>
+
 
         <div className="plan-comparison__paths">
           {COMPARISON_PATHS.map((path, index) => (

@@ -1,9 +1,12 @@
-/* D19：兩種年齡常模比較，最後收束到 COSI。全頁只以橘色強調生活連結。 */
+/* D19：兩張查表對照卡（查什麼 → 得到什麼 → 所以呢），第三步用橘色接回生活。 */
 .slide-shell.report-slide {
   display: grid;
-  grid-template-rows: auto auto auto;
+  /* 必須明示單欄：.slide-shell 基底帶 justify-content: center，
+     隱式欄位是 auto（依內容寬），整欄會被置中而縮成一條。 */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
   align-content: center;
-  row-gap: 20px;
+  row-gap: 42px;
   padding-top: 66px;
   padding-bottom: 62px;
   overflow: hidden;
@@ -20,200 +23,187 @@
   letter-spacing: 0.025em;
 }
 
-.report__intro {
-  max-width: 1240px;
-  margin: 15px 0 0;
-  color: rgba(69, 95, 81, 0.72);
-  font-size: 27px;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.45;
-}
-
-.report-story {
-  position: relative;
+.report-body {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 4.3fr)) minmax(0, 5.4fr);
-  align-items: stretch;
+  grid-template-rows: auto auto auto;
+  align-content: center;
   min-height: 0;
-  border-top: 1px solid rgba(69, 95, 81, 0.18);
-  border-bottom: 1px solid rgba(69, 95, 81, 0.18);
+  row-gap: 32px;
 }
 
-.report-age-peer,
-.report-hearing-age,
-.report-cosi {
-  position: relative;
-  z-index: 1;
-  min-width: 0;
+/* ---- 兩張查表卡 ---- */
+.report-lookups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 40px;
+}
+
+.report-card {
   box-sizing: border-box;
+  min-width: 0;
+  padding: 28px 34px 30px;
+  border-left: 5px solid var(--color-brand-secondary);
+  background: rgba(55, 167, 111, 0.06);
 }
 
-.report-age-peer {
-  padding: 34px 44px 28px 0;
-}
-
-.report-hearing-age {
-  padding: 34px 44px 28px;
-  border-left: 1px solid rgba(69, 95, 81, 0.16);
-}
-
-.report-cosi {
+.report-body .report-card__step {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 18px 0 18px 38px;
-  padding: 34px 46px 36px;
-  border-left: 9px solid var(--color-orange);
-  background: rgba(238, 123, 8, 0.075);
-}
-
-.report-story__eyebrow,
-.report-cosi__label {
-  margin: 0 0 18px;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 12px;
   color: var(--color-brand-secondary);
   font-size: 20px;
   font-weight: var(--font-weight-bold);
-  line-height: 1.2;
   letter-spacing: 0.08em;
 }
 
-.report-age-peer h2,
-.report-hearing-age h2 {
-  margin: 0;
-  color: var(--color-text-heading);
-  font-family: var(--font-family-display);
-  font-size: 38px;
-  font-weight: var(--font-weight-bold);
-  line-height: 1.32;
-}
-
-.report-compare {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 34px;
-  padding: 22px 0;
-  border-top: 1px solid rgba(69, 95, 81, 0.18);
-  border-bottom: 1px solid rgba(69, 95, 81, 0.18);
-}
-
-.report-compare>div {
-  flex: 1 1 0;
-  min-width: 0;
-}
-
-.report-compare span {
-  display: block;
-  margin-bottom: 7px;
-  color: rgba(69, 95, 81, 0.72);
-  font-size: 19px;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.2;
-}
-
-.report-compare strong {
-  display: block;
-  color: var(--color-text-heading);
-  font-size: 26px;
-  line-height: 1.25;
-  font-variant-numeric: tabular-nums;
-}
-
-.report-compare b {
-  flex: none;
+.report-card__step span {
   color: rgba(69, 95, 81, 0.42);
-  font-size: 28px;
-  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-latin);
+  font-weight: 700;
 }
 
-.report-story__explain {
-  max-width: 500px;
-  margin: 24px 0 0;
-  color: rgba(0, 0, 0, 0.74);
-  font-size: 24px;
-  line-height: 1.52;
-}
-
-.report-cosi__label {
-  color: var(--color-orange);
-}
-
-.report-cosi h2 {
+.report-body .report-card__ask {
   margin: 0 0 22px;
   color: var(--color-text-heading);
   font-family: var(--font-family-display);
   font-size: 30px;
   font-weight: var(--font-weight-bold);
-  line-height: 1.35;
-}
-
-.report-cosi blockquote {
-  max-width: 700px;
-  margin: 0;
-  color: var(--color-text-heading);
-  font-family: var(--font-family-display);
-  font-size: 41px;
-  font-weight: var(--font-weight-bold);
   line-height: 1.3;
 }
 
-.report-cosi>strong {
-  max-width: 710px;
-  margin-top: 30px;
-  color: var(--color-orange);
-  font-family: var(--font-family-display);
-  font-size: 29px;
-  line-height: 1.42;
-}
-
-.report-confirm {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 34px;
-  min-height: 78px;
-  box-sizing: border-box;
-  padding: 18px 30px;
-  border-radius: 0;
-  background: var(--color-forest-900);
-}
-
-.report-confirm__prompt {
+/* 兩列數值：上列是拿去查的，下列是查出來的結果（重點列）。 */
+.report-body .report-card__data {
   margin: 0;
-  color: rgba(255, 255, 255, 0.66);
-  font-size: 22px;
+  border-top: 1px solid rgba(69, 95, 81, 0.18);
+}
+
+.report-card__data > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(69, 95, 81, 0.18);
+}
+
+.report-body .report-card__data dt {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: rgba(69, 95, 81, 0.78);
+  font-size: 23px;
   font-weight: var(--font-weight-semibold);
 }
 
-.report-confirm__quote {
-  margin: 0;
-  color: var(--color-text-on-brand);
-  font-family: var(--font-family-display);
-  font-size: 34px;
+/* 「例」標記：這一格是查常模得到的示意值。 */
+.report-card__data dt i {
+  padding: 2px 8px;
+  color: rgba(69, 95, 81, 0.62);
+  background: rgba(69, 95, 81, 0.1);
+  font-size: 17px;
+  font-style: normal;
   font-weight: var(--font-weight-bold);
-  line-height: 1.25;
 }
 
+.report-body .report-card__data dd {
+  margin: 0;
+  color: rgba(69, 95, 81, 0.72);
+  font-family: var(--font-family-latin);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* 結果列：整張卡的落點。 */
+.report-body .report-card__data-result dt {
+  color: var(--color-text-heading);
+}
+
+.report-body .report-card__data-result dd {
+  color: var(--color-forest-900);
+  font-size: 46px;
+}
+
+.report-body .report-card__conclusion {
+  margin: 20px 0 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 27px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.35;
+}
+
+/* ---- COSI：全頁唯一的橘色，把數據接回生活 ---- */
+.report-cosi {
+  box-sizing: border-box;
+  padding: 26px 40px 28px;
+  border-left: 9px solid var(--color-orange);
+  background: rgba(238, 123, 8, 0.075);
+}
+
+.report-body .report-cosi__step {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 12px;
+  color: var(--color-orange);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+}
+
+.report-cosi__step span {
+  font-family: var(--font-family-latin);
+  font-weight: 700;
+}
+
+.report-body .report-cosi blockquote {
+  max-width: 1180px;
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 38px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.28;
+}
+
+.report-body .report-cosi__action {
+  margin: 12px 0 0;
+  color: rgba(69, 95, 81, 0.78);
+  font-size: 23px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.report-body__footnote {
+  margin: 0;
+  color: rgba(69, 95, 81, 0.5);
+  font-size: 19px;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.4;
+}
+
+/* ---- Fragment 逐步顯示（GSAP 不碰這些節點的 opacity） ---- */
 .report-slide .fragment {
   transition:
     opacity var(--duration-base) ease,
     transform var(--duration-base) ease;
 }
 
-.report-slide .report-age-peer.fragment:not(.visible),
-.report-slide .report-hearing-age.fragment:not(.visible) {
+.report-slide .report-card.fragment:not(.visible) {
   opacity: 0;
-  transform: translateX(-24px);
+  transform: translateY(18px);
 }
 
 .report-slide .report-cosi.fragment:not(.visible) {
   opacity: 0;
-  transform: translateX(30px);
+  transform: translateY(20px);
 }
 
-.report-slide .report-confirm.fragment:not(.visible) {
+.report-slide .report-body__footnote.fragment:not(.visible) {
   opacity: 0;
-  transform: translateY(18px);
 }
 
 @media (prefers-reduced-motion: reduce) {

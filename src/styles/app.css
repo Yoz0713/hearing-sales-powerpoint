@@ -2230,6 +2230,13 @@ body {
   margin-top: 0;
 }
 
+.history-safety-note {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-snug);
+}
+
 .counseling-flow--redesign {
   display: grid;
   grid-template-columns: .78fr 1.22fr;
@@ -4292,7 +4299,6 @@ body {
 .impression-rule .vertical-stat__value,
 .impression-percent,
 .counseling-motivation--redesign .motive-card__index,
-.report-story__index,
 .scenario-page .scenario-option__label {
   font-family: var(--font-family-latin);
 }

@@ -1,0 +1,113 @@
+*** Begin Patch
+*** Update File: src/pages/ConsultativeProcessOverviewPage.tsx
+@@
+         </div>
+ 
+         <div className="process-overview__journey">
+-          <ol className="process-overview__workflow" aria-label="顧問式選配的十個流程">
++          <div className="process-overview__workflow-wrap">
+             <div className="process-overview__track js-process-overview-track" aria-hidden="true" />
+-            {PROCESS_STEPS.map((step, index) => (
+-              <li
+-                key={step.title}
+-                className={`process-overview__workflow-step process-overview__workflow-step--${step.stage} js-process-overview-step`}
+-              >
+-                <span>{String(index + 1).padStart(2, '0')}</span>
+-                <strong>{step.title}</strong>
+-              </li>
+-            ))}
+-          </ol>
++            <ol className="process-overview__workflow" aria-label="顧問式選配的十個流程">
++              {PROCESS_STEPS.map((step, index) => (
++                <li
++                  key={step.title}
++                  className={`process-overview__workflow-step process-overview__workflow-step--${step.stage} js-process-overview-step`}
++                >
++                  <span>{String(index + 1).padStart(2, '0')}</span>
++                  <strong>{step.title}</strong>
++                </li>
++              ))}
++            </ol>
++          </div>
+*** Update File: src/styles/process-overview.css
+@@
+ .process-overview__journey {
+   min-width: 0;
+   min-height: 0;
+   display: grid;
+-  grid-template-rows: 184px minmax(0, 1fr);
+-  gap: 18px;
++  grid-template-rows: minmax(0, 1fr) 0;
++  gap: 0;
+   overflow: hidden;
++  transition:
++    grid-template-rows 0.72s cubic-bezier(0.2, 0.8, 0.2, 1),
++    gap 0.72s cubic-bezier(0.2, 0.8, 0.2, 1);
++}
++
++.process-overview__journey:has(.process-overview__phase.visible) {
++  grid-template-rows: 184px minmax(0, 1fr);
++  gap: 18px;
++}
++
++.process-overview__workflow-wrap {
++  position: relative;
++  min-width: 0;
++  min-height: 0;
++  overflow: hidden;
+ }
+ 
+ .process-overview__workflow {
+-  position: relative;
+   min-width: 0;
+-  min-height: 0;
++  height: 100%;
+   margin: 0;
+@@
+ .process-overview__track {
+@@
+-  top: 53px;
++  top: 50%;
+@@
+   background: rgba(69, 95, 81, 0.28);
+   pointer-events: none;
++  transition: top 0.72s cubic-bezier(0.2, 0.8, 0.2, 1);
+ }
+@@
+   padding: 30px 12px 22px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+-  gap: 28px;
++  justify-content: center;
++  gap: 64px;
+@@
+ .process-overview__workflow-step::after {
+@@
+-  top: 45px;
++  top: calc(50% - 8px);
+@@
+   content: '';
+   transform: translateX(-50%);
++  transition: top 0.72s cubic-bezier(0.2, 0.8, 0.2, 1);
+ }
++
++.process-overview__journey:has(.process-overview__phase.visible) .process-overview__track {
++  top: 53px;
++}
++
++.process-overview__journey:has(.process-overview__phase.visible) .process-overview__workflow-step {
++  justify-content: flex-start;
++  gap: 28px;
++}
++
++.process-overview__journey:has(.process-overview__phase.visible) .process-overview__workflow-step::after {
++  top: 45px;
++}
+@@
+ @media (prefers-reduced-motion: reduce) {
++  .process-overview__journey,
++  .process-overview__track,
++  .process-overview__workflow-step::after,
+   .process-overview__phase,
+*** End Patch

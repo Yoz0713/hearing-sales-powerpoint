@@ -76,6 +76,7 @@ theme1 accent1→6 是一條刻意的綠→青漸層，適合 categorical / sequ
 
 **套用規則（重要）：**
 - **頁面標題 = `var(--font-family-display)`**。凡是「一頁最大的那句中文標題／問句」都必須顯式指定 display，不能只靠繼承（繼承會落到 base 黑體，就不是襯線）。
+- 嚴禁大範圍純色區塊。
 - 內文、眉標、說明文字不必指定 font-family，繼承 base 即可。
 - 只有「內容為數字或英文」的小元素才用 latin（Outfit 無中文字符，中文會回退 base）。
 - 匯入位置：`src/main.tsx` 最上方，`reveal.css` 之後、`tokens.css` 之前，依序 `noto-serif-tc` → `noto-sans-tc` → `outfit`。

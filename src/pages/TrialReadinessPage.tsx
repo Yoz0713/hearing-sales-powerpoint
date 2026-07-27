@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { gsap } from 'gsap';
 import { SlideShell } from '../components/layouts/SlideShell';
 import { motion } from '../tokens/motion';
+import hearingAidPhoto from '../../assets/HA-BG.jpg';
 
 const CHAT_PROMPTS = ['家裡長輩聽力如何？', '有沒有戴助聽器？', '實際效果怎麼樣？'] as const;
 
@@ -63,10 +64,12 @@ export function TrialReadinessPage() {
 
         <article className="readiness-stage readiness-stage--object fragment" data-fragment-index="1">
           <p className="readiness-stage__step">把可能性放到眼前</p>
-          <div className="readiness-device" aria-hidden="true">
-            <span className="readiness-device__body" />
-            <span className="readiness-device__wire" />
-            <span className="readiness-device__bud" />
+          <div className="readiness-device">
+            <img
+              className="readiness-device__photo"
+              src={hearingAidPhoto}
+              alt="三款不同外型的助聽器"
+            />
           </div>
           <h2>拿出現在的助聽器</h2>
           <p>不急著完整介紹，只讓它從抽象印象，變成可以看、可以理解的東西。</p>

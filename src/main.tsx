@@ -25,6 +25,7 @@ import './styles/objection-price.css';
 import './styles/objection-duo.css';
 import './styles/roleplay-brief.css';
 import './styles/roleplay-ai-qr.css';
+import './styles/roleplay-observer.css';
 import './styles/decision-methods.css';
 import './styles/examination-signals.css';
 import './styles/learning-chapter.css';
