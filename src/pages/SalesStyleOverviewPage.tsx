@@ -99,10 +99,23 @@ export function SalesStyleOverviewPage() {
             ))}
           </div>
 
+          {/* 盲點列逐格揭示：先出「盲點」標籤，再由左至右一格格補上，
+              讓學員有時間逐一對照自己的風格；優勢列維持一次到齊。 */}
           <div className="sales-style-overview__row" role="row">
-            <div className="sales-style-overview__row-label" role="rowheader">盲點</div>
-            {SALES_STYLES.map((style) => (
-              <p key={`${style.id}-risk`} className="sales-style-overview__value sales-style-overview__value--risk" role="cell">
+            <div
+              className="sales-style-overview__row-label sales-style-overview__row-label--risk fragment"
+              data-fragment-index={0}
+              role="rowheader"
+            >
+              盲點
+            </div>
+            {SALES_STYLES.map((style, index) => (
+              <p
+                key={`${style.id}-risk`}
+                className="sales-style-overview__value sales-style-overview__value--risk fragment"
+                data-fragment-index={index + 1}
+                role="cell"
+              >
                 {style.blindSpot}
               </p>
             ))}

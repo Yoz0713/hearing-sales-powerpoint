@@ -1,0 +1,255 @@
+/* 第 15 頁：客戶的第三個心理問題「哪個選擇適合我」。
+   與第 13、14 頁同一組敘事骨架——問句標題 → 他嘴上說的話 → 拆解 → 深綠收尾。
+   本頁專屬的裝置是「填不出來的比較表」：前兩欄留空框，只有價格那欄填得起來，
+   一眼看見他為什麼只能用價格決定。 */
+.choice {
+  overflow: hidden;
+  background: var(--color-surface-base);
+}
+
+.choice__stage {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 50px 96px 44px;
+  display: grid;
+  grid-template-rows: 58px auto auto minmax(0, 1fr) auto;
+  row-gap: 22px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.choice__nav {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.choice__logo {
+  width: 208px;
+}
+
+/* ---- intro ---- */
+.choice__intro {
+  min-width: 0;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 56px;
+}
+
+.choice__title {
+  margin: 0;
+  max-width: 1180px;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 60px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.choice__lead {
+  flex: none;
+  width: 440px;
+  margin: 0;
+  padding-bottom: 8px;
+  color: rgba(69, 95, 81, 0.66);
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  text-align: right;
+}
+
+/* ---- 他嘴上說 ---- */
+.choice__surface {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 20px 40px;
+  border-left: 4px solid var(--color-brand-primary);
+  background: linear-gradient(90deg, rgba(99, 165, 55, 0.09), rgba(99, 165, 55, 0.015) 72%);
+}
+
+.choice__surface-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.choice__surface-label {
+  color: rgba(69, 95, 81, 0.55);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-caps);
+}
+
+.choice__surface-quote {
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 38px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+}
+
+/* ---- 比較表 ---- */
+.choice__sheet {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 22px;
+}
+
+.choice__sheet-label {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(69, 95, 81, 0.62);
+  font-size: 21px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+}
+
+.choice__sheet-label::before {
+  content: '';
+  width: 11px;
+  height: 11px;
+  flex: none;
+  background: var(--color-brand-secondary);
+  transform: rotate(45deg);
+}
+
+.choice__rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.choice__row {
+  min-width: 0;
+  padding: 20px 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 560px;
+  align-items: center;
+  column-gap: 56px;
+  border-bottom: 1px solid rgba(69, 95, 81, 0.2);
+  transform: translateY(16px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+}
+
+.choice__row.visible {
+  transform: none;
+}
+
+.choice__row:first-child {
+  border-top: 1px solid rgba(69, 95, 81, 0.2);
+}
+
+.choice__row-item {
+  min-width: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 36px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.12;
+}
+
+/* 答案格：填不出來的兩欄留虛線空框，字也淡。 */
+.choice__row-answer {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 16px 28px;
+  border: 2px dashed rgba(69, 95, 81, 0.3);
+  color: rgba(69, 95, 81, 0.5);
+  font-size: 28px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.25;
+}
+
+/* 唯一填得起來的那一欄——他就用這一欄做決定。 */
+.choice__row--fillable .choice__row-answer {
+  border-color: transparent;
+  color: var(--color-text-on-brand);
+  background: var(--color-orange);
+  font-weight: var(--font-weight-bold);
+}
+
+.choice__verdict {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transform: translateY(14px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+}
+
+.choice__verdict.visible {
+  transform: none;
+}
+
+.choice__verdict-line {
+  margin: 0;
+  color: rgba(69, 95, 81, 0.74);
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+}
+
+.choice__verdict-turn {
+  margin: 0;
+  color: var(--color-orange);
+  font-family: var(--font-family-display);
+  font-size: 30px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+}
+
+/* ---- 收尾 ---- */
+.choice__close {
+  display: flex;
+  align-items: baseline;
+  gap: 28px;
+  padding: 26px 36px;
+  background: var(--color-forest-900);
+  transform: translateY(18px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+}
+
+.choice__close.visible {
+  transform: none;
+}
+
+.choice__close-eyebrow {
+  flex: none;
+  color: var(--color-brand-primary-bright);
+  font-family: var(--font-family-display);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.choice__close-text {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .choice__row,
+  .choice__verdict,
+  .choice__close {
+    transition: none;
+  }
+}

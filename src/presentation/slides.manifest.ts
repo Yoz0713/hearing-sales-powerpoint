@@ -43,8 +43,6 @@ import { DemoValidationPage } from '../pages/DemoValidationPage';
 import { DecisionMethodsPage } from '../pages/DecisionMethodsPage';
 import { ObjectionStepsPage } from '../pages/ObjectionStepsPage';
 import { ObjectionPricePage } from '../pages/ObjectionPricePage';
-import { ObjectionWaitDependencyPage } from '../pages/ObjectionWaitDependencyPage';
-import { ObjectionFamilyConsiderPage } from '../pages/ObjectionFamilyConsiderPage';
 import { RoleplayAiQrPage } from '../pages/RoleplayAiQrPage';
 import { RoleplayObserverPage } from '../pages/RoleplayObserverPage';
 import { SummaryUnderstandPage } from '../pages/SummaryUnderstandPage';
@@ -315,20 +313,6 @@ export const slides: SlideEntry[] = [
     title: '「太貴了」背後，是預算還是效果？',
     previewShape: 'split',
     component: ObjectionPricePage,
-  },
-  {
-    id: 'objection-wait-dependency',
-    chapter: '異議實戰',
-    title: '「還不嚴重」與「會不會依賴」',
-    previewShape: 'split',
-    component: ObjectionWaitDependencyPage,
-  },
-  {
-    id: 'objection-family-consider',
-    chapter: '異議實戰',
-    title: '「回去討論」與「再考慮看看」',
-    previewShape: 'split',
-    component: ObjectionFamilyConsiderPage,
   },
   {
     id: 'roleplay-ai-qr',

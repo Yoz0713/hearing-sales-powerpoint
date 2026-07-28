@@ -25,22 +25,10 @@ const EVIDENCE: CaseEvidence[] = [
   {
     label: '決策拉扯',
     headline: '女兒急，他抗拒',
-    detail: '客戶連試聽都不願，就把焦點放在「太貴」，家人則希望趕快處理。',
+    detail: '客戶連試聽都不願，沒報價就說「太貴」，家人則希望趕快處理。',
     emphasis: true,
   },
 ];
-
-/**
- * 四題刻意不問「他的顧慮是什麼」——三行案例資訊撐不起那個答案，
- * 講師在台上也證明不了。改成盤點手上有什麼、缺什麼，每題都有資料
- * 站得住腳的答案，結論收在「資訊不足」，再由下一頁的三個提問接手。
- */
-const DISCUSSION_PROMPTS = [
-  '哪些事實？哪些推測？',
-  '客戶與家屬的態度如何？',
-  '還沒報價，為何喊貴？',
-  '優先問他哪三個問題？',
-] as const;
 
 const VOICE_STRIP = [
   '太太：電視聲愈開愈大',
@@ -121,7 +109,7 @@ export function ResistanceCasePage() {
             </div>
 
             <blockquote className="resistance-case__quote">
-              「我只是<br />偶爾聽不到。」
+              「我只是<br />偶爾聽不清楚。」
             </blockquote>
 
             <div className="resistance-case__profile-foot">
@@ -159,19 +147,13 @@ export function ResistanceCasePage() {
               ))}
             </div>
 
+            {/* 三行案例資訊撐不起「他的顧慮是什麼」這種答案，所以只留一題：
+                下一步要問什麼。右側三道刻度＝三個待填的問題，講師逐一收答案。 */}
             <div className="resistance-case__discussion fragment" data-fragment-index={0}>
-              <div className="resistance-case__discussion-heading">
-                <span>先盤點，再判斷</span>
-                <h2>我們手上<br />有什麼？</h2>
-              </div>
-              <ol className="resistance-case__prompts">
-                {DISCUSSION_PROMPTS.map((prompt, index) => (
-                  <li key={prompt}>
-                    <span>{String(index + 1).padStart(2, '0')}</span>
-                    <p>{prompt}</p>
-                  </li>
-                ))}
-              </ol>
+              <p className="resistance-case__discussion-question">
+                你應該要繼續問他問題。
+              </p>
+
             </div>
           </div>
         </div>

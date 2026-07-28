@@ -163,6 +163,29 @@
   font-weight: var(--font-weight-semibold);
 }
 
+/* Fragment 進入過渡：盲點列的標籤與四格逐步揭示。 */
+.sales-style-overview .fragment {
+  transition:
+    opacity var(--duration-base) ease,
+    transform var(--duration-base) ease;
+}
+
+.sales-style-overview .sales-style-overview__row-label--risk.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.sales-style-overview .sales-style-overview__value--risk.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sales-style-overview .fragment {
+    transition: none;
+  }
+}
+
 .sales-style-overview__prompt {
   grid-column: 2;
   grid-row: 1;

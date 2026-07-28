@@ -16,7 +16,7 @@ const PROCESS_STAGES: ProcessStage[] = [
   {
     key: 'understand',
     question: '我可以相信你，也能放心說嗎？',
-    title: '建立信任與理解問題',
+    title: '建立信任',
     steps: ['第一印象', '病史蒐集', 'COSI', '聽力檢測'],
     span: 4,
   },

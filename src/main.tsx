@@ -12,6 +12,8 @@ import './styles/resistance-case.css';
 import './styles/process-overview.css';
 import './styles/reception-trust.css';
 import './styles/counseling-hidden-motive.css';
+import './styles/intervention-necessity.css';
+import './styles/choice-confidence.css';
 import './styles/lifestyle-context.css';
 import './styles/economic-capacity.css';
 import './styles/examination-communication.css';

@@ -70,7 +70,7 @@ export function CounselingHiddenMotivePage() {
         </header>
 
         <div className="unspoken__intro">
-          <h1 className="unspoken__title js-unspoken-title">客戶說出口的，只是冰山一角</h1>
+          <h1 className="unspoken__title js-unspoken-title">:我可以信任你嗎?</h1>
           <p className="unspoken__lead js-unspoken-lead">
             先聽懂他沒說的，<br />透過提問去引導。
           </p>

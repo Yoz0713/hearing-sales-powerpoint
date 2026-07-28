@@ -233,11 +233,16 @@
   color: var(--color-orange);
 }
 
+/* 收束帶：只剩一題，就讓它成為右欄的落點，而不是清單的殘骸。 */
 .resistance-case__discussion {
+  box-sizing: border-box;
   min-height: 0;
   margin-top: auto;
+  padding: 30px 34px;
   display: grid;
-  grid-template-columns: 0.8fr 1.65fr;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 40px;
   color: var(--color-text-on-brand);
   background: var(--color-forest-900);
   transform: translateY(24px);
@@ -248,70 +253,58 @@
   transform: none;
 }
 
-.resistance-case__discussion-heading {
-  padding: 22px 26px;
+.resistance-case__discussion-eyebrow {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-right: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.resistance-case__discussion-heading span {
-  color: var(--color-brand-primary-bright);
-  font-size: 17px;
+  align-items: center;
+  gap: 14px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 18px;
   font-weight: var(--font-weight-bold);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
 }
 
-.resistance-case .resistance-case__discussion-heading h2 {
-  margin: 8px 0 0;
+.resistance-case__discussion-eyebrow::before {
+  content: '';
+  width: 26px;
+  height: 2px;
+  flex: none;
+  background: var(--color-brand-primary-bright);
+}
+
+.resistance-case .resistance-case__discussion-question {
+  margin: 0;
   color: var(--color-text-on-brand);
   font-family: var(--font-family-display);
-  font-size: 29px;
+  font-size: 42px;
   font-weight: var(--font-weight-bold);
-  line-height: 1.18;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
 }
 
-.resistance-case__prompts {
+.resistance-case .resistance-case__discussion-question strong {
+  color: var(--color-orange);
+  font-weight: inherit;
+}
+
+/* 三道刻度＝三個待填的問題；第一道亮起，表示從第一題開始收答案。 */
+.resistance-case__discussion-slots {
   margin: 0;
   padding: 0;
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-auto-flow: dense;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.resistance-case__prompts li {
-  min-width: 0;
-  padding: 18px 20px;
-  display: grid;
-  grid-template-columns: 30px 1fr;
-  gap: 10px;
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+.resistance-case__discussion-slots li {
+  width: 64px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.26);
 }
 
-.resistance-case__prompts li:nth-child(2n) {
-  border-right: 0;
-}
-
-.resistance-case__prompts li:nth-last-child(-n + 2) {
-  border-bottom: 0;
-}
-
-.resistance-case__prompts span {
-  color: var(--color-orange);
-  font-family: var(--font-family-display);
-  font-size: 18px;
-  font-weight: var(--font-weight-bold);
-}
-
-.resistance-case .resistance-case__prompts p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 21px;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.35;
+.resistance-case__discussion-slots li:first-child {
+  background: var(--color-orange);
 }
 
 .resistance-case__voice {

@@ -1,0 +1,323 @@
+/* 第 14 頁：客戶的第二個心理問題「我真的需要現在處理嗎」。
+   與第 13 頁（unspoken）同一組敘事骨架——問句標題 → 他嘴上說的話 → 拆解 → 深綠收尾。
+   本頁專屬的裝置是「他心裡在秤的兩盤」：今天的帳筆筆清楚，以後的帳被他推遠、看不清，
+   所以拖延永遠划算。右盤刻意用低對比與模糊表達他的心理權重，最後一步才調清楚。 */
+.necessity {
+  overflow: hidden;
+  background: var(--color-surface-base);
+}
+
+.necessity__stage {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 50px 96px 44px;
+  display: grid;
+  grid-template-rows: 58px auto auto minmax(0, 1fr) auto;
+  row-gap: 22px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.necessity__nav {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.necessity__logo {
+  width: 208px;
+}
+
+/* ---- intro：問句標題（左）＋ 右對齊的一句提醒 ---- */
+.necessity__intro {
+  min-width: 0;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 56px;
+}
+
+.necessity__title {
+  margin: 0;
+  max-width: 1220px;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 60px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.necessity__lead {
+  flex: none;
+  width: 400px;
+  margin: 0;
+  padding-bottom: 8px;
+  color: rgba(69, 95, 81, 0.66);
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  text-align: right;
+}
+
+/* ---- 他嘴上說：延後決定的兩句話 ---- */
+.necessity__surface {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 20px 40px;
+  border-left: 4px solid var(--color-brand-primary);
+  background: linear-gradient(90deg, rgba(99, 165, 55, 0.09), rgba(99, 165, 55, 0.015) 72%);
+}
+
+.necessity__surface-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.necessity__surface-label {
+  color: rgba(69, 95, 81, 0.55);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-caps);
+}
+
+.necessity__surface-quote {
+  margin: 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 38px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+}
+
+/* ---- 他心裡在秤的兩盤 ---- */
+.necessity__scales {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.necessity__scales-label {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(69, 95, 81, 0.62);
+  font-size: 21px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+}
+
+.necessity__scales-label::before {
+  content: '';
+  width: 11px;
+  height: 11px;
+  flex: none;
+  background: var(--color-brand-secondary);
+  transform: rotate(45deg);
+}
+
+.necessity__pans {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 132px minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.necessity__pan {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 30px 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transform: translateY(20px);
+  transition:
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.5s ease,
+    filter 0.6s ease,
+    color 0.6s ease;
+}
+
+.necessity__pan.visible {
+  transform: none;
+}
+
+.necessity__pan-title {
+  margin: 0;
+  font-family: var(--font-family-display);
+  font-size: 34px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+  transition: color 0.6s ease;
+}
+
+.necessity__pan-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.necessity__pan-list li {
+  padding: 16px 0;
+  font-size: 28px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.25;
+}
+
+/* 左盤：今天的帳，實心深綠、白字，筆筆算得出來。 */
+.necessity__pan--now {
+  color: var(--color-text-on-brand);
+  background: var(--color-forest-900);
+}
+
+.necessity__pan--now .necessity__pan-title {
+  color: var(--color-base-white);
+}
+
+.necessity__pan--now .necessity__pan-list li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.necessity__pan--now .necessity__pan-list li:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+/* 右盤：早就在發生，卻被他推給「以後」——所以先是淡的、糊的。
+   淡化只能靠顏色與 blur：opacity 由 Reveal 的 fragment 規則掌管，寫了也會被蓋掉。 */
+.necessity__pan--later {
+  color: rgba(69, 95, 81, 0.46);
+  background: linear-gradient(150deg, rgba(238, 123, 8, 0.1), rgba(238, 123, 8, 0.02) 82%);
+  filter: blur(2.5px);
+}
+
+.necessity__pan--later .necessity__pan-title {
+  color: rgba(238, 123, 8, 0.5);
+}
+
+.necessity__pan--later .necessity__pan-list li {
+  border-bottom: 1px solid rgba(69, 95, 81, 0.18);
+}
+
+.necessity__pan--later .necessity__pan-list li:first-child {
+  border-top: 1px solid rgba(69, 95, 81, 0.18);
+}
+
+.necessity__pan-note {
+  margin: auto 0 0;
+  font-size: 21px;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.4;
+}
+
+/*
+  最後一步：講師把右盤調清楚。用 :has() 讓「你的工作」這句一出現，
+  右盤就退掉模糊——動作本身就是這一頁要教的事。
+*/
+.necessity__scales:has(.necessity__clarify.visible) .necessity__pan--later {
+  filter: none;
+  color: rgba(69, 95, 81, 0.86);
+}
+
+.necessity__scales:has(.necessity__clarify.visible) .necessity__pan--later .necessity__pan-title {
+  color: var(--color-orange);
+}
+
+/* 中軸：他每次都倒向這一邊。 */
+.necessity__axis {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  transform: translateY(14px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+}
+
+.necessity__axis.visible {
+  transform: none;
+}
+
+.necessity__axis i {
+  width: 1px;
+  flex: 1 1 auto;
+  background: rgba(238, 123, 8, 0.4);
+}
+
+.necessity__axis b {
+  writing-mode: vertical-rl;
+  flex: none;
+  color: var(--color-orange);
+  font-family: var(--font-family-display);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.14em;
+}
+
+.necessity__clarify {
+  margin: 0;
+  align-self: flex-end;
+  color: var(--color-orange);
+  font-size: 24px;
+  font-weight: var(--font-weight-bold);
+  transform: translateY(12px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+}
+
+.necessity__clarify.visible {
+  transform: none;
+}
+
+/* ---- 收尾 ---- */
+.necessity__close {
+  display: flex;
+  align-items: baseline;
+  gap: 28px;
+  padding: 26px 36px;
+  background: var(--color-forest-900);
+  transform: translateY(18px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+}
+
+.necessity__close.visible {
+  transform: none;
+}
+
+.necessity__close-eyebrow {
+  flex: none;
+  color: var(--color-brand-primary-bright);
+  font-family: var(--font-family-display);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.necessity__close-text {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .necessity__pan,
+  .necessity__axis,
+  .necessity__clarify,
+  .necessity__close {
+    transition: none;
+  }
+}
