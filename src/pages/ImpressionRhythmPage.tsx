@@ -12,7 +12,7 @@ interface FlowStep {
 }
 
 const FLOW_STEPS: FlowStep[] = [
-  { id: 1, number: '01', title: '接待', isSerious: false },
+  { id: 1, number: '01', title: '第一印象建立', isSerious: false },
   { id: 2, number: '02', title: '了解病史動機', isSerious: false },
   { id: 3, number: '03', title: 'COSI', isSerious: false },
   { id: 4, number: '04', title: '聽力檢測', isSerious: true },

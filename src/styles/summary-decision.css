@@ -1,173 +1,426 @@
-/* D32：課程總結（二） - 成交，是協助客戶做出合適決定 */
-.summary-decision {
-  justify-content: flex-start;
-  padding-top: 60px;
+/* D32：課程總結（二） - 客戶心裡的三道門，只能照順序開。
+   幾何是固定的：內容寬 1752（左右各 84 邊界），三張門卡各 528、間距 84，
+   卡片中心落在 264 / 876 / 1488。門檻在 570 / 1182；兩道回頭弧線各寬 612，
+   起點與終點正好對齊相鄰兩張卡的中心，所以「往回跳一關」不必再畫說明。 */
+.journey {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 92%, rgba(78, 179, 207, 0.16), transparent 32%),
+    linear-gradient(104deg, #fff 0 52%, #f4f8ee 100%);
+}
+
+.journey__stage {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 44px 84px 36px;
+  display: grid;
+  grid-template-rows: 56px auto minmax(0, 1fr) 96px;
+  row-gap: 26px;
   overflow: hidden;
 }
 
-.summary-decision__heading {
-  flex: 0 0 auto;
-}
-
-.summary-decision__heading .counseling-title {
-  max-width: 1560px;
-  margin: 0;
-  font-size: 60px;
-  line-height: 1.12;
-  letter-spacing: 0.02em;
-}
-
-.summary-decision__lead {
-  margin: 12px 0 0;
-  color: rgba(69, 95, 81, 0.8);
-  font-size: 26px;
-  line-height: 1.4;
-}
-
-.summary-decision__grid {
+/* ---- 頁首 ---- */
+.journey__nav {
+  min-width: 0;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 36px;
-  flex: 1 1 auto;
-  min-height: 0;
-  margin-top: 36px;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 42px;
 }
 
-.summary-card {
+.journey__logo {
+  width: 208px;
+}
+
+.journey__nav-trail {
+  min-width: 0;
   display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  padding: 36px 42px 32px;
-  background: var(--color-surface-base);
-  border: 1px solid rgba(69, 95, 81, 0.2);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--elevation-1);
+  align-items: center;
+  gap: 30px;
 }
 
-.summary-card__tag {
-  color: var(--color-brand-secondary);
-  font-family: var(--font-family-latin);
-  font-size: 22px;
+.journey__nav-trail span {
+  flex: none;
+  color: rgba(69, 95, 81, 0.62);
+  font-size: 20px;
   font-weight: var(--font-weight-bold);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
 }
 
-.summary-card__statement {
-  margin: 16px 0 0;
+.journey__nav-trail i {
+  width: 100%;
+  height: 1px;
+  display: block;
+  background: rgba(69, 95, 81, 0.22);
+}
+
+/* ---- 標題與 P.12 回指 ---- */
+.journey__heading {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 48px;
+}
+
+.journey .journey__kicker {
+  margin: 0;
+  color: var(--color-brand-secondary);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+}
+
+.journey .journey__title {
+  margin: 10px 0 0;
   color: var(--color-text-heading);
   font-family: var(--font-family-display);
-  font-size: 42px;
+  font-size: 64px;
   font-weight: var(--font-weight-bold);
-  line-height: 1.25;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
 }
 
-.summary-card__statement em {
-  font-style: normal;
-  color: var(--color-orange);
-  border-bottom: 3px solid var(--color-orange);
-}
-
-.summary-card__contrast {
+.journey .journey__recall {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 28px;
-}
-
-.contrast-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 16px 22px;
-  border-radius: var(--radius-md);
-}
-
-.contrast-item span {
-  font-size: 18px;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.06em;
-}
-
-.contrast-item p {
-  margin: 0;
-  font-size: 24px;
-  line-height: 1.4;
-}
-
-.contrast-item--avoid {
-  background: rgba(69, 95, 81, 0.06);
-  color: rgba(69, 95, 81, 0.65);
-}
-
-.contrast-item--avoid span {
-  color: rgba(69, 95, 81, 0.55);
-}
-
-.contrast-item--adopt {
-  background: rgba(153, 203, 56, 0.12);
-  color: var(--color-text-heading);
-  border-left: 4px solid var(--color-brand-primary);
-}
-
-.contrast-item--adopt span {
-  color: var(--color-brand-secondary);
-}
-
-.summary-decision__footer {
-  display: flex;
-  flex: 0 0 auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  min-height: 96px;
-  box-sizing: border-box;
-  margin-top: 28px;
-  padding: 18px 36px;
-  background: var(--color-forest-900);
-  border-radius: var(--radius-lg);
-}
-
-.summary-decision__footer span {
-  color: var(--color-brand-primary-bright);
-  font-family: var(--font-family-latin);
+  gap: 14px;
+  margin: 0 0 8px;
+  padding: 10px 22px;
+  border: 1px solid rgba(69, 95, 81, 0.28);
+  border-radius: var(--radius-pill);
+  color: rgba(69, 95, 81, 0.78);
   font-size: 22px;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.08em;
+  font-weight: var(--font-weight-semibold);
   white-space: nowrap;
 }
 
-.summary-decision__footer strong {
-  color: var(--color-text-on-brand);
+.journey__recall span {
+  color: var(--color-orange);
+  font-family: var(--font-family-latin);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+/* ---- 對應區：三張門卡 + 兩道回頭弧線 ---- */
+.journey__map {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 150px;
+}
+
+.journey__track {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}
+
+.journey__gates {
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 528px);
+  column-gap: 84px;
+  list-style: none;
+}
+
+/* 階段色沿用第 12 頁：青＝建立信任、橘＝疑慮與轉折、綠＝正向行動。 */
+.journey-gate--trust {
+  --stage: var(--color-cyan);
+  --stage-soft: rgba(78, 179, 207, 0.1);
+}
+
+.journey-gate--need {
+  --stage: var(--color-orange);
+  --stage-soft: rgba(238, 123, 8, 0.1);
+}
+
+.journey-gate--buy {
+  --stage: var(--color-green-grass);
+  --stage-soft: rgba(99, 165, 55, 0.12);
+}
+
+.journey-gate {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 30px 34px 30px;
+  display: flex;
+  flex-direction: column;
+  border-top: 3px solid var(--stage);
+  background: var(--stage-soft);
+  transition:
+    opacity 0.46s ease,
+    transform 0.46s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.journey .journey-gate.fragment:not(.visible) {
+  transform: translateY(22px);
+}
+
+.journey .journey-gate__label {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0;
+  color: var(--color-text-heading);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+}
+
+.journey-gate__label span {
+  color: var(--stage);
+  font-family: var(--font-family-latin);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+/* 客戶的原話：襯線大字加引號，與第 12 頁同一種處理。 */
+.journey .journey-gate__ask {
+  /* 一律預留兩行，三張卡的分隔線才會落在同一條水平線上。 */
+  min-height: 2.4em;
+  margin: 18px 0 0;
+  color: var(--color-text-heading);
   font-family: var(--font-family-display);
-  font-size: 30px;
+  font-size: 38px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.journey-gate__ask::before {
+  content: '「';
+}
+
+.journey-gate__ask::after {
+  content: '」';
+}
+
+.journey .journey-gate__signals {
+  margin: auto 0 0;
+  padding-top: 22px;
+  display: grid;
+  row-gap: 14px;
+  border-top: 1px solid rgba(69, 95, 81, 0.2);
+}
+
+.journey-signal {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 16px;
+}
+
+.journey .journey-signal dt {
+  padding: 3px 0;
+  color: var(--color-text-on-brand);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.journey .journey-signal dd {
+  margin: 0;
+  color: var(--color-text-heading);
+  font-size: 24px;
   font-weight: var(--font-weight-semibold);
   line-height: 1.3;
 }
 
-/* Reveal.js fragment 進入過渡 */
-.summary-decision .fragment {
+.journey-signal--pass dt {
+  background: var(--stage);
+}
+
+.journey-signal--stuck dt {
+  background: rgba(69, 95, 81, 0.42);
+}
+
+.journey-signal--stuck dd {
+  color: rgba(69, 95, 81, 0.62);
+}
+
+/* ---- 門檻：這一關沒過，就進不到下一關 ---- */
+.journey__door {
+  position: absolute;
+  top: 10px;
+  bottom: 8px;
+  width: 2px;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(69, 95, 81, 0.34) 0 9px,
+    transparent 9px 19px
+  );
+}
+
+.journey__door::after {
+  position: absolute;
+  left: 50%;
+  top: 130px;
+  width: 15px;
+  height: 15px;
+  border-top: 3px solid var(--door);
+  border-right: 3px solid var(--door);
+  background: #fbfcf8;
+  content: '';
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.journey__door--first {
+  --door: var(--color-orange);
+  left: 570px;
+}
+
+.journey__door--second {
+  --door: var(--color-green-grass);
+  left: 1182px;
+}
+
+/* ---- 回頭弧線：本頁的主角 ---- */
+.journey__returns {
+  position: relative;
+  min-width: 0;
+}
+
+/* 三段色的底線＝這條路的正向；弧線都從它下方往回跳。 */
+.journey__baseline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--color-cyan) 0 32.53%,
+    var(--color-orange) 32.53% 67.47%,
+    var(--color-green-grass) 67.47% 100%
+  );
+}
+
+.journey-return {
+  position: absolute;
+  top: 3px;
+  width: 612px;
   transition:
-    opacity var(--duration-base) ease,
-    transform var(--duration-base) ease;
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.summary-decision .summary-card--value.fragment:not(.visible) {
-  opacity: 0;
-  transform: translateX(-32px);
+.journey .journey-return.fragment:not(.visible) {
+  transform: translateX(26px);
 }
 
-.summary-decision .summary-card--decision.fragment:not(.visible) {
-  opacity: 0;
-  transform: translateX(32px);
+.journey-return--buy-to-need {
+  --arc: var(--color-orange);
+  left: 876px;
 }
 
-.summary-decision .summary-decision__footer.fragment:not(.visible) {
-  opacity: 0;
-  transform: translateY(20px);
+.journey-return--need-to-trust {
+  --arc: var(--color-cyan);
+  left: 264px;
+}
+
+.journey-return__arc {
+  display: block;
+}
+
+.journey-return__curve {
+  fill: none;
+  stroke: var(--arc);
+  stroke-width: 3;
+}
+
+.journey-return__head {
+  fill: var(--arc);
+  stroke: none;
+}
+
+.journey .journey-return__label {
+  margin: 4px 0 0;
+  color: var(--color-text-heading);
+  font-size: 24px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
+  text-align: center;
+}
+
+.journey-return__label b {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  color: var(--arc);
+  font-family: var(--font-family-latin);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* 標籤裡的往回箭頭，方向與上方弧線一致。 */
+.journey-return__label b i {
+  width: 26px;
+  height: 2px;
+  position: relative;
+  background: var(--arc);
+}
+
+.journey-return__label b i::before {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-left: 2px solid var(--arc);
+  border-bottom: 2px solid var(--arc);
+  content: '';
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* ---- 收尾：深綠＝結論，與第 12 頁的收尾條同一種語彙 ---- */
+.journey__verdict {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 36px;
+  border-left: 10px solid var(--color-brand-primary-bright);
+  background: var(--color-forest-900);
+  transition:
+    opacity 0.46s ease,
+    transform 0.46s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.journey .journey__verdict.fragment:not(.visible) {
+  transform: translateY(18px);
+}
+
+.journey .journey__verdict p {
+  margin: 0;
+  color: var(--color-text-on-brand);
+  font-family: var(--font-family-display);
+  font-size: 34px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+
+.journey__verdict strong {
+  color: var(--color-brand-primary-bright);
+  font-weight: var(--font-weight-bold);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .summary-decision .fragment {
+  .journey-gate,
+  .journey-return,
+  .journey__verdict {
     transition: none;
   }
 }

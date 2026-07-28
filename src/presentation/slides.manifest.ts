@@ -338,14 +338,14 @@ export const slides: SlideEntry[] = [
   {
     id: 'summary-decision',
     chapter: '課程總結',
-    title: '成交，是協助客戶做出合適決定',
-    previewShape: 'cover',
+    title: '心裡的三道門，只能照順序開',
+    previewShape: 'content',
     component: SummaryDecisionPage,
   },
   {
     id: 'action-commitment',
     chapter: '課程總結',
-    title: '下一次選配，我準備改變什麼？',
+    title: '客戶要的不是被說服，是被理解',
     previewShape: 'cover',
     component: ActionCommitmentPage,
   },

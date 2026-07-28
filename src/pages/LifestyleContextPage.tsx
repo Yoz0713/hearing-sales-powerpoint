@@ -32,7 +32,7 @@ const STOPS: LifeStop[] = [
   {
     key: 'communication',
     index: '02',
-    place: '溝通現場',
+    place: '社交場合',
     scene: '電話、視訊、餐廳、多人談話裡最常漏聽的時刻',
     closed: '您平常會用電話嗎？',
     open: '電話、餐廳還是多人場合，哪裡最困擾？',

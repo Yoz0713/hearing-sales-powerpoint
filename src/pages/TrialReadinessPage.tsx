@@ -93,11 +93,11 @@ export function TrialReadinessPage() {
 
           <article className="readiness-branch readiness-branch--invite">
             <p>時機已經成熟</p>
-            <h2>輕度邀請試聽</h2>
+            <h2>邀請試聽</h2>
             <ul>
               {READINESS_SIGNALS.invited.map((signal) => <li key={signal}>{signal}</li>)}
             </ul>
-            <blockquote>「要不要先戴看看，感受一下現在的助聽器？」</blockquote>
+            <blockquote>「我將您的聽力報告輸入，您可以聽看看。」</blockquote>
           </article>
         </div>
       </main>

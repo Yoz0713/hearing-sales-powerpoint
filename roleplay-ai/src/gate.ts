@@ -1,19 +1,23 @@
 /**
  * 關卡機制（寫在前端）。本版把「判定」與「回覆」合併成單次結構化輸出：
- * 模型一次回傳五個布林判斷 + 陳先生的回覆。判斷排在 reply 之前（先判定、再一致地寫回覆）。
+ * 模型一次回傳八個布林判斷 + 陳先生的回覆。判斷排在 reply 之前（先判定、再一致地寫回覆）。
  *
  * 四個階段：防備 → 鬆口(open) → 心防放下(ready) → 答應邀約(accepted)。
  * 最後一步一定要由學員主動邀請；陳先生不會自己提（見 persona.ts 的 NEVER_INITIATE）。
  */
 
-/** 五個判定準則（針對學員最新一則訊息）。 */
+/** 單一回合的判定準則。 */
 export interface GateVerdict {
   /** 是否問了關於「生活情境」的開放式問題（作息、社交、什麼場合／跟誰聽不清）。 */
   lifeContext: boolean;
-  /** 是否問了價格以外「真正在意／擔心的事」。 */
-  realConcern: boolean;
-  /** 是否具體回應／同理陳先生「已經說出口」的顧慮（而非跳回規格與價格）。 */
-  addressedConcern: boolean;
+  /** 是否有效探索價格以外、不願配戴或嘗試的原因。 */
+  concernProbe: boolean;
+  /** 是否直接探索外觀、被看見、顯老、標籤，或有意義地追問陳先生給的相關提示。 */
+  identityProbe: boolean;
+  /** 陳先生在這一則 reply 是否明確說出外觀／身份標籤焦慮。 */
+  identityConcernDisclosed: boolean;
+  /** 是否具體回應／同理陳先生先前已說出口的外觀／身份標籤焦慮。 */
+  identityConcernAddressed: boolean;
   /** 這一則是否明確提出下一步邀約（試戴、約時間、請他帶太太一起來）。 */
   invited: boolean;
   /** 這一則是否「沒有」急著介紹產品／報價／說服（true = 沒有推銷）。 */
@@ -28,9 +32,12 @@ export interface GateVerdict {
 /** 累積的關卡狀態（跨回合累加）。 */
 export interface GateState {
   lifeContext: boolean;
-  realConcern: boolean;
-  /** 鬆口之後，學員是否好好回應了他的顧慮。 */
-  addressedConcern: boolean;
+  /** 生活痛點建立後，有效探索排斥原因的次數；2 代表已到提示門檻。 */
+  concernProbeCount: number;
+  /** 陳先生是否已明確說出怕被看見、顯老或被貼標籤。 */
+  identityConcernDisclosed: boolean;
+  /** 學員是否好好回應了已說出口的外觀／身份標籤焦慮。 */
+  identityConcernAddressed: boolean;
   /** 陳先生已答應學員的邀約 —— 這一輪成功收尾。 */
   accepted: boolean;
   /** 時機未到就邀約、被婉拒的次數（回饋報告用）。 */
@@ -45,8 +52,9 @@ export interface GateState {
 
 export const INITIAL_GATE_STATE: GateState = {
   lifeContext: false,
-  realConcern: false,
-  addressedConcern: false,
+  concernProbeCount: 0,
+  identityConcernDisclosed: false,
+  identityConcernAddressed: false,
   accepted: false,
   earlyInvites: 0,
   lastNotPushy: true,
@@ -57,21 +65,22 @@ export const INITIAL_GATE_STATE: GateState = {
 /** 對話階段。 */
 export type Stage = 'closed' | 'open' | 'ready' | 'accepted';
 
-/** 鬆口條件：同時問到「生活情境」與「真正顧慮」。 */
+/** 鬆口條件：生活痛點已建立，而且核心的外觀／標籤焦慮已由陳先生說出口。 */
 export function isOpen(state: GateState): boolean {
-  return state.lifeContext && state.realConcern;
+  return state.lifeContext && state.identityConcernDisclosed;
 }
 
 export function stageOf(state: GateState): Stage {
   if (state.accepted) return 'accepted';
-  if (state.addressedConcern) return 'ready';
+  if (state.identityConcernAddressed) return 'ready';
   if (isOpen(state)) return 'open';
   return 'closed';
 }
 
 /**
  * 把單則判定併入累積狀態。
- * 關鍵順序：`addressedConcern` 只在「這一則之前就已鬆口」時才採計 ——
+ * 關鍵順序：核心顧慮只能在「這一則以前已有生活情境」時揭露；
+ * `identityConcernAddressed` 只在「這一則之前就已鬆口」時才採計 ——
  * 顧慮是在鬆口那一則才被說出口的，不可能在同一則就被回應，藉此擋掉跳關。
  * 邀約則允許同一則同時「回應顧慮 + 提出邀約」（真實銷售常見的自然說法）。
  */
@@ -81,16 +90,27 @@ export function mergeVerdict(state: GateState, v: GateVerdict): GateState {
     return { ...state, lastNotPushy: true, lastInviteDeclined: false, lastOffTopic: true };
   }
 
+  // 先建立生活情境，再探索核心排斥原因；同一句把兩者全猜完不算建立信任。
+  const hadLifeContext = state.lifeContext;
   const wasOpen = isOpen(state);
-  const addressedConcern = state.addressedConcern || (wasOpen && v.addressedConcern);
-  const inviteWelcome = wasOpen && addressedConcern;
+  const concernProbeCount = Math.min(
+    2,
+    state.concernProbeCount + (hadLifeContext && v.concernProbe ? 1 : 0),
+  );
+  const identityConcernDisclosed =
+    state.identityConcernDisclosed ||
+    (hadLifeContext && v.identityProbe && v.identityConcernDisclosed);
+  const identityConcernAddressed =
+    state.identityConcernAddressed || (wasOpen && v.identityConcernAddressed);
+  const inviteWelcome = wasOpen && identityConcernAddressed;
   const accepted = state.accepted || (v.invited && inviteWelcome);
   const declined = v.invited && !inviteWelcome;
 
   return {
     lifeContext: state.lifeContext || v.lifeContext,
-    realConcern: state.realConcern || v.realConcern,
-    addressedConcern,
+    concernProbeCount,
+    identityConcernDisclosed,
+    identityConcernAddressed,
     accepted,
     earlyInvites: state.earlyInvites + (declined ? 1 : 0),
     lastNotPushy: v.notPushy,
@@ -100,7 +120,7 @@ export function mergeVerdict(state: GateState, v: GateVerdict): GateState {
 }
 
 /**
- * Gemini responseSchema（OpenAPI 子集）：六個布林 + reply。
+ * Gemini responseSchema（OpenAPI 子集）：八個布林 + reply。
  * 型別用大寫字串，對應 @google/genai 的 Type 列舉值，以純物件從前端傳到代理函式。
  * 註：不放 propertyOrdering，避免部分模型對此欄位回 400。
  */
@@ -108,8 +128,10 @@ export const CONVERSE_SCHEMA = {
   type: 'OBJECT',
   properties: {
     lifeContext: { type: 'BOOLEAN' },
-    realConcern: { type: 'BOOLEAN' },
-    addressedConcern: { type: 'BOOLEAN' },
+    concernProbe: { type: 'BOOLEAN' },
+    identityProbe: { type: 'BOOLEAN' },
+    identityConcernDisclosed: { type: 'BOOLEAN' },
+    identityConcernAddressed: { type: 'BOOLEAN' },
     invited: { type: 'BOOLEAN' },
     notPushy: { type: 'BOOLEAN' },
     offTopic: { type: 'BOOLEAN' },
@@ -117,8 +139,10 @@ export const CONVERSE_SCHEMA = {
   },
   required: [
     'lifeContext',
-    'realConcern',
-    'addressedConcern',
+    'concernProbe',
+    'identityProbe',
+    'identityConcernDisclosed',
+    'identityConcernAddressed',
     'invited',
     'notPushy',
     'offTopic',
@@ -180,8 +204,10 @@ export function parseConverse(raw: string): { reply: string; verdict: GateVerdic
       reply: typeof obj.reply === 'string' ? obj.reply : '',
       verdict: {
         lifeContext: obj.lifeContext === true,
-        realConcern: obj.realConcern === true,
-        addressedConcern: obj.addressedConcern === true,
+        concernProbe: obj.concernProbe === true,
+        identityProbe: obj.identityProbe === true,
+        identityConcernDisclosed: obj.identityConcernDisclosed === true,
+        identityConcernAddressed: obj.identityConcernAddressed === true,
         invited: obj.invited === true,
         notPushy: obj.notPushy !== false,
         offTopic: obj.offTopic === true,
@@ -192,8 +218,10 @@ export function parseConverse(raw: string): { reply: string; verdict: GateVerdic
       reply: '',
       verdict: {
         lifeContext: false,
-        realConcern: false,
-        addressedConcern: false,
+        concernProbe: false,
+        identityProbe: false,
+        identityConcernDisclosed: false,
+        identityConcernAddressed: false,
         invited: false,
         notPushy: true,
         offTopic: false,

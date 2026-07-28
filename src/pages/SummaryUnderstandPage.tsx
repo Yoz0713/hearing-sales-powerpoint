@@ -78,7 +78,7 @@ export function SummaryUnderstandPage() {
 
         <div className="summary-understand__content">
           <header className="summary-understand__heading js-summary-understand-heading">
-            <p>顧問式銷售的前半段</p>
+            <p>顧問式銷售</p>
             <h1>先理解人，再提出方案</h1>
           </header>
 

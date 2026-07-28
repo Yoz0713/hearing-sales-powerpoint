@@ -11,7 +11,9 @@ const OBSERVATION_STEPS = [
   { label: '衛教', fragmentIndex: 3 },
 ] as const;
 
-const TRIAL_STEP = { label: '試聽', fragmentIndex: 5 } as const;
+// 逐步順序刻意讓「試聽」先出現、再收斂到「最後決定點」，
+// 版面位置維持不變（決定點仍畫在兩個階段中間），只調換顯示先後。
+const TRIAL_STEP = { label: '試聽', fragmentIndex: 4 } as const;
 
 /** D18.5：強調經濟能力與等級範圍必須在試聽前完成初步判斷。 */
 export function EconomicAssessmentTimingPage() {
@@ -76,7 +78,7 @@ export function EconomicAssessmentTimingPage() {
             </div>
           </article>
 
-          <div className="economic-timing__decision fragment" data-fragment-index={4}>
+          <div className="economic-timing__decision fragment" data-fragment-index={5}>
             <span aria-hidden="true" />
             <p>最後決定點</p>
             <b>確認試聽等級</b>

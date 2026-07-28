@@ -51,9 +51,12 @@ function paceScore(accepted: boolean, turns: number): number {
 }
 
 export function calculateRating(gate: GateState, metrics: Metrics, userTurns: number): Rating {
-  const hits = [gate.lifeContext, gate.realConcern, gate.addressedConcern, gate.accepted].filter(
-    Boolean,
-  ).length;
+  const hits = [
+    gate.lifeContext,
+    gate.identityConcernDisclosed,
+    gate.identityConcernAddressed,
+    gate.accepted,
+  ].filter(Boolean).length;
 
   const milestones = (hits / MILESTONE_TOTAL) * 100;
   const pace = paceScore(gate.accepted, userTurns);

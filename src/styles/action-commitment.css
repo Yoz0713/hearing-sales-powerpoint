@@ -1,242 +1,333 @@
-/* D33：最後行動題與結尾 - 下一次選配，我準備改變什麼？ */
-.action-commitment {
-  justify-content: flex-start;
-  padding-top: 60px;
+/* D33：課程結尾 - 42 → 3 → 1。
+   版面在三個狀態之間不重排，只是把雜訊排掉：
+   24 句話（3 欄 × 8 列）→ 中央第三列的三句主線 → 一句結論。
+   結論絕對定位在第三列的帶心（ledger 高 718，列高 89.75，2.5 列 ≈ 224），
+   所以它正好落在剛才那三句話待過的位置。 */
+.finale {
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 88% 14%, rgba(153, 203, 56, 0.14), transparent 34%),
+    linear-gradient(160deg, #fff 0 62%, #f6f8f1 100%);
+}
+
+.finale__stage {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 56px 84px 44px;
+  display: grid;
+  grid-template-rows: 56px 150px minmax(0, 1fr);
+  row-gap: 26px;
   overflow: hidden;
 }
 
-.action-commitment__heading {
-  flex: 0 0 auto;
+/* ---- 頁首 ---- */
+.finale__nav {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 42px;
 }
 
-.action-commitment__heading .counseling-title {
-  max-width: 1560px;
+.finale__logo {
+  width: 208px;
+}
+
+.finale__nav-trail {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.finale__nav-trail span {
+  flex: none;
+  color: rgba(69, 95, 81, 0.62);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.1em;
+}
+
+.finale__nav-trail i {
+  width: 100%;
+  height: 1px;
+  display: block;
+  background: rgba(69, 95, 81, 0.22);
+}
+
+/* ---- 計數：42 → 3 → 1，三行疊在同一格 ---- */
+.finale__count {
+  position: relative;
+  min-width: 0;
+  margin-top: 4px;
+}
+
+.finale .finale-count {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
   margin: 0;
-  font-size: 60px;
-  line-height: 1.12;
+  display: flex;
+  align-items: baseline;
+  gap: 28px;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: translateY(10px);
+}
+
+/* 進場時看到的是還沒收斂的那一行。 */
+.finale .finale-count--all {
+  opacity: 1;
+  transform: none;
+}
+
+.finale-count b {
+  flex: none;
+  font-family: var(--font-family-latin);
+  font-size: 104px;
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+}
+
+.finale-count span {
+  min-width: 0;
+  color: rgba(69, 95, 81, 0.72);
+  font-size: 28px;
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.02em;
 }
 
-.action-commitment__lead {
-  margin: 12px 0 0;
-  color: rgba(69, 95, 81, 0.8);
-  font-size: 26px;
-  line-height: 1.4;
+/* 42 是還沒收斂的量，用描邊；3 與 4 沿用 P.12 的橘＝轉折、綠＝結論。 */
+.finale-count--all b {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(69, 95, 81, 0.42);
 }
 
-/* 回指 P42 的細軌跡：被標記的那一段用深綠實心，
-   不用橘色——本頁的橘／翡翠已指派給「少說／多問」，避免被誤讀成有對應關係。 */
-.action-recall {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 32px;
-  margin-top: 26px;
-  padding-top: 20px;
-  border-top: 2px solid rgba(69, 95, 81, 0.16);
-}
-
-.action-recall__label {
-  flex: 0 0 auto;
-  margin: 0;
-  color: rgba(69, 95, 81, 0.62);
-  font-size: 24px;
-  line-height: 1.3;
-}
-
-.action-recall__rail {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.action-recall__stage {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-/* 段與段之間的短連線，維持「一條軌跡」的讀法；
-   放在 li 上而非 chip 上，標記時才不會被 chip 底色吃掉。 */
-.action-recall__stage + .action-recall__stage::before {
-  width: 26px;
-  height: 2px;
-  background: rgba(69, 95, 81, 0.2);
-  content: '';
-}
-
-.action-recall__chip {
-  padding: 4px 0;
-  color: rgba(69, 95, 81, 0.5);
-  font-family: var(--font-family-display);
-  font-size: 26px;
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-
-.action-recall__stage.is-marked .action-recall__chip {
-  padding: 4px 22px;
-  border-radius: var(--radius-pill);
-  background: var(--color-forest-900);
-  color: var(--color-text-on-brand);
-}
-
-.action-commitment__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 36px;
-  flex: 1 1 auto;
-  min-height: 0;
-  margin-top: 32px;
-}
-
-.action-card {
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  padding: 36px 42px;
-  background: var(--color-surface-base);
-  border: 1px solid rgba(69, 95, 81, 0.2);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--elevation-1);
-}
-
-.action-card__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.action-card__tag {
-  color: var(--color-brand-secondary);
-  font-family: var(--font-family-latin);
-  font-size: 22px;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.08em;
-}
-
-.action-card__badge {
-  padding: 4px 16px;
-  border-radius: var(--radius-pill);
-  font-size: 18px;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.06em;
-}
-
-.action-card__badge--minus {
-  background: rgba(238, 123, 8, 0.12);
+.finale-count--three b {
   color: var(--color-orange);
 }
 
-.action-card__badge--plus {
-  background: rgba(55, 167, 111, 0.12);
-  color: var(--color-green-emerald);
+.finale-count--one b {
+  color: var(--color-green-grass);
 }
 
-.action-card__question {
-  margin: 22px 0 0;
+/* ---- 今天講過的話 ---- */
+.finale__ledger {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(8, minmax(0, 1fr));
+  column-gap: 48px;
+}
+
+.finale .finale-line {
+  position: relative;
+  align-self: center;
+  min-width: 0;
+  margin: 0;
+  color: rgba(69, 95, 81, 0.4);
+  font-size: 26px;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.3;
+  white-space: nowrap;
+  transition: opacity 0.55s ease, color 0.55s ease, font-weight 0.55s ease;
+}
+
+/* 出處標在行的上方且不佔位，收斂前不會讓這三行掉出同一條基線。 */
+.finale-line__from {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  margin-bottom: 7px;
+  color: var(--color-orange);
+  font-family: var(--font-family-latin);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  transition: opacity 0.45s ease 0.15s;
+}
+
+/* 只改樣式那一步的開關，本身不佔任何空間。 */
+.finale__cut {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* ---- 狀態二：其餘 21 句退場，中央那一列留下來 ---- */
+.finale:has(.js-finale-cut.visible) .finale-line:not(.finale-line--key) {
+  opacity: 0.07;
+}
+
+.finale:has(.js-finale-cut.visible) .finale-line.finale-line--key {
+  color: var(--color-text-heading);
+  font-weight: var(--font-weight-bold);
+}
+
+.finale:has(.js-finale-cut.visible) .finale-line__from {
+  opacity: 1;
+}
+
+.finale:has(.js-finale-cut.visible) .finale-count--all {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.finale:has(.js-finale-cut.visible) .finale-count--three {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- 狀態三：連那三句也退場，只剩結論 ---- */
+.finale:has(.finale__answer.visible) .finale-line:not(.finale-line--key) {
+  opacity: 0;
+}
+
+.finale:has(.finale__answer.visible) .finale-line.finale-line--key {
+  opacity: 0;
+}
+
+.finale:has(.finale__answer.visible) .finale-line__from {
+  opacity: 0;
+}
+
+.finale:has(.finale__answer.visible) .finale-count--three {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.finale:has(.finale__answer.visible) .finale-count--one {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- 結論：第四個同句型的句子，落在那三句的位置上 ---- */
+.finale .finale__answer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 226px;
+  margin: 0;
   color: var(--color-text-heading);
   font-family: var(--font-family-display);
-  font-size: 38px;
+  font-size: 72px;
   font-weight: var(--font-weight-bold);
-  line-height: 1.3;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  text-align: center;
+  transform: translateY(-50%);
+  transition: opacity 0.7s ease;
 }
 
-.action-card__hint {
-  margin: 20px 0 0;
-  color: rgba(69, 95, 81, 0.76);
-  font-size: 23px;
-  line-height: 1.45;
+.finale .finale__answer.fragment:not(.visible) {
+  opacity: 0;
 }
 
-/* 壓軸完結金句 Banner */
-.action-commitment__closing {
-  flex: 0 0 auto;
-  margin-top: 28px;
+.finale__answer span {
+  color: rgba(69, 95, 81, 0.42);
+  font-weight: var(--font-weight-regular);
 }
 
-.closing-banner {
+.finale__answer strong {
   position: relative;
+  font-weight: var(--font-weight-bold);
+}
+
+.finale__answer strong i {
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  bottom: -12px;
+  height: 7px;
+  display: block;
+  background: var(--color-brand-primary-bright);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.62s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s;
+}
+
+.finale:has(.finale__answer.visible) .finale__answer strong i {
+  transform: scaleX(1);
+}
+
+/* ---- 收尾：帶回現場的那一句 ---- */
+.finale__handover {
+  position: absolute;
+  left: 84px;
+  right: 84px;
+  bottom: 44px;
+  box-sizing: border-box;
+  min-height: 116px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 48px;
-  box-sizing: border-box;
-  padding: 24px 44px;
+  gap: 36px;
+  padding: 0 36px;
+  border-left: 10px solid var(--color-brand-primary-bright);
   background: var(--color-forest-900);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--elevation-2);
-  overflow: hidden;
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.closing-banner::before {
-  position: absolute;
-  right: -80px;
-  top: -80px;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(153, 203, 56, 0.15), transparent 70%);
-  content: '';
-  pointer-events: none;
+.finale .finale__handover.fragment:not(.visible) {
+  opacity: 0;
+  transform: translateY(24px);
 }
 
-.closing-banner__lead {
-  flex: 0 0 auto;
+.finale .finale__handover-label {
+  flex: none;
   margin: 0;
   color: var(--color-brand-primary-bright);
-  font-family: var(--font-family-latin);
   font-size: 22px;
   font-weight: var(--font-weight-bold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
 
-.closing-banner__quote {
-  flex: 1 1 auto;
+.finale .finale__handover-ask {
+  min-width: 0;
   margin: 0;
   color: var(--color-text-on-brand);
   font-family: var(--font-family-display);
-  font-size: 34px;
+  font-size: 36px;
   font-weight: var(--font-weight-semibold);
-  line-height: 1.35;
-  text-align: right;
+  line-height: 1.3;
 }
 
-.closing-banner__quote em {
-  font-style: normal;
-  color: var(--color-brand-primary-bright);
-  text-shadow: 0 0 24px rgba(153, 203, 56, 0.35);
+/* 講師在 P.40 標了「下一輪想調整」才出現。 */
+.finale .finale__handover-mark {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0 0 0 auto;
+  padding: 8px 24px;
+  border: 1px solid rgba(153, 203, 56, 0.5);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-on-brand);
+  font-size: 26px;
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
 }
 
-/* Reveal.js fragment 進入過渡 */
-.action-commitment .fragment {
-  transition:
-    opacity var(--duration-base) ease,
-    transform var(--duration-base) ease;
-}
-
-.action-commitment .action-card--minus.fragment:not(.visible) {
-  opacity: 0;
-  transform: translateX(-32px);
-}
-
-.action-commitment .action-card--plus.fragment:not(.visible) {
-  opacity: 0;
-  transform: translateX(32px);
-}
-
-.action-commitment .action-commitment__closing.fragment:not(.visible) {
-  opacity: 0;
-  transform: translateY(22px);
+.finale__handover-mark span {
+  color: rgba(153, 203, 56, 0.9);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .action-commitment .fragment {
+  .finale .finale-count,
+  .finale .finale-line,
+  .finale .finale-line__from,
+  .finale .finale__answer,
+  .finale .finale__answer strong i,
+  .finale .finale__handover {
     transition: none;
   }
 }

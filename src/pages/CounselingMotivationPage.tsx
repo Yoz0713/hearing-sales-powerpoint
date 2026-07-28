@@ -19,7 +19,7 @@ export function CounselingMotivationPage() {
   const motives = [
     '聽不清楚',
     '耳鳴不舒服',
-    '想試看看助聽器',
+    '誰誰誰叫我來',
     '電視要開很大聲',
     '講電話很吃力',
     '想知道有沒有退化',
@@ -67,7 +67,7 @@ export function CounselingMotivationPage() {
               他說：「我就是聽不清楚。」
             </p>
             <p className="motivation-truth-insight">
-              「聽不清楚」是症狀，不是需求。要再追下去：跟誰講話？在什麼場合？多久發生一次？聽不到的當下會發生什麼事？——追到這一層，才有東西可以選配。
+              「聽不清楚」是症狀，不是需求。要再追下去：跟誰講話？在什麼場合？多久發生一次？這個狀況多久了？——追問到這些，才有東西可以選配。
             </p>
           </div>
         </div>

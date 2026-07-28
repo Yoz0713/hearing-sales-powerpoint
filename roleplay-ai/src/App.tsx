@@ -40,7 +40,12 @@ const STATE_LABEL: Record<Stage, string> = {
 const MILESTONES = ['問到生活情境', '問到真正顧慮', '回應他的擔心', '成功開口邀約'] as const;
 
 function hitCount(gate: GateState): boolean[] {
-  return [gate.lifeContext, gate.realConcern, gate.addressedConcern, gate.accepted];
+  return [
+    gate.lifeContext,
+    gate.identityConcernDisclosed,
+    gate.identityConcernAddressed,
+    gate.accepted,
+  ];
 }
 
 export function App() {
