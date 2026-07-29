@@ -6,7 +6,7 @@
 import { GoogleGenAI } from '@google/genai';
 
 // 使用者指定的模型字串。
-const MODEL = 'gemini-3.6-flash';
+const MODEL = 'gemini-3.5-flash-lite';
 
 // 防呆上限
 const MAX_MESSAGES = 60;
