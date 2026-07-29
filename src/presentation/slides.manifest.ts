@@ -324,7 +324,7 @@ export const slides: SlideEntry[] = [
   {
     id: 'roleplay-observer',
     chapter: '異議實戰',
-    title: '觀察的不是話術，是客戶有沒有被理解',
+    title: '四個任務，對話要怎麼走？',
     previewShape: 'content',
     component: RoleplayObserverPage,
   },

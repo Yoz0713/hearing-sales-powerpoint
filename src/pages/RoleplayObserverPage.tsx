@@ -1,175 +1,139 @@
 import { useCallback } from 'react';
 import { gsap } from 'gsap';
 import { SlideShell } from '../components/layouts/SlideShell';
-import { useSlideReset } from '../hooks/useSlideReset';
-import { useObserverMarks, type ObserverMark } from '../context/ObserverMarksContext';
 import { motion } from '../tokens/motion';
 
-const MARK_LABEL: Record<ObserverMark, string> = {
-  keep: '這一段最有幫助',
-  adjust: '下一輪想調整這裡',
-};
-
 /**
- * 四段軌跡依對話實際發生的先後排列：先聽、再問、產品出現的時機、最後推進。
- * 順序本身就是觀察重點，因此不另外編號。
- * 由 P45（ActionCommitmentPage）匯入取用段名，回指學員標成「下一輪想調整」的那一段。
+ * 與 role-play AI 的四個任務一一對應。
+ * 每一列都是能成功觸發該目標的示範對話，不是固定話術。
+ * `name` 保留給最後一頁既有的回指契約使用。
  */
 export const OBSERVER_STAGES = [
   {
     id: 'listen',
-    moment: '對話前段',
-    name: '傾聽',
-    asks: ['你說得比客戶多嗎？', '是先理解再回答，還是聽到關鍵字就開始講？'],
+    task: '問到生活情境',
+    name: '打開生活',
+    audiologist: '「陳先生，平常哪些場合最容易讓您覺得聽不清楚？」',
+    customer: '「每週跟老朋友聚餐時，常常跟不上大家在聊什麼。」',
+    success: '說出具體生活場景',
   },
   {
     id: 'explore',
-    moment: '對話中段',
-    name: '探索',
-    asks: ['有沒有追問到具體情境？', '有沒有找到真正的顧慮，還是停在第一句話？'],
+    task: '讓他說出真正顧慮',
+    name: '找到顧慮',
+    audiologist: '「除了價格，還有什麼原因，讓您不太想戴助聽器？」',
+    customer: '「我怕別人一看就知道，好像在告訴大家我老了。」',
+    success: '說出外觀與身份焦慮',
   },
   {
     id: 'timing',
-    moment: '產品出現之前',
-    name: '時機',
-    asks: ['產品有沒有出現得太早？'],
-    note: '這一項最常中槍。',
+    task: '回應他的擔心',
+    name: '接住擔心',
+    audiologist: '「我懂，您在意的不只是聽不聽得到，也是不想被別人看老。我們先以低調、自在為前提。」',
+    customer: '「對，我就是不想被看老。低調一點，我可以試。」',
+    success: '顧慮被具體接住',
   },
   {
     id: 'advance',
-    moment: '對話收尾',
-    name: '推進',
-    asks: ['有沒有協助客戶找到下一步？'],
+    task: '成功開口邀約',
+    name: '開口邀請',
+    audiologist: '「那我們先試戴十分鐘，模擬聚餐環境；合適再談，不合適就先停，可以嗎？」',
+    customer: '「好，那就先試看看。」',
+    success: '客戶答應下一步',
   },
 ] as const;
 
 /**
- * D30：作答／角色扮演之後的回饋頁。
- * 四段可觀察的行為排成一條連續軌跡，點一下依序標記「最有幫助 → 下一輪調整 → 取消」；
- * 兩種標記各自全頁只能存在一個，用結構強制「只講一個做得好、一個要調整」。
- * 不計分、不排名，未標記的段落全部維持中性；顏色只出現在被選中的那兩段。
- * 軌跡一次顯示（GSAP），終點問題交給 Reveal fragment，在回饋結束後才落下。
+ * P40：role-play AI 練習後的四任務示範對話。
  *
- * 標記狀態放在 ObserverMarksContext：其中的「下一輪想調整」會被 P45 回指，
- * 讓學員把這一段寫成具體的一句話。
+ * UI 沿用「詢問病史」頁的問答泡泡，但改成四條橫向對話列，
+ * 讓任務、聽力師說法、客戶反應與成功訊號可以直接逐列對照。
+ * 對話列只交給 Reveal fragment；GSAP 僅負責頁首，避免所有權衝突。
  */
 export function RoleplayObserverPage() {
-  const marks = useObserverMarks();
-
-  // R 鍵或離頁再進入：清空兩個標記，回到全中性的軌跡。
-  // 只在「進入」本頁時觸發，因此往後翻到 P45 的路上標記會保留。
-  const { clear } = marks;
-  useSlideReset(useCallback(() => clear(), [clear]));
-
   const animate = useCallback((scope: HTMLElement) => {
     gsap.timeline({ defaults: { ease: motion.ease.standard } })
-      .from(scope.querySelector('.js-observer-kicker'), {
+      .from(scope.querySelector('.js-dialogue-kicker'), {
         x: -28,
         opacity: 0,
         duration: motion.duration.base,
       })
-      .from(scope.querySelector('.js-observer-title'), {
-        y: 24,
+      .from(scope.querySelector('.js-dialogue-title'), {
+        y: 20,
         opacity: 0,
         duration: motion.duration.base,
-      }, '-=0.22')
-      .from(scope.querySelector('.js-observer-lead'), {
+      }, '-=0.24')
+      .from(scope.querySelector('.js-dialogue-lead'), {
+        y: 14,
         opacity: 0,
         duration: motion.duration.base,
-      }, '-=0.15')
-      .from(scope.querySelector('.js-observer-rule'), {
-        y: 18,
+      }, '-=0.28')
+      .from(scope.querySelector('.js-dialogue-case'), {
+        x: 24,
         opacity: 0,
         duration: motion.duration.base,
-      }, '-=0.35')
-      .from(scope.querySelector('.js-observer-rail'), {
-        scaleX: 0,
-        transformOrigin: 'left center',
-        duration: motion.duration.slow,
-        ease: motion.ease.emphasis,
-      }, '-=0.2')
-      .from(scope.querySelectorAll('.js-observer-stage'), {
-        y: 26,
-        opacity: 0,
-        duration: motion.duration.base,
-        stagger: 0.1,
-      }, '-=0.55')
-      .from(scope.querySelector('.js-observer-drop'), {
-        scaleY: 0,
-        transformOrigin: 'top center',
-        duration: motion.duration.base,
-      }, '-=0.15');
+      }, '-=0.42');
   }, []);
 
   return (
     <SlideShell className="counseling roleplay-observer" animate={animate}>
       <header className="roleplay-observer__head">
         <div className="roleplay-observer__intro">
-          <p className="counseling-kicker js-observer-kicker">作答後講評</p>
-          <h1 className="counseling-title js-observer-title">
-            觀察的不是話術，是客戶有沒有被理解
-          </h1>
-          <p className="roleplay-observer__lead js-observer-lead">
-            不評分個性，只看剛才那段對話裡，四個真的發生過的行為。
+          <p className="counseling-kicker js-dialogue-kicker">練習後示範</p>
+          <h1 className="counseling-title js-dialogue-title">四個任務，對話要怎麼走？</h1>
+          <p className="roleplay-observer__lead js-dialogue-lead">
+            以下是一段能依序觸發四個目標的模擬對話。重點不是背句子，而是看每一句讓客戶多說了什麼。
           </p>
         </div>
 
-        <aside className="observer-rule js-observer-rule" aria-label="回饋原則">
-          <p className="observer-rule__label">回饋原則</p>
-          <ul className="observer-rule__legend">
-            <li className="observer-rule__item observer-rule__item--keep">
-              只挑一段最有幫助的
-            </li>
-            <li className="observer-rule__item observer-rule__item--adjust">
-              只挑一段下一輪要調整的
-            </li>
-          </ul>
-          <p className="observer-rule__note">講太多，一個都改不掉。</p>
-          {marks.adjust && (
-            <p className="observer-rule__carry">這一段會帶到最後一頁。</p>
-          )}
+        <aside className="roleplay-observer__case js-dialogue-case" aria-label="模擬對話情境">
+          <p>模擬對象</p>
+          <strong>陳先生｜65 歲</strong>
+          <span>嫌貴，也怕戴了顯老</span>
         </aside>
       </header>
 
-      <main className="observer-track" aria-label="四段可觀察的行為">
-        <span className="observer-track__rail js-observer-rail" aria-hidden="true" />
-        <span className="observer-track__terminus" aria-hidden="true" />
-        <span className="observer-track__drop js-observer-drop" aria-hidden="true" />
+      <main className="mission-dialogue" aria-label="成功觸發四個任務的模擬對話表">
+        <div className="mission-dialogue__columns" aria-hidden="true">
+          <span>這一列的任務</span>
+          <span>聽力師怎麼問／怎麼說</span>
+          <span>陳先生的反應</span>
+          <span>成功訊號</span>
+        </div>
 
-        {OBSERVER_STAGES.map((stage) => {
-          const mark: ObserverMark | null =
-            marks.keep === stage.id ? 'keep' : marks.adjust === stage.id ? 'adjust' : null;
-          return (
-            <button
-              key={stage.id}
-              type="button"
-              className={`observer-stage js-observer-stage${mark ? ` is-${mark}` : ''}`}
-              onClick={() => marks.toggle(stage.id)}
-            >
-              <span className="observer-stage__moment">{stage.moment}</span>
-              <span className="observer-stage__node" aria-hidden="true" />
-              <span className="observer-stage__name">{stage.name}</span>
-              <span className="observer-stage__asks">
-                {stage.asks.map((ask) => (
-                  <span key={ask} className="observer-stage__ask">{ask}</span>
-                ))}
-                {'note' in stage && <span className="observer-stage__note">{stage.note}</span>}
-              </span>
-              <span className="observer-stage__mark">
-                {mark ? MARK_LABEL[mark] : '點一下標記'}
-              </span>
-            </button>
-          );
-        })}
+        {OBSERVER_STAGES.map((stage, index) => (
+          <article
+            key={stage.id}
+            className="mission-dialogue__row fragment"
+            data-fragment-index={index}
+          >
+            <div className="mission-dialogue__task">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <strong>{stage.task}</strong>
+            </div>
+
+            <div className="mission-dialogue__bubble mission-dialogue__bubble--ask">
+              <span>聽力師</span>
+              <p>{stage.audiologist}</p>
+            </div>
+
+            <div className="mission-dialogue__bubble mission-dialogue__bubble--reply">
+              <span>陳先生</span>
+              <p>{stage.customer}</p>
+            </div>
+
+            <div className="mission-dialogue__success">
+              <i aria-hidden="true" />
+              <span>目標達成</span>
+              <strong>{stage.success}</strong>
+            </div>
+          </article>
+        ))}
       </main>
 
-      <footer className="observer-end">
-        <p className="observer-end__question fragment" data-fragment-index="0">
-          客戶有沒有感到被理解？
-        </p>
-        <p className="observer-end__note fragment" data-fragment-index="1">
-          有人講得結結巴巴，但客戶願意一直講下去——那就是好的選配。
-        </p>
+      <footer className="roleplay-observer__rule fragment" data-fragment-index={OBSERVER_STAGES.length}>
+        <span>帶領重點</span>
+        <strong>四個任務有順序：先讓他說生活，再說顧慮；接住之後，才開口邀請。</strong>
       </footer>
     </SlideShell>
   );

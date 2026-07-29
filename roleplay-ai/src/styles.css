@@ -843,6 +843,176 @@ body {
   margin-top: 10px;
 }
 
+/* ---- 逐字稿 ---- */
+/* 回顧時這是一份文件，不是一場對話，所以不重播左右氣泡，改單欄劇本式排版。 */
+/* 左側脊線是這一區唯一的裝飾，也是唯一有資訊量的裝飾：節點＝里程碑落點，
+   節點間距＝推進那一關花了幾輪，最後一個節點之後轉虛線＝對話從這裡開始空轉。 */
+.transcript {
+  margin-bottom: 8px;
+}
+
+.transcript__toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 16px;
+  font: inherit;
+  text-align: left;
+  color: var(--forest);
+  background: #fff;
+  border: 1px solid var(--hairline);
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.transcript__toggle-label {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.transcript__toggle-meta {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 收合狀態朝下、展開朝上；用邊框畫，不另外拉圖檔。 */
+.transcript__chevron {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: -3px;
+  border-right: 2px solid var(--faint);
+  border-bottom: 2px solid var(--faint);
+  transform: rotate(45deg);
+  transition: transform 0.18s ease;
+}
+
+.transcript__chevron.is-open {
+  margin-top: 3px;
+  transform: rotate(-135deg);
+}
+
+.script {
+  margin: 14px 0 0;
+  padding: 0 0 0 26px;
+  list-style: none;
+}
+
+.script__line {
+  position: relative;
+  padding-bottom: 18px;
+}
+
+/* 脊線：每一則畫自己那一段，接起來就是完整的一條。 */
+.script__line::before {
+  content: '';
+  position: absolute;
+  left: -17px;
+  top: 5px;
+  bottom: -5px;
+  width: 2px;
+  border-radius: 2px;
+}
+
+.script__line.is-live::before {
+  background: var(--emerald);
+  opacity: 0.5;
+}
+
+.script__line.is-cold::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--hairline) 0 4px,
+    transparent 4px 9px
+  );
+}
+
+.script__who {
+  margin: 0 0 2px;
+  font-size: 12px;
+  font-weight: 700;
+  /* 中文字距不能照拉丁的抓：0.16em 會把「陳先生」拉成三個散字。 */
+  letter-spacing: 0.05em;
+  color: var(--faint);
+}
+
+.script__line--user .script__who {
+  color: var(--emerald);
+}
+
+.script__text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* 自己講的話是主角：回顧時你在找的是「我哪一句讓事情動了」。 */
+.script__line--user .script__text {
+  color: var(--ink);
+}
+
+/* 里程碑節點。序號沿用報告頁上方 chip 的同一組數字，兩處互相對照。 */
+.script__mark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px -26px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--forest);
+}
+
+.script__mark-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 12px;
+  color: #fff;
+  background: var(--emerald);
+  /* 蓋在脊線上，讓節點看起來長在線上而不是浮在旁邊。 */
+  box-shadow: 0 0 0 4px #f2f5ee;
+}
+
+/* 末端：走完是實心收合，沒走完就留一個空心環敞在那裡。 */
+.script__end {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: -26px;
+  font-size: 13px;
+  color: var(--faint);
+}
+
+.script__end-ring {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px dashed var(--hairline);
+  box-shadow: 0 0 0 4px #f2f5ee;
+}
+
+.script__end.is-closed {
+  color: var(--forest);
+  font-weight: 600;
+}
+
+.script__end.is-closed .script__end-ring {
+  border: 2px solid var(--emerald);
+  background: var(--emerald);
+}
+
 /* ---- 任務面板（對話中隨時拉起）---- */
 /* 面板同樣貼齊可見區，鍵盤開著時拉起來才不會有一半在螢幕外。 */
 .sheet-backdrop {

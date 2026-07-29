@@ -29,6 +29,13 @@ export interface GateVerdict {
   offTopic: boolean;
 }
 
+/**
+ * 四個里程碑分別是被哪一則**學員訊息**達成的（`messages` 的索引），null = 還沒達成。
+ * 順序對齊 UI 的 MILESTONES：生活情境／說出真正顧慮／回應他的擔心／成功開口邀約。
+ * 記學員那一則而不是陳先生的回覆：回顧逐字稿要看的是「我哪一句話讓事情動了」。
+ */
+export type MilestoneTurns = [number | null, number | null, number | null, number | null];
+
 /** 累積的關卡狀態（跨回合累加）。 */
 export interface GateState {
   lifeContext: boolean;
@@ -38,6 +45,14 @@ export interface GateState {
   identityConcernDisclosed: boolean;
   /** 學員是否好好回應了已說出口的外觀／身份標籤焦慮。 */
   identityConcernAddressed: boolean;
+  /**
+   * 學員在「揭露的那一則」就同時接住了顧慮 —— 當場不採計（防跳關），暫存到下一則兌現。
+   * 沒有這一格，那句同理會被整個丟掉，學員得再講一次一樣的話才算數。
+   * 存的是那一則的索引而不是布林：兌現時里程碑要記回**當初說那句話的那一則**。
+   */
+  pendingAddressed: number | null;
+  /** 各里程碑達成於哪一則。 */
+  milestoneTurns: MilestoneTurns;
   /** 陳先生已答應學員的邀約 —— 這一輪成功收尾。 */
   accepted: boolean;
   /** 時機未到就邀約、被婉拒的次數（回饋報告用）。 */
@@ -55,6 +70,8 @@ export const INITIAL_GATE_STATE: GateState = {
   concernProbeCount: 0,
   identityConcernDisclosed: false,
   identityConcernAddressed: false,
+  pendingAddressed: null,
+  milestoneTurns: [null, null, null, null],
   accepted: false,
   earlyInvites: 0,
   lastNotPushy: true,
@@ -83,9 +100,14 @@ export function stageOf(state: GateState): Stage {
  * `identityConcernAddressed` 只在「這一則之前就已鬆口」時才採計 ——
  * 顧慮是在鬆口那一則才被說出口的，不可能在同一則就被回應，藉此擋掉跳關。
  * 邀約則允許同一則同時「回應顧慮 + 提出邀約」（真實銷售常見的自然說法）。
+ *
+ * 揭露的閘門只看「陳先生這一則有沒有真的說出口」，不看學員是用問句探索還是用同理帶出來的。
+ * 曾經多押一個 `v.identityProbe`，結果陳先生已經在畫面上講破、狀態機卻還停在「尚未揭露」，
+ * 之後 `statusOf` 一直送錯的階段指示，這一關就再也開不了。
  */
-export function mergeVerdict(state: GateState, v: GateVerdict): GateState {
+export function mergeVerdict(state: GateState, v: GateVerdict, turn: number): GateState {
   // 離題的訊息不推進任何關卡：亂打一通不該解鎖進度，也不該被當成推銷或邀約。
+  // 注意 pendingAddressed 要原封不動帶過去 —— 亂打一通不該吃掉上一則的同理。
   if (v.offTopic) {
     return { ...state, lastNotPushy: true, lastInviteDeclined: false, lastOffTopic: true };
   }
@@ -97,20 +119,36 @@ export function mergeVerdict(state: GateState, v: GateVerdict): GateState {
     2,
     state.concernProbeCount + (hadLifeContext && v.concernProbe ? 1 : 0),
   );
+  const lifeContext = state.lifeContext || v.lifeContext;
   const identityConcernDisclosed =
-    state.identityConcernDisclosed ||
-    (hadLifeContext && v.identityProbe && v.identityConcernDisclosed);
+    state.identityConcernDisclosed || (hadLifeContext && v.identityConcernDisclosed);
+  const redeeming = wasOpen && state.pendingAddressed !== null;
   const identityConcernAddressed =
-    state.identityConcernAddressed || (wasOpen && v.identityConcernAddressed);
+    state.identityConcernAddressed || (wasOpen && (v.identityConcernAddressed || redeeming));
+  // 揭露那一則的同理不當場採計，先寄放；下一則不論學員說什麼都會兌現成「已接住」。
+  const pendingAddressed =
+    !wasOpen && identityConcernDisclosed && v.identityConcernAddressed ? turn : null;
   const inviteWelcome = wasOpen && identityConcernAddressed;
   const accepted = state.accepted || (v.invited && inviteWelcome);
   const declined = v.invited && !inviteWelcome;
 
+  // 里程碑只記第一次達成的那一則（`??` 不會被索引 0 誤判）。
+  // 「回應他的擔心」若是兌現寄放的功勞，要記回當初說那句話的那一則，不是兌現的這一則。
+  const milestoneTurns: MilestoneTurns = [
+    state.milestoneTurns[0] ?? (lifeContext ? turn : null),
+    state.milestoneTurns[1] ?? (identityConcernDisclosed ? turn : null),
+    state.milestoneTurns[2] ??
+      (identityConcernAddressed ? (redeeming ? state.pendingAddressed : turn) : null),
+    state.milestoneTurns[3] ?? (accepted ? turn : null),
+  ];
+
   return {
-    lifeContext: state.lifeContext || v.lifeContext,
+    lifeContext,
     concernProbeCount,
     identityConcernDisclosed,
     identityConcernAddressed,
+    pendingAddressed,
+    milestoneTurns,
     accepted,
     earlyInvites: state.earlyInvites + (declined ? 1 : 0),
     lastNotPushy: v.notPushy,

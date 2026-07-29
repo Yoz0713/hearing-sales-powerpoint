@@ -16,8 +16,8 @@ export interface ObserverMarksValue {
 const ObserverMarksContext = createContext<ObserverMarksValue | null>(null);
 
 /**
- * P42（觀察四段）與 P45（行動承諾）之間唯一的跨頁狀態：
- * P42 選出「下一輪想調整」的那一段，P45 把它回指出來，讓學員寫成具體的一句話。
+ * P40（AI 練習後復盤）與最後一頁（行動承諾）之間唯一的跨頁狀態：
+ * P40 選出「下一輪要重寫」的那一段，最後一頁把它回指出來，讓學員寫成具體的一句話。
  *
  * 刻意只包住 <SlidesDeck />，不包 chrome：本 provider 的 state 變動只會
  * re-render 真正消費 context 的那兩頁，memo 過的 SlidesDeck 與兄弟節點的

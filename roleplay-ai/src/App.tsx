@@ -21,6 +21,7 @@ import { converse, requestReview, type ChatMsg } from './api';
 import { createMetrics, recordReply, recordSend, type Metrics } from './metrics';
 import { calculateRating } from './rating';
 import { MissionBrief } from './MissionBrief';
+import { Transcript } from './Transcript';
 import { useViewportFit } from './useViewportFit';
 
 const MAX_INPUT = 300;
@@ -37,7 +38,7 @@ const STATE_LABEL: Record<Stage, string> = {
 };
 
 /** 四個里程碑，依序點亮。 */
-const MILESTONES = ['問到生活情境', '問到真正顧慮', '回應他的擔心', '成功開口邀約'] as const;
+const MILESTONES = ['問到生活情境', '讓他說出真正顧慮', '回應他的擔心', '成功開口邀約'] as const;
 
 function hitCount(gate: GateState): boolean[] {
   return [
@@ -56,6 +57,7 @@ export function App() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [review, setReview] = useState<ReviewResult | null>(null);
+  const [reviewError, setReviewError] = useState<string | null>(null);
   const [reviewing, setReviewing] = useState(false);
   const [briefOpen, setBriefOpen] = useState(false);
   // 時間與次數統計。與 gate 分開存，理由見 metrics.ts 的檔頭。
@@ -110,7 +112,8 @@ export function App() {
       const { reply, verdict } = parseConverse(
         await converse(buildSystemPrompt(gate), CONVERSE_SCHEMA, history),
       );
-      setGate(mergeVerdict(gate, verdict));
+      // 里程碑要記在「學員這一則」上，它在 history 的最後一格。
+      setGate(mergeVerdict(gate, verdict, history.length - 1));
       setMetrics((m) => recordReply(m, Date.now(), verdict));
       setMessages([...history, { role: 'model', text: reply || '……（陳先生沉默了一下）' }]);
     } catch (err) {
@@ -123,6 +126,7 @@ export function App() {
   const openReview = useCallback(async () => {
     if (reviewing) return;
     setReviewing(true);
+    setReviewError(null);
     try {
       const raw = await requestReview(
         buildReviewPrompt(gate, userTurns),
@@ -130,8 +134,10 @@ export function App() {
         formatTranscript(messages),
       );
       setReview(parseReview(raw));
-    } catch {
+    } catch (err) {
+      // 原本這裡整個吞掉，畫面只說「沒有載入」，連是額度不夠還是連線壞掉都看不出來。
       setReview(null);
+      setReviewError(err instanceof Error ? err.message : '未知的錯誤');
     } finally {
       setReviewing(false);
       // 評等與數據是本機算的，講師點評抓不到也要看得到；報告頁裡再給重試。
@@ -146,6 +152,7 @@ export function App() {
     setInput('');
     setError(null);
     setReview(null);
+    setReviewError(null);
     setBriefOpen(false);
     setScreen('story');
   };
@@ -227,7 +234,9 @@ export function App() {
           {!review && (
             <section className="report-block report-block--retry">
               <h2>講師點評</h2>
-              <p className="report-item__detail">點評這次沒有載入。上面的評等與數據是本機算的，不受影響。</p>
+              <p className="report-item__detail">
+                點評這次沒有載入{reviewError ? `：${reviewError}` : ''}。上面的評等與數據是本機算的，不受影響。
+              </p>
               <button className="btn btn--ghost" onClick={() => void openReview()} disabled={reviewing}>
                 {reviewing ? '重抓中…' : '重抓點評'}
               </button>
@@ -266,6 +275,14 @@ export function App() {
               <p className="report-item__detail">{review.keyMoment}</p>
             </section>
           )}
+
+          {/* 逐字稿放最後：它是查證用的原始材料，評等與點評才是先要看的結論。 */}
+          <Transcript
+            messages={messages}
+            milestoneTurns={gate.milestoneTurns}
+            labels={MILESTONES}
+            accepted={gate.accepted}
+          />
         </div>
 
         <footer className="report-foot">
@@ -325,6 +342,9 @@ export function App() {
             return <p className="coach-hint">他還沒準備好。先把他真正的擔心接住，再邀請他。</p>;
           if (!gate.lastNotPushy)
             return <p className="coach-hint">先別急著介紹產品，試著多問問他的生活與感受。</p>;
+          // 他已經丟出含蓄提示卻還沒明說 —— 這時最常見的失誤是急著給方案，而不是追問那句提示。
+          if (!gate.identityConcernDisclosed && gate.concernProbeCount >= 2)
+            return <p className="coach-hint">他剛剛透露了一點什麼。順著那句話再問下去，先別急著給方案。</p>;
           if (stage === 'open')
             return (
               <p className="coach-hint coach-hint--good">

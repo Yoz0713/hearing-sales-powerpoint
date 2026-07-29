@@ -6,14 +6,20 @@
 import { GoogleGenAI } from '@google/genai';
 
 // 使用者指定的模型字串。
-const MODEL = 'gemini-3.5-flash-lite';
+const MODEL = 'gemini-3.6-flash';
 
 // 防呆上限
 const MAX_MESSAGES = 60;
 // 單則上限放寬到 12000，是因為課後回饋會把整份逐字稿當成一則訊息送出。
 const MAX_TEXT_LEN = 12000;
 const MAX_SYSTEM_LEN = 8000;
-const OUT_TOKENS = 1400;
+/**
+ * 輸出額度由呼叫端指定（對話短、課後點評長），這裡只夾限。
+ * 這一格是**思考 + 回覆**共用的：gemini-3.6-flash 光思考就用掉 800～1400 tokens，
+ * 舊的固定 1400 會讓點評只吐出 40 個 token 就 MAX_TOKENS 截斷，JSON 解析必然失敗。
+ */
+const DEFAULT_OUT_TOKENS = 1400;
+const MAX_OUT_TOKENS = 8000;
 
 // best-effort per-IP 速率限制（serverless 實例為短命，故僅為盡力而為；正式可換平台 KV）。
 const WINDOW_MS = 60_000;
@@ -132,9 +138,14 @@ export default async function handler(req: ReqLike, res: ResLike): Promise<void>
     return;
   }
 
+  const requested = Number(body?.maxOutputTokens);
+  const maxOutputTokens = Number.isFinite(requested)
+    ? Math.min(MAX_OUT_TOKENS, Math.max(256, Math.floor(requested)))
+    : DEFAULT_OUT_TOKENS;
+
   const baseConfig: Record<string, unknown> = {
     systemInstruction,
-    maxOutputTokens: OUT_TOKENS,
+    maxOutputTokens,
     temperature: 0.7,
   };
 
@@ -154,7 +165,12 @@ export default async function handler(req: ReqLike, res: ResLike): Promise<void>
       const response = await withRetry(() =>
         ai.models.generateContent({ model: MODEL, contents, config: { ...baseConfig, ...mode } }),
       );
-      json(res, 200, { text: response.text ?? '' });
+      // finishReason 一起回去：被 maxOutputTokens 截斷時 JSON 一定是壞的，
+      // 前端要能說出「被截斷」，而不是丟一個沒頭沒尾的解析錯誤。
+      json(res, 200, {
+        text: response.text ?? '',
+        finishReason: response.candidates?.[0]?.finishReason ?? null,
+      });
       return;
     } catch (err) {
       lastErr = err;

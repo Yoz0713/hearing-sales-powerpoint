@@ -19,7 +19,7 @@ export const MISSION = {
   lede: '這句話的後面，藏著他不想承認的理由。',
   /** 個案欄位。 */
   facts: [
-    { label: '對象', value: '陳先生・75 歲・退休老師' },
+    { label: '對象', value: '陳先生・65 歲・退休老師' },
     { label: '陪同', value: '太太。是她硬把他帶來的' },
     { label: '主訴', value: '看電視越開越大聲、講電話常常「蛤？」' },
     { label: '態度', value: '自己覺得沒那麼嚴重，為了不掃興才勉強來' },
@@ -99,14 +99,24 @@ const EVALUATOR = `【附帶任務：自我評估學員最新這一則訊息】
 - lifeContext：是否用開放式問題了解你的生活情境（什麼場合／跟誰／作息／什麼時候聽不清）。封閉或表面問句（如「有沒有比較聽不到」）不算。
 - concernProbe：是否有效探索價格以外、不願配戴或不願嘗試的原因。泛問其他擔心、效果、過去經驗、外觀、被看見、顯老都算；介紹產品、解釋效果或直接邀約不算。
 - identityProbe：是否直接探索外觀、助聽器會不會被看見、顯老、不中用、被貼標籤，或有意義地追問你先前「戴出去怪怪的」這類暗示。只問效果或泛問「還有嗎」一律 false。
-- identityConcernDisclosed：只看你這次要產生的 reply。只有 reply 明確說出怕助聽器被別人看見、怕顯老、怕被認為不中用或被貼標籤才是 true；含蓄說「怪怪的」、只談效果、或學員猜了但你沒有承認，一律 false。
+- identityConcernDisclosed：只看你這次要產生的 reply，不看學員是怎麼問的。只要 reply 明確說出怕助聽器被別人看見、怕顯老、怕被認為不中用或被貼標籤就是 true —— 不論這句話是被問句探索出來的，還是被對方的同理、舉例、安慰帶出來的。先前回合已經說過、這一則又再次確認（例如對方問「所以你是怕朋友覺得你老」而你回「對啊」），一樣給 true。含蓄說「怪怪的」、只談效果、或學員猜了但你沒有承認，才是 false。
 - identityConcernAddressed：只看學員最新一則訊息。是否針對你在更早回合已明說的外觀／身份標籤焦慮做出具體回應或同理。只處理效果、只說「我了解」、或顧慮尚未說出口，一律 false。
 - invited：這一則是否明確提出下一步邀約（安排試戴、約下次時間、請你帶太太一起來、留聯絡方式）。只是介紹產品不算。
 - notPushy：這一則是否「沒有」急著介紹產品／報價／說服（沒有推銷＝true）。**只有**在他確實講了規格、報價、方案、或催你做決定時才給 false。開口邀請你試戴或約時間不算推銷。離題、無厘頭、亂碼、聽不懂的話也不算推銷 —— 那一類請把 notPushy 給 true，改用下面的 offTopic 標記。
 - offTopic：這一則是否與這場助聽器諮詢完全無關（搭訕、開玩笑、罵人、閒扯、亂碼、看不懂的句子）。判斷依據是「內容跟你的聽力、生活、擔心、產品、下一步有沒有關係」，不是語氣好壞。只要還在談這場諮詢的事，就算問得不好也是 false。
-除了 identityConcernDisclosed 必須核對這次 reply，其餘判定只評最新一則學員訊息，不要把前面問過的內容重複給 true。offTopic 為 true 時，lifeContext、concernProbe、identityProbe、identityConcernAddressed、invited 一律 false，identityConcernDisclosed 也不得藉機成立。`;
+除了 identityConcernDisclosed 必須核對這次 reply，其餘判定只評最新一則學員訊息，不要把前面問過的內容重複給 true。identityConcernDisclosed 不受這條限制 —— 它評的是你自己這一則說了什麼，先前說過並不會讓它變回 false。offTopic 為 true 時，lifeContext、concernProbe、identityProbe、identityConcernAddressed、invited 一律 false，identityConcernDisclosed 也不得藉機成立。`;
 
 const OUTPUT = `【輸出】只回傳 JSON：依 schema 先給八個布林判斷，最後 reply 放陳先生要說的那一句話（口語、簡短、一次一句）。identityConcernDisclosed 必須和 reply 的實際內容一致，其餘判斷與目前階段也必須一致。`;
+
+/**
+ * 系統提示的最後一行：只在「該守住核心顧慮」的那一個回合出現。
+ * 禁字規則本來只寫在 statusOf 裡，中間隔了一整段人設與評估準則就被稀釋掉，
+ * 模型常在第一次一般探索就把「戴出去怪怪的」講破，兩段式揭露的節奏整個沒了。
+ */
+function finalGuardOf(state: GateState, stage: Stage): string {
+  if (stage !== 'closed' || !state.lifeContext || state.concernProbeCount > 0) return '';
+  return '【最後提醒】這一回合的 reply 絕對不能出現「戴出去」「怪怪的」「朋友看到」「顯老」「不中用」「外觀」這幾個字，也不能換句話暗示同樣的意思。除非對方這一則直接問到外觀或身份，否則核心顧慮這一回合要守住。';
+}
 
 /** 依目前累積關卡狀態組出「目前狀態」段落，讓模型正確決定這一則該怎麼演。 */
 function statusOf(state: GateState, stage: Stage): string {
@@ -133,6 +143,7 @@ function statusOf(state: GateState, stage: Stage): string {
 
 /** 依目前累積關卡狀態組出單一系統提示（含即時狀態，讓模型正確決定鬆口與答應與否）。 */
 export function buildSystemPrompt(state: GateState): string {
+  const stage = stageOf(state);
   return [
     CHARACTER,
     HIDDEN_TRUTH,
@@ -144,10 +155,13 @@ export function buildSystemPrompt(state: GateState): string {
     INVITE_RULES,
     DISCLOSURE_RULES,
     RULES,
-    statusOf(state, stageOf(state)),
+    statusOf(state, stage),
     EVALUATOR,
     OUTPUT,
-  ].join('\n\n');
+    finalGuardOf(state, stage),
+  ]
+    .filter(Boolean)
+    .join('\n\n');
 }
 
 /* ---------- 課後回饋報告 ---------- */

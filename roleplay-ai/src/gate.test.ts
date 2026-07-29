@@ -22,8 +22,9 @@ const EMPTY_VERDICT: GateVerdict = {
   offTopic: false,
 };
 
-function advance(state: GateState, verdict: Partial<GateVerdict>): GateState {
-  return mergeVerdict(state, { ...EMPTY_VERDICT, ...verdict });
+/** turn 預設用 1、2、3… 遞增，測試裡只在要驗證里程碑落點時才明寫。 */
+function advance(state: GateState, verdict: Partial<GateVerdict>, turn = 1): GateState {
+  return mergeVerdict(state, { ...EMPTY_VERDICT, ...verdict }, turn);
 }
 
 describe('陳先生核心顧慮關卡', () => {
@@ -49,7 +50,7 @@ describe('陳先生核心顧慮關卡', () => {
     expect(stageOf(state)).toBe('closed');
   });
 
-  it('必須由學員探索身份焦慮，陳先生明說後才鬆口', () => {
+  it('陳先生明說核心顧慮就鬆口', () => {
     let state = advance(INITIAL_GATE_STATE, { lifeContext: true });
     state = advance(state, {
       concernProbe: true,
@@ -59,6 +60,72 @@ describe('陳先生核心顧慮關卡', () => {
 
     expect(state.identityConcernDisclosed).toBe(true);
     expect(stageOf(state)).toBe('open');
+  });
+
+  // 這是實測逐字稿卡住的那一則：學員說「這就像戴眼鏡一樣」，陳先生當場回「怕人家看到會覺得
+  // 我老了」。那一則不是探索問句，identityProbe=false，舊版因此不認帳，狀態機從此與劇情脫節。
+  it('學員用同理帶出來的明說，一樣要鬆口', () => {
+    let state = advance(INITIAL_GATE_STATE, { lifeContext: true });
+    state = advance(state, { identityProbe: false, identityConcernDisclosed: true });
+
+    expect(state.identityConcernDisclosed).toBe(true);
+    expect(stageOf(state)).toBe('open');
+  });
+
+  it('揭露那一則的同理寄放一回合，下一則自動兌現成已接住', () => {
+    let state = advance(INITIAL_GATE_STATE, { lifeContext: true }, 1);
+    state = advance(state, {
+      identityConcernDisclosed: true,
+      identityConcernAddressed: true,
+    }, 3);
+
+    // 揭露的同一則不當場採計，維持防跳關。
+    expect(stageOf(state)).toBe('open');
+    expect(state.identityConcernAddressed).toBe(false);
+    expect(state.pendingAddressed).toBe(3);
+
+    state = advance(state, {}, 5);
+
+    expect(state.identityConcernAddressed).toBe(true);
+    expect(state.pendingAddressed).toBe(null);
+    expect(stageOf(state)).toBe('ready');
+    // 功勞記回當初說那句同理的第 3 則，不是兌現的第 5 則。
+    expect(state.milestoneTurns[2]).toBe(3);
+  });
+
+  it('離題回合不兌現寄放的同理，也不會把它清掉', () => {
+    let state = advance(INITIAL_GATE_STATE, { lifeContext: true }, 1);
+    state = advance(state, {
+      identityConcernDisclosed: true,
+      identityConcernAddressed: true,
+    }, 3);
+    state = advance(state, { offTopic: true }, 5);
+
+    expect(state.identityConcernAddressed).toBe(false);
+    expect(state.pendingAddressed).toBe(3);
+    expect(stageOf(state)).toBe('open');
+
+    state = advance(state, {}, 7);
+
+    expect(stageOf(state)).toBe('ready');
+    expect(state.milestoneTurns[2]).toBe(3);
+  });
+
+  it('里程碑記住達成於哪一則，且只記第一次', () => {
+    let state = advance(INITIAL_GATE_STATE, { lifeContext: true }, 1);
+    state = advance(state, { lifeContext: true }, 3); // 又問了一次生活情境
+    state = advance(state, { identityConcernDisclosed: true }, 5);
+    state = advance(state, { identityConcernAddressed: true, invited: true }, 7);
+
+    expect(state.milestoneTurns).toEqual([1, 5, 7, 7]);
+    expect(stageOf(state)).toBe('accepted');
+  });
+
+  it('沒達成的里程碑留在 null，離題也不會佔掉落點', () => {
+    let state = advance(INITIAL_GATE_STATE, { lifeContext: true }, 1);
+    state = advance(state, { lifeContext: true, identityConcernDisclosed: true, offTopic: true }, 3);
+
+    expect(state.milestoneTurns).toEqual([1, null, null, null]);
   });
 
   it('揭露同一回合不能同時算接住與成功邀約', () => {

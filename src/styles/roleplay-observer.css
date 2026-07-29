@@ -1,18 +1,22 @@
-/* D30：作答後的觀察回饋。四段行為排成一條連續軌跡，
-   顏色只出現在被標記的那兩段；終點收束到單一問句。 */
+/* P40：四任務示範對話。
+   UI 語彙沿用 CounselingHistoryPage 的問答紀錄卡，改為四條橫向對照列。 */
 .roleplay-observer {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  padding-top: 64px;
+  padding: 50px 64px 40px;
   overflow: hidden;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(245, 248, 241, 0.76));
 }
 
-/* ---- 頁首：標題（左）＋ 回饋原則（右） ---- */
+/* ---- 頁首：左標題、右情境摘要 ---- */
 .roleplay-observer__head {
   display: grid;
   flex: 0 0 auto;
-  grid-template-columns: 1fr auto;
-  align-items: start;
-  gap: 72px;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  align-items: end;
+  gap: 64px;
 }
 
 .roleplay-observer__intro {
@@ -22,297 +26,247 @@
 .roleplay-observer__intro .counseling-title {
   max-width: 1180px;
   margin: 0;
-  font-size: 68px;
-  line-height: 1.12;
-  letter-spacing: 0.02em;
+  font-size: 62px;
+  line-height: 1.08;
+  letter-spacing: 0.015em;
 }
 
 .roleplay-observer__lead {
-  margin: 16px 0 0;
-  color: rgba(69, 95, 81, 0.78);
-  font-size: 27px;
-  line-height: 1.4;
-}
-
-/* 回饋原則：同時是兩種標記的圖例，說明點擊之後會出現什麼。 */
-.observer-rule {
-  box-sizing: border-box;
-  width: 434px;
-  padding: 22px 30px 24px;
-  border: 2px solid rgba(69, 95, 81, 0.16);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.86);
-}
-
-.observer-rule__label {
-  margin: 0 0 14px;
-  color: rgba(69, 95, 81, 0.6);
-  font-family: var(--font-family-latin);
-  font-size: 19px;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.16em;
-}
-
-.observer-rule__legend {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.observer-rule__item {
-  position: relative;
-  padding-left: 28px;
-  margin-bottom: 10px;
-  color: var(--color-text-heading);
-  font-size: 24px;
-  line-height: 1.35;
-}
-
-.observer-rule__item::before {
-  position: absolute;
-  top: 0.48em;
-  left: 0;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  content: '';
-}
-
-.observer-rule__item--keep::before {
-  background: var(--color-brand-primary-bright);
-}
-
-.observer-rule__item--adjust::before {
-  background: var(--color-orange);
-}
-
-.observer-rule__note {
+  max-width: 1240px;
   margin: 14px 0 0;
-  padding-top: 12px;
-  border-top: 1px solid rgba(69, 95, 81, 0.14);
-  color: rgba(69, 95, 81, 0.6);
-  font-size: 21px;
+  color: rgba(69, 95, 81, 0.8);
+  font-size: 25px;
+  line-height: 1.42;
 }
 
-/* 標到「下一輪調整」後才出現，預告這一段會被最後一頁接走。 */
-.observer-rule__carry {
-  margin: 10px 0 0;
-  color: var(--color-orange);
+.roleplay-observer__case {
+  box-sizing: border-box;
+  min-height: 118px;
+  padding: 20px 26px 18px;
+  border-left: 5px solid var(--color-orange);
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.roleplay-observer__case p,
+.roleplay-observer__case strong,
+.roleplay-observer__case span {
+  display: block;
+  margin: 0;
+}
+
+.roleplay-observer__case p {
+  color: rgba(69, 95, 81, 0.62);
   font-size: 20px;
-  line-height: 1.35;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.1em;
 }
 
-/* ---- 軌跡：四段共用一條線，段與段之間只以細線分隔 ---- */
-.observer-track {
-  position: relative;
-  display: grid;
-  flex: 0 0 auto;
-  grid-template-columns: repeat(4, 1fr);
-  min-height: 372px;
-  margin-top: 46px;
-}
-
-/* 貫穿四段的軌跡線；GSAP 由左往右展開。 */
-.observer-track__rail {
-  position: absolute;
-  top: 51px;
-  right: 0;
-  left: 0;
-  height: 2px;
-  background: rgba(69, 95, 81, 0.2);
-}
-
-/* 軌跡終點：空心環，接住往下的連接線。 */
-.observer-track__terminus {
-  position: absolute;
-  top: 43px;
-  right: -2px;
-  box-sizing: border-box;
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(69, 95, 81, 0.34);
-  border-radius: 50%;
-  background: var(--color-surface-base);
-}
-
-.observer-track__drop {
-  position: absolute;
-  top: 52px;
-  right: 6px;
-  bottom: -94px;
-  width: 2px;
-  background: rgba(69, 95, 81, 0.2);
-}
-
-/* 每一段本身就是可標記的按鈕；五個列讓四段的節點、段名與標記橫向對齊。 */
-.observer-stage {
-  position: relative;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-rows: 40px 24px auto 1fr 36px;
-  padding: 0 34px 20px 30px;
-  border: 0;
-  border-radius: 16px;
-  background: transparent;
-  color: inherit;
-  font-family: inherit;
-  text-align: left;
-  cursor: pointer;
-  transition: background var(--duration-fast) ease;
-}
-
-/* 段落分隔線由節點下方才開始，不切斷軌跡本身。 */
-.observer-stage + .observer-stage::before {
-  position: absolute;
-  top: 78px;
-  bottom: 14px;
-  left: 0;
-  width: 2px;
-  background: rgba(69, 95, 81, 0.16);
-  content: '';
-}
-
-.observer-stage:hover {
-  background: rgba(69, 95, 81, 0.05);
-}
-
-.observer-stage:focus-visible {
-  outline: 3px solid var(--color-focus-ring);
-  outline-offset: 2px;
-}
-
-.observer-stage__moment {
-  color: rgba(69, 95, 81, 0.55);
-  font-family: var(--font-family-latin);
-  font-size: 20px;
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: 0.14em;
-}
-
-.observer-stage__node {
-  justify-self: start;
-  align-self: center;
-  box-sizing: border-box;
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(69, 95, 81, 0.34);
-  border-radius: 50%;
-  background: var(--color-surface-base);
-  transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease;
-}
-
-.observer-stage__name {
-  margin-top: 18px;
+.roleplay-observer__case strong {
+  margin-top: 6px;
   color: var(--color-text-heading);
   font-family: var(--font-family-display);
-  font-size: 48px;
-  font-weight: var(--font-weight-bold);
+  font-size: 30px;
   line-height: 1.1;
-  letter-spacing: 0.04em;
 }
 
-.observer-stage__asks {
+.roleplay-observer__case span {
+  margin-top: 7px;
+  color: var(--color-orange);
+  font-size: 23px;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ---- 四任務對話表 ---- */
+.mission-dialogue {
+  display: grid;
+  flex: 0 0 auto;
+  grid-template-rows: 48px repeat(4, 144px);
+  grid-auto-flow: dense;
+  margin-top: 26px;
+  overflow: hidden;
+  border: 2px solid rgba(69, 95, 81, 0.2);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: var(--elevation-1);
+}
+
+.mission-dialogue__columns,
+.mission-dialogue__row {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1.18fr) minmax(0, 0.82fr) 230px;
+  min-width: 0;
+}
+
+.mission-dialogue__columns {
+  align-items: center;
+  background: var(--color-forest-900);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.mission-dialogue__columns span {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 0 22px;
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.06em;
+}
+
+.mission-dialogue__columns span + span {
+  border-left: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.mission-dialogue__row {
+  position: relative;
+  align-items: stretch;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.mission-dialogue__row + .mission-dialogue__row {
+  border-top: 1px solid rgba(69, 95, 81, 0.18);
+}
+
+.mission-dialogue__row > div {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.mission-dialogue__row > div + div {
+  border-left: 1px solid rgba(69, 95, 81, 0.14);
+}
+
+/* 任務欄：維持像病歷分頁標籤的識別感，但不使用額外徽章。 */
+.mission-dialogue__task {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  background: rgba(99, 165, 55, 0.1);
+}
+
+.mission-dialogue__task > span {
+  color: rgba(69, 95, 81, 0.42);
+  font-family: var(--font-family-latin);
+  font-size: 28px;
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.mission-dialogue__task > strong {
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 27px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.25;
+}
+
+/* 對話泡泡：聽力師為綠色外框，陳先生為暖白底，對齊病史頁語彙。 */
+.mission-dialogue__bubble {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 24px;
+  justify-content: center;
+  padding: 14px 22px;
 }
 
-.observer-stage__ask {
-  color: rgba(0, 0, 0, 0.78);
-  font-size: 25px;
-  line-height: 1.5;
+.mission-dialogue__bubble > span {
+  margin-bottom: 5px;
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
 }
 
-.observer-stage__note {
-  color: rgba(69, 95, 81, 0.55);
+.mission-dialogue__bubble > p {
+  margin: 0;
+  color: var(--color-text-body);
+  font-size: 24px;
+  line-height: 1.34;
+}
+
+.mission-dialogue__bubble--ask {
+  background: rgba(99, 165, 55, 0.055);
+}
+
+.mission-dialogue__bubble--ask > span {
+  color: var(--color-brand-secondary);
+}
+
+.mission-dialogue__bubble--reply {
+  background: rgba(250, 247, 239, 0.9);
+}
+
+.mission-dialogue__bubble--reply > span {
+  color: rgba(69, 95, 81, 0.68);
+}
+
+/* 成功訊號：固定在最右欄，讓講師一眼知道該列為何算通關。 */
+.mission-dialogue__success {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  align-content: center;
+  column-gap: 10px;
+  padding: 16px 18px;
+  background: rgba(69, 95, 81, 0.96);
+  color: white;
+}
+
+.mission-dialogue__success i {
+  grid-row: 1 / span 2;
+  width: 12px;
+  height: 12px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: var(--color-brand-primary-bright);
+  box-shadow: 0 0 0 5px rgba(153, 203, 56, 0.16);
+}
+
+.mission-dialogue__success span {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+}
+
+.mission-dialogue__success strong {
+  margin-top: 4px;
   font-size: 22px;
-  line-height: 1.4;
-}
-
-/* 未標記時只在游標／焦點上顯示提示，投影時畫面保持乾淨。 */
-.observer-stage__mark {
-  align-self: end;
-  justify-self: start;
-  padding: 5px 18px;
-  border-radius: 999px;
-  color: rgba(69, 95, 81, 0.5);
-  font-size: 21px;
   font-weight: var(--font-weight-semibold);
-  opacity: 0;
-  transition: opacity var(--duration-fast) ease;
+  line-height: 1.3;
 }
 
-.observer-stage:hover .observer-stage__mark,
-.observer-stage:focus-visible .observer-stage__mark {
-  opacity: 1;
-}
-
-/* ---- 兩種標記：全頁各只有一個，其餘段落維持中性 ---- */
-.observer-stage.is-keep {
-  background: rgba(153, 203, 56, 0.16);
-}
-
-.observer-stage.is-keep .observer-stage__node {
-  border-color: var(--color-brand-primary);
-  background: var(--color-brand-primary-bright);
-}
-
-.observer-stage.is-keep .observer-stage__mark {
-  background: var(--color-brand-primary-bright);
-  color: var(--color-text-heading);
-  opacity: 1;
-}
-
-.observer-stage.is-adjust {
-  background: rgba(238, 123, 8, 0.1);
-}
-
-.observer-stage.is-adjust .observer-stage__node {
-  border-color: var(--color-orange);
-  background: var(--color-orange);
-}
-
-.observer-stage.is-adjust .observer-stage__mark {
-  box-shadow: inset 0 0 0 2px var(--color-orange);
-  color: var(--color-orange);
-  opacity: 1;
-}
-
-/* ---- 終點：軌跡走完之後，只剩一個問題 ---- */
-.observer-end {
+/* ---- 收尾：把四列重新收成一個可講的順序 ---- */
+.roleplay-observer__rule {
   display: grid;
   flex: 0 0 auto;
   grid-template-columns: auto 1fr;
-  align-items: baseline;
-  gap: 56px;
-  margin-top: 92px;
-  padding-top: 34px;
-  border-top: 2px solid rgba(69, 95, 81, 0.2);
+  align-items: center;
+  gap: 24px;
+  min-height: 56px;
+  margin-top: 16px;
+  padding: 0 24px;
+  border-left: 5px solid var(--color-orange);
+  background: rgba(238, 123, 8, 0.08);
 }
 
-.observer-end__question {
-  margin: 0;
-  color: var(--color-text-heading);
-  font-family: var(--font-family-display);
-  font-size: 62px;
+.roleplay-observer__rule span {
+  color: var(--color-orange);
+  font-size: 20px;
   font-weight: var(--font-weight-bold);
-  line-height: 1.15;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.08em;
 }
 
-.observer-end__note {
-  margin: 0;
-  color: rgba(69, 95, 81, 0.7);
+.roleplay-observer__rule strong {
+  color: var(--color-text-heading);
   font-size: 25px;
-  line-height: 1.45;
-  text-align: right;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .observer-stage,
-  .observer-stage__node,
-  .observer-stage__mark {
-    transition: none;
+  .js-dialogue-kicker,
+  .js-dialogue-title,
+  .js-dialogue-lead,
+  .js-dialogue-case {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
