@@ -90,7 +90,7 @@ export function DemoValidationPage() {
 
       <footer className="demo-validation__action fragment" data-fragment-index={4}>
         <span>對輕度客戶來說</span>
-        <strong>不必專心、也能聽清楚，才是他可能願意做出改變的理由。</strong>
+        <strong>不必專心、也能聽清楚和延緩聽力退化，才是他可能願意做出改變的理由。</strong>
       </footer>
     </SlideShell>
   );

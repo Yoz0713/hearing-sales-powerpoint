@@ -1,8 +1,10 @@
-/* D33：課程結尾 - 42 → 3 → 1。
+/* D33：課程結尾 - 43 →（你圈起來的）→ 1。
    版面在三個狀態之間不重排，只是把雜訊排掉：
-   24 句話（3 欄 × 8 列）→ 中央第三列的三句主線 → 一句結論。
+   24 句話（3 欄 × 8 列）→ 講師當場點亮的那幾句 → 一句結論。
+   中間那一步由點擊驅動（.has-marks 掛在 .finale 上），不是 fragment，
+   所以講師可以邊點邊講、點多點少都行，再按下一步才收進結論。
    結論絕對定位在第三列的帶心（ledger 高 718，列高 89.75，2.5 列 ≈ 224），
-   所以它正好落在剛才那三句話待過的位置。 */
+   落在畫面正中央那一帶。 */
 .finale {
   overflow: hidden;
   background:
@@ -101,13 +103,13 @@
   letter-spacing: 0.02em;
 }
 
-/* 42 是還沒收斂的量，用描邊；3 與 4 沿用 P.12 的橘＝轉折、綠＝結論。 */
+/* 43 是還沒收斂的量，用描邊；中間與結論沿用 P.12 的橘＝轉折、綠＝結論。 */
 .finale-count--all b {
   color: transparent;
   -webkit-text-stroke: 2px rgba(69, 95, 81, 0.42);
 }
 
-.finale-count--three b {
+.finale-count--picked b {
   color: var(--color-orange);
 }
 
@@ -126,79 +128,105 @@
   column-gap: 48px;
 }
 
+/* 每一句都是可點的按鈕。左右負 margin 把命中範圍撐開，文字位置不動，
+   八列的基線也不會被 padding 推歪。 */
 .finale .finale-line {
   position: relative;
   align-self: center;
-  min-width: 0;
-  margin: 0;
+  justify-self: start;
+  max-width: 100%;
+  margin: 0 -12px;
+  padding: 6px 12px;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: opacity 0.55s ease;
+}
+
+.finale .finale-line__text {
+  position: relative;
+  z-index: 1;
+  display: block;
   color: rgba(69, 95, 81, 0.4);
   font-size: 26px;
   font-weight: var(--font-weight-regular);
   line-height: 1.3;
   white-space: nowrap;
-  transition: opacity 0.55s ease, color 0.55s ease, font-weight 0.55s ease;
+  transition: color 0.4s ease, opacity 0.4s ease;
 }
 
-/* 出處標在行的上方且不佔位，收斂前不會讓這三行掉出同一條基線。 */
-.finale-line__from {
+/* 螢光筆：從左掃過去停在字的下半身，跟結論句那道底線是同一個手勢。 */
+.finale .finale-line__mark {
   position: absolute;
-  left: 0;
-  bottom: 100%;
-  margin-bottom: 7px;
-  color: var(--color-orange);
-  font-family: var(--font-family-latin);
-  font-size: 19px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  left: 6px;
+  right: 6px;
+  bottom: 10px;
+  z-index: 0;
+  height: 15px;
+  display: block;
+  background: var(--color-brand-primary-bright);
   opacity: 0;
-  transition: opacity 0.45s ease 0.15s;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.42s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.42s ease;
 }
 
-/* 只改樣式那一步的開關，本身不佔任何空間。 */
-.finale__cut {
-  position: absolute;
-  width: 0;
-  height: 0;
+/* hover 先給一道淡的預覽，講師知道這行點得下去。 */
+.finale .finale-line:hover .finale-line__text {
+  color: rgba(69, 95, 81, 0.78);
 }
 
-/* ---- 狀態二：其餘 21 句退場，中央那一列留下來 ---- */
-.finale:has(.js-finale-cut.visible) .finale-line:not(.finale-line--key) {
-  opacity: 0.07;
+.finale .finale-line:hover .finale-line__mark {
+  opacity: 0.24;
+  transform: scaleX(1);
 }
 
-.finale:has(.js-finale-cut.visible) .finale-line.finale-line--key {
+.finale .finale-line:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---- 狀態二：被點亮的句子 ---- */
+.finale .finale-line.is-picked .finale-line__text {
   color: var(--color-text-heading);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-semibold);
 }
 
-.finale:has(.js-finale-cut.visible) .finale-line__from {
-  opacity: 1;
+.finale .finale-line.is-picked .finale-line__mark,
+.finale .finale-line.is-picked:hover .finale-line__mark {
+  opacity: 0.62;
+  transform: scaleX(1);
 }
 
-.finale:has(.js-finale-cut.visible) .finale-count--all {
+/* 有人被點亮，其餘就退到背景 —— 只是退後，不是消失。
+   降的是顏色不是 opacity：這一整天還要看得見，對比交給被點亮那幾句去拉。 */
+.finale.has-marks .finale-line:not(.is-picked) .finale-line__text {
+  color: rgba(69, 95, 81, 0.28);
+}
+
+.finale.has-marks .finale-count--all {
   opacity: 0;
   transform: translateY(-10px);
 }
 
-.finale:has(.js-finale-cut.visible) .finale-count--three {
+.finale.has-marks .finale-count--picked {
   opacity: 1;
   transform: none;
 }
 
-/* ---- 狀態三：連那三句也退場，只剩結論 ---- */
-.finale:has(.finale__answer.visible) .finale-line:not(.finale-line--key) {
+/* ---- 狀態三：連點亮的那幾句也退場，只剩結論 ---- */
+.finale:has(.finale__answer.visible) .finale__ledger {
+  pointer-events: none;
+}
+
+.finale:has(.finale__answer.visible) .finale-line {
   opacity: 0;
 }
 
-.finale:has(.finale__answer.visible) .finale-line.finale-line--key {
-  opacity: 0;
-}
-
-.finale:has(.finale__answer.visible) .finale-line__from {
-  opacity: 0;
-}
-
-.finale:has(.finale__answer.visible) .finale-count--three {
+.finale:has(.finale__answer.visible) .finale-count--all,
+.finale:has(.finale__answer.visible) .finale-count--picked {
   opacity: 0;
   transform: translateY(-10px);
 }
@@ -324,7 +352,8 @@
 @media (prefers-reduced-motion: reduce) {
   .finale .finale-count,
   .finale .finale-line,
-  .finale .finale-line__from,
+  .finale .finale-line__text,
+  .finale .finale-line__mark,
   .finale .finale__answer,
   .finale .finale__answer strong i,
   .finale .finale__handover {

@@ -111,10 +111,7 @@ export function SummaryDecisionPage() {
       <main className="journey__stage">
         <header className="journey__nav js-journey-nav">
           <BrandLogo className="journey__logo" />
-          <div className="journey__nav-trail">
-            <span>課程總結</span>
-            <i aria-hidden="true" />
-          </div>
+
         </header>
 
         <div className="journey__heading">

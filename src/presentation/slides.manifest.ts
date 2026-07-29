@@ -44,11 +44,11 @@ import { DecisionMethodsPage } from '../pages/DecisionMethodsPage';
 import { ObjectionStepsPage } from '../pages/ObjectionStepsPage';
 import { ObjectionPricePage } from '../pages/ObjectionPricePage';
 import { RoleplayAiQrPage } from '../pages/RoleplayAiQrPage';
+import { RoleplayHowToPage } from '../pages/RoleplayHowToPage';
 import { RoleplayObserverPage } from '../pages/RoleplayObserverPage';
 import { SummaryUnderstandPage } from '../pages/SummaryUnderstandPage';
 import { SummaryDecisionPage } from '../pages/SummaryDecisionPage';
 import { ActionCommitmentPage } from '../pages/ActionCommitmentPage';
-import { BreakPage } from '../pages/BreakPage';
 
 export const slides: SlideEntry[] = [
   { id: 'cover', chapter: '課程導覽', title: '銷售經驗分享', previewShape: 'cover', component: CoverPage },
@@ -114,13 +114,6 @@ export const slides: SlideEntry[] = [
     title: '王先生不是不需要，而是還沒準備好',
     previewShape: 'split',
     component: ResistanceCasePage,
-  },
-  {
-    id: 'break-page',
-    chapter: '改變動機',
-    title: '休息十分鐘',
-    previewShape: 'cover',
-    component: BreakPage,
   },
   {
     id: 'consultative-process-overview',
@@ -320,6 +313,13 @@ export const slides: SlideEntry[] = [
     title: '隨堂測驗',
     previewShape: 'split',
     component: RoleplayAiQrPage,
+  },
+  {
+    id: 'roleplay-howto',
+    chapter: '異議實戰',
+    title: '掃完碼，畫面就長這樣',
+    previewShape: 'split',
+    component: RoleplayHowToPage,
   },
   {
     id: 'roleplay-observer',

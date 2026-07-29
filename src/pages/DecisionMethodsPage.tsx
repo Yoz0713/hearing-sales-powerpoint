@@ -14,9 +14,9 @@ const HESITATION_PATHS = [
   {
     key: 'effect',
     question: '還有什麼疑慮？',
-    answer: '「不確定戴了有沒有差，也怕自己戴不習慣。」',
-    diagnosis: '效果還沒被感覺',
-    nextMove: '回到最在意的場景試聽，只驗證一個具體差異。',
+    answer: '「我想再去問看看醫生的建議」',
+    diagnosis: '信任感建立還需加強',
+    nextMove: '強調聽力師背景，以及回顧病史的部分，幫客戶分析為什麼會給予佩戴的建議',
   },
   {
     key: 'decision-maker',
@@ -91,7 +91,7 @@ export function DecisionMethodsPage() {
         data-fragment-index={HESITATION_PATHS.length}
       >
         <span>先找出哪一段沒完成，再回去補</span>
-        <strong>不要把同一套產品再講一次。</strong>
+        <strong>不要把話術換個說法再講一次。</strong>
       </footer>
     </SlideShell>
   );

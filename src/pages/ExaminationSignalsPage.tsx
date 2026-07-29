@@ -111,7 +111,7 @@ const AWARENESS: ExamSignalsSpec = {
       ],
     },
   ],
-  closer: '不是嚇客戶，而是陪他自己看見。',
+  closer: '不是嚇客戶，而是提前讓她做好心理準備。',
 };
 
 /**

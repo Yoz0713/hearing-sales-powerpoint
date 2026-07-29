@@ -11,6 +11,7 @@ const ROLEPLAY_URL = 'https://hearing-sales-powerpoint-4uei.vercel.app/';
 const PREPARE_ITEMS = [
   '請在安靜、不受打擾的地方進行',
   '請依照你平常接待客人的方式回答',
+  "禁止跟他人討論"
 ] as const;
 
 export function RoleplayAiQrPage() {

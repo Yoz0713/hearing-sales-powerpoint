@@ -70,10 +70,7 @@ export function SummaryUnderstandPage() {
       <main className="summary-understand__stage">
         <header className="summary-understand__nav js-summary-understand-nav">
           <BrandLogo className="summary-understand__logo" />
-          <div className="summary-understand__nav-trail">
-            <span>課程總結</span>
-            <i aria-hidden="true" />
-          </div>
+
         </header>
 
         <div className="summary-understand__content">

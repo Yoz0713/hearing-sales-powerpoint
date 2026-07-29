@@ -103,7 +103,6 @@ export function ObjectionPricePage() {
         </div>
 
         <footer className="op-converge fragment" data-fragment-index="3">
-          <span className="op-converge__label">兩條路，同一個終點</span>
           <strong>為這位客戶，找到剛好的方案。</strong>
         </footer>
       </main>
