@@ -47,6 +47,8 @@ function paceScore(accepted: boolean, turns: number): number {
   if (turns <= 8) return 100;
   if (turns <= 12) return 80;
   if (turns <= 18) return 60;
+  // App 的 MAX_TURNS 目前是 18，所以成交路徑走不到這一檔。留著是刻意的：
+  // paceScore 是純函式，不該把 MAX_TURNS 綁死進來，放寬上限時這一檔就會重新生效。
   return 40;
 }
 

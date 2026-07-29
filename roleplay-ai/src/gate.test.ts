@@ -18,6 +18,7 @@ const EMPTY_VERDICT: GateVerdict = {
   identityConcernDisclosed: false,
   identityConcernAddressed: false,
   invited: false,
+  acceptedInvite: false,
   notPushy: true,
   offTopic: false,
 };
@@ -115,7 +116,7 @@ describe('陳先生核心顧慮關卡', () => {
     let state = advance(INITIAL_GATE_STATE, { lifeContext: true }, 1);
     state = advance(state, { lifeContext: true }, 3); // 又問了一次生活情境
     state = advance(state, { identityConcernDisclosed: true }, 5);
-    state = advance(state, { identityConcernAddressed: true, invited: true }, 7);
+    state = advance(state, { identityConcernAddressed: true, invited: true, acceptedInvite: true }, 7);
 
     expect(state.milestoneTurns).toEqual([1, 5, 7, 7]);
     expect(stageOf(state)).toBe('accepted');
@@ -151,11 +152,43 @@ describe('陳先生核心顧慮關卡', () => {
       identityProbe: true,
       identityConcernDisclosed: true,
     });
-    state = advance(state, { identityConcernAddressed: true, invited: true });
+    state = advance(state, { identityConcernAddressed: true, invited: true, acceptedInvite: true });
 
     expect(stageOf(state)).toBe('accepted');
     expect(state.identityConcernAddressed).toBe(true);
     expect(state.accepted).toBe(true);
+  });
+
+  // 實測逐字稿：學員一邊講規格（小台、可挑顏色）一邊約試聽。閘門其實已經開了，
+  // 但陳先生照 INVITE_RULES 演婉拒「不用啦，今天先這樣就好」——
+  // 舊版只看 invited 就開門，畫面於是說「他答應你了」，跟對話框裡的婉拒直接打架。
+  it('陳先生婉拒時，就算閘門已開也不算過關', () => {
+    let state = advance(INITIAL_GATE_STATE, { lifeContext: true });
+    state = advance(state, { identityProbe: true, identityConcernDisclosed: true });
+    state = advance(state, { identityConcernAddressed: true });
+    state = advance(state, { invited: true, acceptedInvite: false, notPushy: false });
+
+    expect(state.accepted).toBe(false);
+    expect(stageOf(state)).toBe('ready');
+    expect(state.lastInviteRefused).toBe(true);
+    // 條件都到了才被婉拒，不是「時機未到就邀約」，不該算進報告的 earlyInvites。
+    expect(state.lastInviteDeclined).toBe(false);
+    expect(state.earlyInvites).toBe(0);
+
+    // 重新好好邀一次就過關。
+    state = advance(state, { invited: true, acceptedInvite: true });
+
+    expect(state.accepted).toBe(true);
+    expect(state.lastInviteRefused).toBe(false);
+  });
+
+  it('時機未到的邀約算 earlyInvite，不算被婉拒', () => {
+    let state = advance(INITIAL_GATE_STATE, { lifeContext: true });
+    state = advance(state, { invited: true });
+
+    expect(state.lastInviteDeclined).toBe(true);
+    expect(state.lastInviteRefused).toBe(false);
+    expect(state.earlyInvites).toBe(1);
   });
 
   it('生活情境建立前直接猜外觀，不會跳過建立信任的步驟', () => {
@@ -192,6 +225,7 @@ describe('結構化輸出解析', () => {
     expect(verdict.identityProbe).toBe(false);
     expect(verdict.identityConcernDisclosed).toBe(false);
     expect(verdict.identityConcernAddressed).toBe(false);
+    expect(verdict.acceptedInvite).toBe(false);
   });
 });
 
@@ -213,7 +247,7 @@ describe('評分與講師回饋', () => {
       identityProbe: true,
       identityConcernDisclosed: true,
     });
-    state = advance(state, { identityConcernAddressed: true, invited: true });
+    state = advance(state, { identityConcernAddressed: true, invited: true, acceptedInvite: true });
 
     const rating = calculateRating(state, createMetrics(0), 3);
 

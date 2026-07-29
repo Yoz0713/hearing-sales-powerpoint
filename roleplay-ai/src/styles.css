@@ -355,6 +355,29 @@ body {
   color: var(--ink);
 }
 
+/* margin-left: auto 是給換行後準備的：窄螢幕塞不下時這一組會掉到第二行，
+   space-between 對單一 item 會把它推到左邊，右側就空出一大塊像壞掉。 */
+.chat-head__tail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* 剩餘則數。琥珀色是提醒不是警告 —— 學員這時還有從容收尾的餘裕，
+   做成紅色只會讓人開始趕，那正是這個練習最不想要的行為。 */
+.chat-head__turns {
+  flex: 0 0 auto;
+  padding: 3px 9px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 999px;
+  color: #ffd7a6;
+  background: rgba(238, 123, 8, 0.3);
+}
+
 /* 進度條就是開關：四段代表四個里程碑，點下去拉起任務面板。 */
 .mission-toggle {
   display: inline-flex;
@@ -521,6 +544,27 @@ body {
   padding: 12px 20px;
   color: #fff;
   background: var(--forest);
+}
+
+/* 自主收尾的出口。刻意做成低調的文字鍵：要隨手可及，但不能比「送出」更吸引人按，
+   也不能貼著輸入框 —— 收尾不可逆，打字時誤觸的代價太大，所以下方留白給得比字級大。 */
+.chat-bail {
+  flex: 0 0 auto;
+  align-self: center;
+  padding: 8px 18px 14px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--forest);
+  background: transparent;
+  border: none;
+  opacity: 0.55;
+  cursor: pointer;
+  transition: opacity 0.12s ease;
+}
+
+.chat-bail:disabled {
+  opacity: 0.28;
+  cursor: default;
 }
 
 .chat-done {
@@ -1111,6 +1155,111 @@ body {
 
 .brief--sheet .brief-hint {
   margin: 0 0 22px;
+}
+
+/* ---- 收尾確認 ---- */
+/* 任務面板是「翻閱」：從底部滑上來、隨手關掉。這裡是相反的姿態 ——
+   停下來、正視一個不可逆的決定 —— 所以置中、遮罩更重、卡片自己浮現。 */
+.confirm-backdrop {
+  position: fixed;
+  top: var(--app-top, 0px);
+  left: 0;
+  right: 0;
+  height: var(--app-h, 100dvh);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  background: rgba(28, 38, 33, 0.52);
+  animation: fade-in 0.16s ease;
+}
+
+.confirm {
+  width: 100%;
+  max-width: 400px;
+  padding: 26px 24px 20px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 18px 48px rgba(28, 38, 33, 0.28);
+  animation: pop-in 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.confirm__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--faint);
+}
+
+/* 進度條原本長在深色 header 上，未達成的那幾格是白色半透明；
+   換到白卡上要重新給底色。is-hit 也要一起蓋，否則同分的後定義規則會把萊姆綠吃掉。 */
+.confirm__eyebrow .mission-toggle__bars span {
+  background: rgba(69, 95, 81, 0.2);
+}
+
+.confirm__eyebrow .mission-toggle__bars span.is-hit {
+  background: var(--lime);
+}
+
+/* 對話畫面裡唯一的襯線大字。它本身就是「停一下」的訊號。 */
+.confirm__title {
+  margin: 14px 0 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--forest);
+}
+
+.confirm__body {
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.confirm__caveat {
+  margin: 18px 0 0;
+  padding-top: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--orange);
+  border-top: 1px solid var(--hairline);
+}
+
+.confirm__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 18px;
+}
+
+/* 離開是這裡的次要動作，所以做成文字鍵 —— 誤觸的代價太大，不給它按鈕的份量。 */
+.confirm__leave {
+  padding: 12px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.14s ease;
+}
+
+.confirm__leave:hover {
+  color: var(--orange);
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
 }
 
 @keyframes fade-in {

@@ -1,22 +1,22 @@
-/* P40：四任務示範對話。
-   UI 語彙沿用 CounselingHistoryPage 的問答紀錄卡，改為四條橫向對照列。 */
+/* P40：演練後復盤與四關卡拆解看板（Debrief Dashboard）。
+   以 4 欄流程卡片 (4-Step Flow Cards) 呈現，強調講授盲點與解鎖指標。 */
 .roleplay-observer {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 50px 64px 40px;
+  padding: 44px 64px 36px;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(245, 248, 241, 0.76));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(243, 247, 239, 0.82));
 }
 
 /* ---- 頁首：左標題、右情境摘要 ---- */
 .roleplay-observer__head {
   display: grid;
   flex: 0 0 auto;
-  grid-template-columns: minmax(0, 1fr) 400px;
+  grid-template-columns: minmax(0, 1fr) 380px;
   align-items: end;
-  gap: 64px;
+  gap: 48px;
 }
 
 .roleplay-observer__intro {
@@ -24,27 +24,28 @@
 }
 
 .roleplay-observer__intro .counseling-title {
-  max-width: 1180px;
+  max-width: 1200px;
   margin: 0;
-  font-size: 62px;
-  line-height: 1.08;
-  letter-spacing: 0.015em;
+  font-size: 56px;
+  line-height: 1.1;
+  letter-spacing: 0.012em;
 }
 
 .roleplay-observer__lead {
   max-width: 1240px;
-  margin: 14px 0 0;
-  color: rgba(69, 95, 81, 0.8);
-  font-size: 25px;
-  line-height: 1.42;
+  margin: 12px 0 0;
+  color: rgba(69, 95, 81, 0.82);
+  font-size: 24px;
+  line-height: 1.4;
 }
 
 .roleplay-observer__case {
   box-sizing: border-box;
-  min-height: 118px;
-  padding: 20px 26px 18px;
+  min-height: 110px;
+  padding: 16px 22px 14px;
   border-left: 5px solid var(--color-orange);
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: var(--elevation-1);
 }
 
 .roleplay-observer__case p,
@@ -55,193 +56,175 @@
 }
 
 .roleplay-observer__case p {
-  color: rgba(69, 95, 81, 0.62);
-  font-size: 20px;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.1em;
-}
-
-.roleplay-observer__case strong {
-  margin-top: 6px;
-  color: var(--color-text-heading);
-  font-family: var(--font-family-display);
-  font-size: 30px;
-  line-height: 1.1;
-}
-
-.roleplay-observer__case span {
-  margin-top: 7px;
-  color: var(--color-orange);
-  font-size: 23px;
-  font-weight: var(--font-weight-semibold);
-}
-
-/* ---- 四任務對話表 ---- */
-.mission-dialogue {
-  display: grid;
-  flex: 0 0 auto;
-  grid-template-rows: 48px repeat(4, 144px);
-  grid-auto-flow: dense;
-  margin-top: 26px;
-  overflow: hidden;
-  border: 2px solid rgba(69, 95, 81, 0.2);
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: var(--elevation-1);
-}
-
-.mission-dialogue__columns,
-.mission-dialogue__row {
-  display: grid;
-  grid-template-columns: 240px minmax(0, 1.18fr) minmax(0, 0.82fr) 230px;
-  min-width: 0;
-}
-
-.mission-dialogue__columns {
-  align-items: center;
-  background: var(--color-forest-900);
-  color: rgba(255, 255, 255, 0.82);
-}
-
-.mission-dialogue__columns span {
-  box-sizing: border-box;
-  min-width: 0;
-  padding: 0 22px;
-  font-size: 20px;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.06em;
-}
-
-.mission-dialogue__columns span + span {
-  border-left: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-.mission-dialogue__row {
-  position: relative;
-  align-items: stretch;
-  background: rgba(255, 255, 255, 0.82);
-}
-
-.mission-dialogue__row + .mission-dialogue__row {
-  border-top: 1px solid rgba(69, 95, 81, 0.18);
-}
-
-.mission-dialogue__row > div {
-  box-sizing: border-box;
-  min-width: 0;
-}
-
-.mission-dialogue__row > div + div {
-  border-left: 1px solid rgba(69, 95, 81, 0.14);
-}
-
-/* 任務欄：維持像病歷分頁標籤的識別感，但不使用額外徽章。 */
-.mission-dialogue__task {
-  display: grid;
-  grid-template-columns: 46px minmax(0, 1fr);
-  align-items: center;
-  gap: 12px;
-  padding: 18px 20px;
-  background: rgba(99, 165, 55, 0.1);
-}
-
-.mission-dialogue__task > span {
-  color: rgba(69, 95, 81, 0.42);
-  font-family: var(--font-family-latin);
-  font-size: 28px;
-  font-weight: var(--font-weight-bold);
-  font-variant-numeric: tabular-nums;
-}
-
-.mission-dialogue__task > strong {
-  color: var(--color-text-heading);
-  font-family: var(--font-family-display);
-  font-size: 27px;
-  font-weight: var(--font-weight-bold);
-  line-height: 1.25;
-}
-
-/* 對話泡泡：聽力師為綠色外框，陳先生為暖白底，對齊病史頁語彙。 */
-.mission-dialogue__bubble {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 14px 22px;
-}
-
-.mission-dialogue__bubble > span {
-  margin-bottom: 5px;
-  font-size: 19px;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 0.08em;
-}
-
-.mission-dialogue__bubble > p {
-  margin: 0;
-  color: var(--color-text-body);
-  font-size: 24px;
-  line-height: 1.34;
-}
-
-.mission-dialogue__bubble--ask {
-  background: rgba(99, 165, 55, 0.055);
-}
-
-.mission-dialogue__bubble--ask > span {
-  color: var(--color-brand-secondary);
-}
-
-.mission-dialogue__bubble--reply {
-  background: rgba(250, 247, 239, 0.9);
-}
-
-.mission-dialogue__bubble--reply > span {
-  color: rgba(69, 95, 81, 0.68);
-}
-
-/* 成功訊號：固定在最右欄，讓講師一眼知道該列為何算通關。 */
-.mission-dialogue__success {
-  display: grid;
-  grid-template-columns: 16px minmax(0, 1fr);
-  align-content: center;
-  column-gap: 10px;
-  padding: 16px 18px;
-  background: rgba(69, 95, 81, 0.96);
-  color: white;
-}
-
-.mission-dialogue__success i {
-  grid-row: 1 / span 2;
-  width: 12px;
-  height: 12px;
-  margin-top: 6px;
-  border-radius: 50%;
-  background: var(--color-brand-primary-bright);
-  box-shadow: 0 0 0 5px rgba(153, 203, 56, 0.16);
-}
-
-.mission-dialogue__success span {
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(69, 95, 81, 0.65);
   font-size: 18px;
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
 }
 
-.mission-dialogue__success strong {
+.roleplay-observer__case strong {
   margin-top: 4px;
-  font-size: 22px;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.3;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 28px;
+  line-height: 1.15;
 }
 
-/* ---- 收尾：把四列重新收成一個可講的順序 ---- */
+.roleplay-observer__case span {
+  margin-top: 5px;
+  color: var(--color-orange);
+  font-size: 21px;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ---- 4 關卡復盤看板 (Debrief Board) ---- */
+.debrief-board {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+  min-height: 0;
+}
+
+/* 關卡卡片 (Flow Card) */
+.debrief-card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(69, 95, 81, 0.18);
+  border-top: 4px solid var(--color-brand-primary);
+  box-shadow: 0 8px 24px rgba(44, 62, 52, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.debrief-card:nth-child(4) {
+  border-top-color: var(--color-orange);
+}
+
+/* 卡片頭部：數字、動作標籤、任務標題 */
+.debrief-card__header {
+  position: relative;
+  padding: 18px 20px 14px;
+  background: linear-gradient(180deg, rgba(99, 165, 55, 0.08), rgba(255, 255, 255, 0));
+  border-bottom: 1px solid rgba(69, 95, 81, 0.1);
+}
+
+.debrief-card__step {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  color: rgba(69, 95, 81, 0.15);
+  font-family: var(--font-family-latin);
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.debrief-card__action {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: rgba(69, 95, 81, 0.1);
+  color: var(--color-brand-secondary);
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.06em;
+}
+
+.debrief-card__task {
+  margin: 8px 0 0;
+  color: var(--color-text-heading);
+  font-family: var(--font-family-display);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.25;
+}
+
+/* 卡片內容區 */
+.debrief-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 12px;
+  padding: 16px 18px;
+}
+
+.debrief-card__section {
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border-radius: 6px;
+}
+
+.debrief-card__section--pitfall {
+  background: rgba(224, 86, 36, 0.06);
+  border-left: 3px solid #e05624;
+}
+
+.debrief-card__section--unlock {
+  background: rgba(99, 165, 55, 0.08);
+  border-left: 3px solid var(--color-brand-primary);
+}
+
+.debrief-card__label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.05em;
+}
+
+.debrief-card__section--pitfall .debrief-card__label {
+  color: #c04214;
+}
+
+.debrief-card__section--unlock .debrief-card__label {
+  color: var(--color-brand-secondary);
+}
+
+.debrief-card__text {
+  margin: 0;
+  color: var(--color-text-body);
+  font-size: 20px;
+  line-height: 1.38;
+}
+
+/* 卡片底部：示範句 */
+.debrief-card__footer {
+  box-sizing: border-box;
+  margin-top: auto;
+  padding: 14px 18px;
+  background: rgba(250, 247, 239, 0.92);
+  border-top: 1px dashed rgba(69, 95, 81, 0.16);
+}
+
+.debrief-card__core-tag {
+  display: inline-block;
+  color: rgba(69, 95, 81, 0.65);
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.06em;
+}
+
+.debrief-card__core-line {
+  margin: 4px 0 0;
+  color: var(--color-text-heading);
+  font-size: 21px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.32;
+}
+
+/* ---- 底部總結心法條 ---- */
 .roleplay-observer__rule {
   display: grid;
   flex: 0 0 auto;
   grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
   min-height: 56px;
-  margin-top: 16px;
+  margin-top: 20px;
   padding: 0 24px;
   border-left: 5px solid var(--color-orange);
   background: rgba(238, 123, 8, 0.08);
@@ -249,23 +232,24 @@
 
 .roleplay-observer__rule span {
   color: var(--color-orange);
-  font-size: 20px;
+  font-size: 21px;
   font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
+  white-space: nowrap;
 }
 
 .roleplay-observer__rule strong {
   color: var(--color-text-heading);
-  font-size: 25px;
+  font-size: 24px;
   font-weight: var(--font-weight-semibold);
   line-height: 1.3;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .js-dialogue-kicker,
-  .js-dialogue-title,
-  .js-dialogue-lead,
-  .js-dialogue-case {
+  .js-debrief-kicker,
+  .js-debrief-title,
+  .js-debrief-lead,
+  .js-debrief-case {
     opacity: 1 !important;
     transform: none !important;
   }

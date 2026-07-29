@@ -25,7 +25,11 @@ import { Transcript } from './Transcript';
 import { useViewportFit } from './useViewportFit';
 
 const MAX_INPUT = 300;
-const MAX_TURNS = 24; // 使用者發言上限，超過就收尾
+// 學員發言則數的護欄。這不是計時 —— 這場對話沒有任何時間限制。
+// 加了「先到這裡，看回饋」之後，這條線幾乎不會被觸發，它只負責擋住無限刷 API 的情況。
+const MAX_TURNS = 18;
+/** 剩幾則開始在 header 顯示倒數。 */
+const WARN_TURNS = 5;
 
 type Screen = 'story' | 'chat' | 'report';
 
@@ -35,6 +39,19 @@ const STATE_LABEL: Record<Stage, string> = {
   open: '願意多說了',
   ready: '心防放下了',
   accepted: '答應你了',
+};
+
+/**
+ * 收尾確認裡，依陳先生當下的階段告訴學員「你正要放棄什麼」。
+ * 這是他離開前最後一次教學，所以不寫成通用的「確定要離開嗎」——
+ * 語意對齊 persona.ts 的 buildReviewPrompt，講的是同一件事。
+ * accepted 用不到（那時 finished 為真，收尾鍵根本不顯示），留空補齊型別。
+ */
+const BAIL_NOTE: Record<Stage, string> = {
+  closed: '他還在防備，真正不想戴的原因還沒說出口。多問幾個關於他生活的問題，他可能就鬆口了。',
+  open: '他剛剛把最難開口的話說出來了，而你還沒接住那份難堪。這時候走，他會覺得說了也是白說。',
+  ready: '他的心防已經放下了，只差你開口邀他。現在走，這一輪會停在最可惜的地方。',
+  accepted: '',
 };
 
 /** 四個里程碑，依序點亮。 */
@@ -60,6 +77,7 @@ export function App() {
   const [reviewError, setReviewError] = useState<string | null>(null);
   const [reviewing, setReviewing] = useState(false);
   const [briefOpen, setBriefOpen] = useState(false);
+  const [bailOpen, setBailOpen] = useState(false);
   // 時間與次數統計。與 gate 分開存，理由見 metrics.ts 的檔頭。
   const [metrics, setMetrics] = useState<Metrics>(() => createMetrics(Date.now()));
 
@@ -67,8 +85,11 @@ export function App() {
   const hits = hitCount(gate);
   const userTurns = messages.filter((m) => m.role === 'user').length;
   const reachedLimit = userTurns >= MAX_TURNS;
-  // 陳先生答應邀約＝這一輪走完了；用完發言次數則是時間到收尾。
+  // 陳先生答應邀約＝這一輪走完了；講滿則數則是撞到護欄收尾。
+  // 學員自己按「先到這裡，看回饋」是第三種收尾，走 openReview() 直接進報告頁，不經過這裡。
   const finished = stage === 'accepted' || reachedLimit;
+  const turnsLeft = MAX_TURNS - userTurns;
+  const showTurnsLeft = !finished && turnsLeft <= WARN_TURNS;
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const stickToBottom = useCallback((behavior: ScrollBehavior = 'smooth') => {
@@ -83,15 +104,23 @@ export function App() {
   // 鍵盤開合會改變可見高度；跟著把最新幾則訊息拉回視野內（用 auto，不要跟鍵盤動畫打架）。
   useViewportFit(screen === 'chat', () => stickToBottom('auto'));
 
-  // 任務面板：Esc 關閉。
+  // 疊在對話上的兩層（任務面板、收尾確認）：Esc 一律關掉，退回對話。
   useEffect(() => {
-    if (!briefOpen) return;
+    if (!briefOpen && !bailOpen) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setBriefOpen(false);
+      if (e.key !== 'Escape') return;
+      setBriefOpen(false);
+      setBailOpen(false);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [briefOpen]);
+  }, [briefOpen, bailOpen]);
+
+  // 確認框一開，焦點就落在安全選項上：鍵盤直接 Enter 是「回去繼續談」，不是結束。
+  const bailCancelRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (bailOpen) bailCancelRef.current?.focus();
+  }, [bailOpen]);
 
   const send = useCallback(async () => {
     const text = input.trim();
@@ -303,20 +332,35 @@ export function App() {
             {STATE_LABEL[stage]}
           </span>
         </div>
-        {/* 進度條本身就是開關：隨時點開任務簡報。 */}
-        <button
-          className="mission-toggle"
-          onClick={() => setBriefOpen(true)}
-          aria-haspopup="dialog"
-          aria-label={`打開任務面板，目前進度 ${hitTotal} / ${MILESTONES.length}`}
-        >
-          <span className="mission-toggle__bars" aria-hidden="true">
-            {hits.map((hit, i) => (
-              <span key={i} className={hit ? 'is-hit' : ''} />
-            ))}
-          </span>
-          任務
-        </button>
+        <div className="chat-head__tail">
+          {/*
+            倒數只在最後幾則出現。全程掛計數器會讓學員為了省回合而不敢好好問，
+            那跟這個練習要教的事正好相反；快撞到護欄時才提醒，才不會變成催促。
+          */}
+          {showTurnsLeft && (
+            <span
+              className="chat-head__turns"
+              aria-live="polite"
+              aria-label={`這一輪還可以再發言 ${turnsLeft} 則`}
+            >
+              剩 {turnsLeft} 則
+            </span>
+          )}
+          {/* 進度條本身就是開關：隨時點開任務簡報。 */}
+          <button
+            className="mission-toggle"
+            onClick={() => setBriefOpen(true)}
+            aria-haspopup="dialog"
+            aria-label={`打開任務面板，目前進度 ${hitTotal} / ${MILESTONES.length}`}
+          >
+            <span className="mission-toggle__bars" aria-hidden="true">
+              {hits.map((hit, i) => (
+                <span key={i} className={hit ? 'is-hit' : ''} />
+              ))}
+            </span>
+            任務
+          </button>
+        </div>
       </header>
 
       <div className="chat-log" ref={scrollRef}>
@@ -334,12 +378,20 @@ export function App() {
           教練提示：一次只出現一則。
           先講「你剛剛那一則」的問題（離題／時機未到／太推銷），這幾則任何階段都要能出現；
           都沒問題時才回到階段層級的指引。順序＝優先權，別依賴階段去擋訊息層級的提示。
+          收尾後（finished）整塊收起來：那時 send() 已被鎖住，gate 不會再更新，
+          留著只會把最後一則的提示永遠凍在畫面上，跟旁邊的收尾結論打架。
         */}
-        {!busy && (() => {
+        {!busy && !finished && (() => {
           if (gate.lastOffTopic)
             return <p className="coach-hint">陳先生聽不懂這句話。回到他的聽力、生活和感受上。</p>;
           if (gate.lastInviteDeclined)
             return <p className="coach-hint">他還沒準備好。先把他真正的擔心接住，再邀請他。</p>;
+          if (gate.lastInviteRefused)
+            return (
+              <p className="coach-hint">
+                他沒有接受。剛剛那段話又講回產品了 —— 回到他的感受，再重新邀他一次。
+              </p>
+            );
           if (!gate.lastNotPushy)
             return <p className="coach-hint">先別急著介紹產品，試著多問問他的生活與感受。</p>;
           // 他已經丟出含蓄提示卻還沒明說 —— 這時最常見的失誤是急著給方案，而不是追問那句提示。
@@ -362,6 +414,25 @@ export function App() {
         {error && <p className="chat-error">{error}</p>}
       </div>
 
+      {/*
+        卡住的學員也要走得到講師回饋 —— 那才是這個練習真正要教的東西。
+        沒有這個出口，只有「陳先生點頭」和「講滿 MAX_TURNS」兩條路能進報告頁，
+        最需要回饋的人反而得一路硬撐到護欄才看得到。
+        提早收尾在分數上沒有好處（paceScore 沒成交一律 40），所以不必擔心它誘導放棄。
+        第 3 則之後才出現：最短通關路徑是 4 則，這個門檻擋不到任何正常流程，
+        只是不讓人一進門市就先看到「結束」。
+      */}
+      {!finished && userTurns >= 3 && (
+        <button
+          className="chat-bail"
+          onClick={() => setBailOpen(true)}
+          disabled={busy || reviewing}
+          aria-haspopup="dialog"
+        >
+          {reviewing ? '講師正在看逐字稿…' : '先到這裡，看回饋'}
+        </button>
+      )}
+
       <footer className="chat-input">
         {finished ? (
           <div className="chat-done">
@@ -369,7 +440,7 @@ export function App() {
               {gate.accepted
                 ? '陳先生答應你了！這一輪走完了。'
                 : stage === 'ready'
-                  ? '時間到了。他其實已經願意了，可惜你沒有開口邀請他。'
+                  ? '這一輪的發言次數用完了。他其實已經願意了，可惜你沒有開口邀請他。'
                   : '這一輪先到這裡。換個問法再試一次。'}
             </p>
             <div className="chat-done__actions">
@@ -427,6 +498,56 @@ export function App() {
                 回到對話
               </button>
             </footer>
+          </section>
+        </div>
+      )}
+
+      {/*
+        收尾確認。刻意不用任務面板那套 bottom sheet ——
+        面板是「翻閱」的姿態（滑上來、隨手關掉），確認是相反的姿態：
+        停下來、正視一個不可逆的決定，所以做置中卡片。
+        安全選項才是主要按鈕；結束降級成文字鍵，誤觸的代價太大。
+      */}
+      {bailOpen && (
+        <div className="confirm-backdrop" onClick={() => setBailOpen(false)}>
+          <section
+            className="confirm"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="bail-title"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="confirm__eyebrow">
+              <span className="mission-toggle__bars" aria-hidden="true">
+                {hits.map((hit, i) => (
+                  <span key={i} className={hit ? 'is-hit' : ''} />
+                ))}
+              </span>
+              已完成 {hitTotal} / {MILESTONES.length}
+            </p>
+
+            <h2 className="confirm__title" id="bail-title">陳先生還坐在你對面</h2>
+            <p className="confirm__body">{BAIL_NOTE[stage]}</p>
+
+
+            <div className="confirm__actions">
+              <button
+                ref={bailCancelRef}
+                className="btn btn--go"
+                onClick={() => setBailOpen(false)}
+              >
+                回去繼續談
+              </button>
+              <button
+                className="confirm__leave"
+                onClick={() => {
+                  setBailOpen(false);
+                  void openReview();
+                }}
+              >
+                結束，看結果
+              </button>
+            </div>
           </section>
         </div>
       )}

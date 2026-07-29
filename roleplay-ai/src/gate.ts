@@ -20,6 +20,11 @@ export interface GateVerdict {
   identityConcernAddressed: boolean;
   /** 這一則是否明確提出下一步邀約（試戴、約時間、請他帶太太一起來）。 */
   invited: boolean;
+  /**
+   * 陳先生在這一則 reply 是否真的答應了下一步。婉拒、拖延、「再考慮看看」一律 false。
+   * 與 identityConcernDisclosed 同性質：評的是 reply 本身，不是評學員那一則訊息。
+   */
+  acceptedInvite: boolean;
   /** 這一則是否「沒有」急著介紹產品／報價／說服（true = 沒有推銷）。 */
   notPushy: boolean;
   /**
@@ -59,8 +64,10 @@ export interface GateState {
   earlyInvites: number;
   /** 最近一則是否不推銷（僅供即時教練提示，不影響開門）。 */
   lastNotPushy: boolean;
-  /** 最近一則是否邀約被婉拒（供即時教練提示）。 */
+  /** 最近一則是否「時機未到就邀約」而被婉拒（供即時教練提示）。 */
   lastInviteDeclined: boolean;
+  /** 最近一則是否「條件都滿足了卻仍被婉拒」——通常是那一則同時在推銷（供即時教練提示）。 */
+  lastInviteRefused: boolean;
   /** 最近一則是否離題（供即時教練提示）。 */
   lastOffTopic: boolean;
 }
@@ -76,6 +83,7 @@ export const INITIAL_GATE_STATE: GateState = {
   earlyInvites: 0,
   lastNotPushy: true,
   lastInviteDeclined: false,
+  lastInviteRefused: false,
   lastOffTopic: false,
 };
 
@@ -109,7 +117,13 @@ export function mergeVerdict(state: GateState, v: GateVerdict, turn: number): Ga
   // 離題的訊息不推進任何關卡：亂打一通不該解鎖進度，也不該被當成推銷或邀約。
   // 注意 pendingAddressed 要原封不動帶過去 —— 亂打一通不該吃掉上一則的同理。
   if (v.offTopic) {
-    return { ...state, lastNotPushy: true, lastInviteDeclined: false, lastOffTopic: true };
+    return {
+      ...state,
+      lastNotPushy: true,
+      lastInviteDeclined: false,
+      lastInviteRefused: false,
+      lastOffTopic: true,
+    };
   }
 
   // 先建立生活情境，再探索核心排斥原因；同一句把兩者全猜完不算建立信任。
@@ -129,8 +143,14 @@ export function mergeVerdict(state: GateState, v: GateVerdict, turn: number): Ga
   const pendingAddressed =
     !wasOpen && identityConcernDisclosed && v.identityConcernAddressed ? turn : null;
   const inviteWelcome = wasOpen && identityConcernAddressed;
-  const accepted = state.accepted || (v.invited && inviteWelcome);
-  const declined = v.invited && !inviteWelcome;
+  // 閘門開了不代表過關 —— 陳先生嘴巴上答應才算數。
+  // 舊版只看 v.invited：學員一邊講規格一邊約試戴時，模型照 INVITE_RULES 演婉拒，
+  // 前端卻已經開門，畫面說「他答應你了」，對話框裡卻寫著「不用啦，今天先這樣就好」。
+  const acceptedNow = v.invited && v.acceptedInvite && inviteWelcome;
+  const accepted = state.accepted || acceptedNow;
+  // 時機未到的邀約（earlyInvite）進報告的統計；條件到了卻仍被婉拒是另一回事，只給即時提示。
+  const earlyInvite = v.invited && !inviteWelcome;
+  const refused = v.invited && !acceptedNow && !earlyInvite;
 
   // 里程碑只記第一次達成的那一則（`??` 不會被索引 0 誤判）。
   // 「回應他的擔心」若是兌現寄放的功勞，要記回當初說那句話的那一則，不是兌現的這一則。
@@ -150,15 +170,16 @@ export function mergeVerdict(state: GateState, v: GateVerdict, turn: number): Ga
     pendingAddressed,
     milestoneTurns,
     accepted,
-    earlyInvites: state.earlyInvites + (declined ? 1 : 0),
+    earlyInvites: state.earlyInvites + (earlyInvite ? 1 : 0),
     lastNotPushy: v.notPushy,
-    lastInviteDeclined: declined,
+    lastInviteDeclined: earlyInvite,
+    lastInviteRefused: refused,
     lastOffTopic: false,
   };
 }
 
 /**
- * Gemini responseSchema（OpenAPI 子集）：八個布林 + reply。
+ * Gemini responseSchema（OpenAPI 子集）：九個布林 + reply。
  * 型別用大寫字串，對應 @google/genai 的 Type 列舉值，以純物件從前端傳到代理函式。
  * 註：不放 propertyOrdering，避免部分模型對此欄位回 400。
  */
@@ -171,6 +192,7 @@ export const CONVERSE_SCHEMA = {
     identityConcernDisclosed: { type: 'BOOLEAN' },
     identityConcernAddressed: { type: 'BOOLEAN' },
     invited: { type: 'BOOLEAN' },
+    acceptedInvite: { type: 'BOOLEAN' },
     notPushy: { type: 'BOOLEAN' },
     offTopic: { type: 'BOOLEAN' },
     reply: { type: 'STRING' },
@@ -182,6 +204,7 @@ export const CONVERSE_SCHEMA = {
     'identityConcernDisclosed',
     'identityConcernAddressed',
     'invited',
+    'acceptedInvite',
     'notPushy',
     'offTopic',
     'reply',
@@ -247,6 +270,7 @@ export function parseConverse(raw: string): { reply: string; verdict: GateVerdic
         identityConcernDisclosed: obj.identityConcernDisclosed === true,
         identityConcernAddressed: obj.identityConcernAddressed === true,
         invited: obj.invited === true,
+        acceptedInvite: obj.acceptedInvite === true,
         notPushy: obj.notPushy !== false,
         offTopic: obj.offTopic === true,
       },
@@ -261,6 +285,7 @@ export function parseConverse(raw: string): { reply: string; verdict: GateVerdic
         identityConcernDisclosed: false,
         identityConcernAddressed: false,
         invited: false,
+        acceptedInvite: false,
         notPushy: true,
         offTopic: false,
       },

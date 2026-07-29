@@ -35,7 +35,7 @@ export function CoverPage() {
     <SlideShell fullBleed animate={animate}>
       <CoverLayout logo={<BrandLogo />}>
         <h1 className="cover__title js-cover-title">銷售經驗分享</h1>
-        <p className="cover__author js-cover-author">撰寫者：游閔暘</p>
+        <p className="cover__author js-cover-author">游閔暘</p>
       </CoverLayout>
     </SlideShell>
   );
