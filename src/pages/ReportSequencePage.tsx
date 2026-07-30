@@ -117,9 +117,7 @@ export function ReportSequencePage() {
           <p className="report-cosi__action">用這份報告，解釋為什麼會這樣。</p>
         </article>
 
-        <p className="report-body__footnote fragment" data-fragment-index="1">
-          常模數值須依門市採用的資料來源、頻率與性別計算；此處數字僅為示意。
-        </p>
+
       </main>
     </SlideShell>
   );

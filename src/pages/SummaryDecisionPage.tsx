@@ -119,10 +119,7 @@ export function SummaryDecisionPage() {
             <p className="journey__kicker">客戶的心路歷程</p>
             <h1 className="journey__title">心裡的三道門，只能照順序開</h1>
           </div>
-          <p className="journey__recall js-journey-recall">
-            <span>P.12</span>
-            客戶最想被解答的三個問題
-          </p>
+
         </div>
 
         <div className="journey__map">

@@ -55,9 +55,7 @@ export function EconomicCapacitySignalsPage() {
       <header className="economic-capacity__heading-std">
         <p className="counseling-kicker js-capacity-kicker">選配流程 · 經濟能力</p>
         <h1 className="counseling-title js-capacity-title">客戶的生活裡，藏著經濟能力的線索</h1>
-        <p className="economic-capacity__lead js-capacity-lead">
-          從病史與生活軌跡中收集六項線索，形成試聽前的經濟能力假設。
-        </p>
+
       </header>
 
       <main className="capacity-clues-grid" aria-label="六種經濟能力觀察線索">

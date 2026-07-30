@@ -87,15 +87,11 @@ export function RoleplayObserverPage() {
           <p className="counseling-kicker js-debrief-kicker">演練後復盤</p>
           <h1 className="counseling-title js-debrief-title">四個任務，你剛才解鎖了幾關？</h1>
           <p className="roleplay-observer__lead js-debrief-lead">
-            對話順序對了，信任自然產生。對照剛才在手機上的實戰演練，檢視是否落入了常見盲點：
+            對照剛才在手機上的實戰演練，檢視自己是否落入了哪些盲點：
           </p>
         </div>
 
-        <aside className="roleplay-observer__case js-debrief-case" aria-label="演練模擬情境">
-          <p>模擬對象背景</p>
-          <strong>陳先生｜65 歲</strong>
-          <span>嫌貴，更怕戴了顯老</span>
-        </aside>
+
       </header>
 
       <main className="debrief-board" aria-label="四關卡演練復盤與解鎖對照">
@@ -134,8 +130,8 @@ export function RoleplayObserverPage() {
       </main>
 
       <footer className="roleplay-observer__rule fragment" data-fragment-index={DEBRIEF_STAGES.length}>
-        <span>講授心法</span>
-        <strong>四個任務不可跳關：先問生活 ➔ 再挖顧慮 ➔ 徹底接住 ➔ 順勢邀約。順序對了，推進毫不費力。</strong>
+
+        <strong>先問生活 ➔ 再挖顧慮 ➔ 接住情緒 ➔ 順勢邀約。</strong>
       </footer>
     </SlideShell>
   );

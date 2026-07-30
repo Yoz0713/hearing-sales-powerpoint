@@ -54,9 +54,6 @@ export function CounselingHistoryPage() {
       <header className="history-heading">
         <p className="counseling-kicker js-history-kicker">衛教與諮商</p>
         <h1 className="counseling-title js-history-title">病史問得深，後續才有切入點</h1>
-        <p className="counseling-intro js-history-intro">
-          問完不是為了完成表格，而是要知道：現在為何處理、哪些路走不通、方案要先證明什麼。
-        </p>
       </header>
 
       <div className="history-charts">

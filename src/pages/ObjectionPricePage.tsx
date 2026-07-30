@@ -62,7 +62,7 @@ export function ObjectionPricePage() {
         <p className="counseling-kicker js-price-kicker">異議處理</p>
         <h1 className="counseling-title js-price-title">「太貴了」背後，是預算還是效果？</h1>
         <p className="objection-price__lead js-price-lead">
-          別急著解釋價格，先聽出他擔心的是哪一種。
+          別急著解釋價格，先反問他擔心的是哪一種。
         </p>
         <span className="objection-price__rule js-price-rule" aria-hidden="true" />
       </header>

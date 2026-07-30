@@ -51,7 +51,7 @@ export function RoleplayAiQrPage() {
           <div className="roleplay-ai-qr__form-strip" aria-hidden="true" />
           <div className="roleplay-ai-qr__form-content">
             <p className="roleplay-ai-qr__form-title">銷售情境練習</p>
-            <p className="roleplay-ai-qr__form-note">預計作答時間：約 3 分鐘</p>
+            <p className="roleplay-ai-qr__form-note">預計作答時間：約 8 分鐘</p>
             <div className="roleplay-ai-qr__divider" aria-hidden="true" />
             <p className="roleplay-ai-qr__prompt">開始前，請先確認：</p>
             <ul className="roleplay-ai-qr__checklist">

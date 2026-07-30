@@ -11,7 +11,7 @@ export function CounselingPerspectivePage() {
       .from(scope.querySelectorAll('.js-perspective-panel'), { y: 42, opacity: 0, stagger: 0.14, duration: motion.duration.base }, '-=0.35');
   }, []);
   return <SlideShell className="counseling counseling-perspective" animate={animate}>
-    <div className="counseling-perspective__copy"><p className="counseling-kicker">衛教與諮商</p><h1 className="counseling-display js-perspective-title">理解，不等於接受</h1><p className="counseling-lead">專業說明讓客戶看見問題；諮商讓他願意面對並改變。</p></div>
+    <div className="counseling-perspective__copy"><p className="counseling-kicker">衛教與諮商</p><h1 className="counseling-display js-perspective-title">理解，不等於接受</h1></div>
     <div className="perspective-orbit js-perspective-orbit" aria-hidden="true"><span /><i /><b /></div>
     <div className="perspective-panels">
       <article className="perspective-panel perspective-panel--education js-perspective-panel fragment"><h2>衛教</h2><p>讓客戶理解自身聽力問題，與助聽器的專業知識。</p></article>
