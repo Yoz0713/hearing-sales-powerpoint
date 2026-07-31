@@ -112,7 +112,7 @@ export function ActionCommitmentPage() {
           <p className="finale-count finale-count--picked" aria-live="polite">
             <span>今天的須牢記的</span>
             <b>{picked.size}</b>
-            <span>重個重點</span>
+            <span>個重點</span>
           </p>
 
         </div>
