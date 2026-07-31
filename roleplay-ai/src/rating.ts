@@ -41,9 +41,15 @@ const TIERS: { min: number; tier: Tier; title: string }[] = [
  * 對話精準度。
  * 關鍵：**先看有沒有走完全程**。不先擋這一層的話，第 3 回合就放棄的學員會因為
  * 「回合數 ≤ 8」拿到滿分 —— 等於獎勵放棄。沒讓陳先生點頭就一律 40。
+ *
+ * 快的那端也要分檔。關卡最短路徑只有 3 則（一句問生活、一句問外觀、一句比喻順帶邀約），
+ * 舊版 ≤ 8 一律 100，讓踩點衝過去的人跟好好談完一輪的人同分。成交值得肯定，
+ * 但 4 則以內談不出東西，所以給 85 而不是滿分。
+ * 註：這一檔擋不住速通拿 S（總分仍有 96）—— 真正該擋的是對話門檻本身，不是評分。
  */
 function paceScore(accepted: boolean, turns: number): number {
   if (!accepted) return 40;
+  if (turns <= 4) return 85;
   if (turns <= 8) return 100;
   if (turns <= 12) return 80;
   if (turns <= 18) return 60;

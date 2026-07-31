@@ -254,4 +254,33 @@ describe('評分與講師回饋', () => {
     expect(rating.axes[0].evidence).toBe('4 / 4 個');
     expect(buildReviewPrompt(state, 3)).toContain('明說外觀／身份標籤焦慮');
   });
+
+  /** 四個里程碑全中、全程沒推銷的成交狀態，用來單獨檢查回合數對分數的影響。 */
+  function acceptedState(): GateState {
+    let state = advance(INITIAL_GATE_STATE, { lifeContext: true });
+    state = advance(state, { identityProbe: true, identityConcernDisclosed: true });
+    return advance(state, { identityConcernAddressed: true, invited: true, acceptedInvite: true });
+  }
+
+  it('對話精準度在快的那端也分檔，踩最短路徑不給滿分', () => {
+    const state = acceptedState();
+    const paceOf = (turns: number) =>
+      calculateRating(state, createMetrics(0), turns).axes[1].score;
+
+    expect(paceOf(3)).toBe(85); // 關卡最短路徑，成交但沒談出東西
+    expect(paceOf(4)).toBe(85);
+    expect(paceOf(5)).toBe(100);
+    expect(paceOf(8)).toBe(100);
+    expect(paceOf(9)).toBe(80);
+  });
+
+  // 這一則釘的是刻意接受的取捨：評分微調擋不住 3 則速通拿 S。
+  // 真正該擋的是對話門檻（生活情境要問到痛點、接住要連到他的生活、邀約要具體），
+  // 那幾道還沒做。做了之後這裡的分數該掉下來，測試會提醒。
+  it('3 則速通仍是 S —— 評分不是擋速通的地方', () => {
+    const rating = calculateRating(acceptedState(), createMetrics(0), 3);
+
+    expect(rating.score).toBe(96);
+    expect(rating.tier).toBe('S');
+  });
 });
