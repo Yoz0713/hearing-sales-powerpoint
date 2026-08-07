@@ -41,3 +41,4 @@ Single-context: one `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agent
 
 
 所有回覆皆使用繁體中文
+思考過程皆使用英文

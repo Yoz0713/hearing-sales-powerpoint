@@ -29,6 +29,8 @@ export const revealConfig: RevealOptions = {
   backgroundTransition: 'fade',
 
   // 停用內建 B(66)/'.'(190) 黑屏、O(79) 總覽、Esc(27)；改由 useGlobalHotkeys 統一處理。
+  // 191('?' / '/') 與 112(F1) 的內建 help 覆蓋層也一併停用，說明改由 ShortcutGuide
+  // 提供，避免兩套快捷鍵說明同時跳出。F(70) 全螢幕維持 Reveal 預設。
   // 方向鍵(37/38/39/40)在 useReveal.ts 建構 deck 時被覆寫為「左右直接換頁、上下操作
   // 頁內 fragment」；Space / PageUp(33) / PageDown(34) 維持預設（fragment 跑完才換頁），
   // 當作多數 clicker 的安全網。
@@ -37,5 +39,7 @@ export const revealConfig: RevealOptions = {
     190: null,
     79: null,
     27: null,
+    191: null,
+    112: null,
   },
 };

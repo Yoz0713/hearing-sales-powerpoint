@@ -44,3 +44,4 @@ Single-context: one `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agent
 - Architecture: 單頁應用（SPA）、一頁一檔慣例（`src/pages/`），`src/presentation/slides.manifest.ts` 為 slide 順序與章節分組的唯一來源。
 
 所有回覆皆使用繁體中文
+思考過程皆使用英文

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<title>ShortcutGuide preview</title>
+<link rel="stylesheet" href="../node_modules/@fontsource-variable/noto-sans-tc/index.css" />
+<link rel="stylesheet" href="../node_modules/@fontsource-variable/noto-serif-tc/index.css" />
+<link rel="stylesheet" href="../node_modules/@fontsource-variable/outfit/index.css" />
+<link rel="stylesheet" href="../src/styles/tokens.css" />
+<link rel="stylesheet" href="../src/styles/app.css" />
+<style>
+  html, body { height: 100%; margin: 0; }
+  body { background: #fff; }
+  .fake-slide {
+    position: absolute; inset: 0;
+    background: var(--color-surface-base);
+    background-image:
+      linear-gradient(90deg, rgba(69, 95, 81, 0.04) 1px, transparent 1px),
+      linear-gradient(rgba(69, 95, 81, 0.04) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+  .fake-slide h1 {
+    margin: 120px 0 0 80px;
+    font-family: var(--font-family-display);
+    font-size: 72px;
+    color: var(--color-text-heading);
+  }
+</style>
+</head>
+<body>
+<div class="fake-slide"><h1>投影片內容示意</h1></div>
+
+<div class="shortcut-guide">
+  <button type="button" class="shortcut-guide__trigger keycap is-open">?</button>
+  <div class="shortcut-guide__panel" role="dialog">
+    <p class="shortcut-guide__eyebrow">SHORTCUTS</p>
+    <h2 class="shortcut-guide__title">用鍵盤放簡報</h2>
+    <p class="shortcut-guide__lede">按按看，下面的鍵帽會跟著動。</p>
+
+    <section class="shortcut-guide__group">
+      <h3 class="shortcut-guide__group-label">走頁</h3>
+      <div class="shortcut-guide__row">
+        <div class="shortcut-guide__caps"><span class="keycap">←</span><span class="keycap">→</span></div>
+        <div class="shortcut-guide__copy">
+          <span class="shortcut-guide__name">換頁</span>
+          <span class="shortcut-guide__hint">跳到上一頁或下一頁</span>
+        </div>
+      </div>
+      <div class="shortcut-guide__row">
+        <div class="shortcut-guide__caps"><span class="keycap">↑</span><span class="keycap is-pressed">↓</span></div>
+        <div class="shortcut-guide__copy">
+          <span class="shortcut-guide__name">逐步動畫</span>
+          <span class="shortcut-guide__hint">留在同頁，一步步顯示重點</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="shortcut-guide__group">
+      <h3 class="shortcut-guide__group-label">畫面</h3>
+      <div class="shortcut-guide__row">
+        <div class="shortcut-guide__caps"><span class="keycap">F</span></div>
+        <div class="shortcut-guide__copy">
+          <span class="shortcut-guide__name">全螢幕</span>
+          <span class="shortcut-guide__hint">放大到整個螢幕</span>
+        </div>
+      </div>
+      <div class="shortcut-guide__row">
+        <div class="shortcut-guide__caps"><span class="keycap keycap--wide">Esc</span></div>
+        <div class="shortcut-guide__copy">
+          <span class="shortcut-guide__name">取消全螢幕</span>
+          <span class="shortcut-guide__hint">回到視窗模式</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="shortcut-guide__group">
+      <h3 class="shortcut-guide__group-label">控場</h3>
+      <div class="shortcut-guide__row">
+        <div class="shortcut-guide__caps"><span class="keycap">R</span></div>
+        <div class="shortcut-guide__copy">
+          <span class="shortcut-guide__name">重置本頁</span>
+          <span class="shortcut-guide__hint">動畫與互動狀態全部歸零</span>
+        </div>
+      </div>
+      <div class="shortcut-guide__row">
+        <div class="shortcut-guide__caps"><span class="keycap">B</span></div>
+        <div class="shortcut-guide__copy">
+          <span class="shortcut-guide__name">黑屏</span>
+          <span class="shortcut-guide__hint">畫面轉黑，再按一次還原</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="shortcut-guide__footer"><p class="shortcut-guide__footer-hint">隨時按 <span class="keycap keycap--inline">?</span> 叫回這張表</p><button type="button" class="shortcut-guide__dismiss">開始簡報</button></div>
+  </div>
+</div>
+</body>
+</html>

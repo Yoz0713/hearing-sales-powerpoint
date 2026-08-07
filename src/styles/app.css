@@ -496,6 +496,268 @@ body {
   }
 }
 
+/* ---- Chrome：快捷鍵指南 ---- */
+.shortcut-guide {
+  position: fixed;
+  top: var(--space-5);
+  right: var(--space-5);
+  z-index: 50;
+}
+
+/* 透明接盤：點面板以外任何地方即收起，不遮住投影片內容。 */
+.shortcut-guide__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+/* 實體鍵帽 */
+.keycap {
+  --keycap-face: #f6f4ea;
+  --keycap-edge: #c6c1a8;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 34px;
+  height: 34px;
+  padding: 0 var(--space-2);
+  font-family: var(--font-family-latin);
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  color: var(--color-forest-900);
+  background: linear-gradient(180deg,
+      #fffefa 0%,
+      var(--keycap-face) 58%,
+      #e6e2d0 100%);
+  border: none;
+  border-radius: 7px;
+  box-shadow:
+    0 2px 0 0 var(--keycap-edge),
+    0 3px 0 1px rgba(20, 30, 24, 0.5),
+    0 5px 10px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform var(--duration-instant) ease, box-shadow var(--duration-instant) ease,
+    background var(--duration-instant) ease;
+}
+
+.keycap--wide {
+  min-width: 54px;
+  font-size: 13px;
+}
+
+.keycap--inline {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  font-size: 12px;
+  border-radius: 5px;
+  box-shadow:
+    0 1px 0 0 var(--keycap-edge),
+    0 2px 0 1px rgba(20, 30, 24, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* 實體鍵按下時，面板裡的鍵帽同步壓到底 */
+.keycap.is-pressed {
+  --keycap-face: #d6e9a8;
+
+  transform: translateY(3px);
+  box-shadow:
+    0 0 0 1px rgba(99, 165, 55, 0.9),
+    0 1px 0 1px rgba(20, 30, 24, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* 觸發鈕即是一顆鍵帽 */
+.shortcut-guide__trigger {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.shortcut-guide__trigger:hover {
+  --keycap-face: #ffffff;
+}
+
+.shortcut-guide__trigger:active,
+.shortcut-guide__trigger.is-open {
+  transform: translateY(2px);
+  box-shadow:
+    0 0 0 1px var(--keycap-edge),
+    0 1px 0 1px rgba(20, 30, 24, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.shortcut-guide__trigger:focus-visible {
+  outline: var(--border-width-thin) solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+.shortcut-guide__panel {
+  position: absolute;
+  top: calc(100% + var(--space-3));
+  right: 0;
+  width: 424px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: var(--space-6) var(--space-6) var(--space-5);
+  color: var(--color-text-on-brand);
+  text-align: left;
+  background: rgba(30, 45, 38, 0.94);
+  backdrop-filter: blur(14px);
+  border: var(--border-width-hairline) solid rgba(153, 203, 56, 0.28);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--elevation-3);
+  transform-origin: top right;
+  animation: shortcut-panel-in var(--duration-fast) ease both;
+}
+
+.shortcut-guide__panel:focus {
+  outline: none;
+}
+
+@keyframes shortcut-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.shortcut-guide__eyebrow {
+  margin: 0;
+  font-family: var(--font-family-latin);
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-caps);
+  color: var(--color-brand-primary-bright);
+}
+
+.shortcut-guide__title {
+  margin: var(--space-3) 0;
+  font-family: var(--font-family-display);
+  font-size: 22px;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-snug);
+  letter-spacing: 0.04em;
+}
+
+.shortcut-guide__lede {
+  margin: var(--space-2) 0 var(--space-4);
+  font-size: 13px;
+  line-height: var(--line-height-normal);
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.shortcut-guide__group+.shortcut-guide__group {
+  margin-top: var(--space-4);
+}
+
+.shortcut-guide__group-label {
+  margin: 0 0 var(--space-2);
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-caps);
+  color: rgba(153, 203, 56, 0.75);
+}
+
+.shortcut-guide__row {
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: var(--space-4);
+  align-items: center;
+  padding: 8px 0;
+  border-top: var(--border-width-hairline) solid rgba(255, 255, 255, 0.1);
+}
+
+.shortcut-guide__caps {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.shortcut-guide__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.shortcut-guide__name {
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-snug);
+}
+
+.shortcut-guide__hint {
+  font-size: 13px;
+  line-height: var(--line-height-normal);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.shortcut-guide__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
+  padding-top: var(--space-3);
+  border-top: var(--border-width-hairline) solid rgba(255, 255, 255, 0.1);
+}
+
+.shortcut-guide__footer-hint {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.shortcut-guide__dismiss {
+  flex: none;
+  padding: 7px var(--space-4);
+  font: inherit;
+  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-on-brand);
+  background: transparent;
+  border: var(--border-width-hairline) solid rgba(153, 203, 56, 0.55);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background var(--duration-instant) ease, border-color var(--duration-instant) ease;
+}
+
+.shortcut-guide__dismiss:hover {
+  background: rgba(153, 203, 56, 0.16);
+  border-color: var(--color-brand-primary-bright);
+}
+
+.shortcut-guide__dismiss:focus-visible {
+  outline: var(--border-width-thin) solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .shortcut-guide__panel {
+    animation: none;
+  }
+
+  .keycap {
+    transition: none;
+  }
+}
+
 /* ===== 滿版外殼 ===== */
 .slide-shell--bleed {
   padding: 0;

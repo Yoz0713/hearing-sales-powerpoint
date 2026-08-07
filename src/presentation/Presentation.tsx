@@ -13,6 +13,7 @@ import { useWakeLock } from '../hooks/useWakeLock';
 import { ProgressBar } from '../components/chrome/ProgressBar';
 import { SlidePreviewNav } from '../components/chrome/SlidePreviewNav';
 import { BlackoutOverlay } from '../components/chrome/BlackoutOverlay';
+import { ShortcutGuide } from '../components/chrome/ShortcutGuide';
 import { slides, deriveChapters, chapterTitleAt } from './slides.manifest';
 import type { AnimationController, ResetHandler } from '../types/presentation';
 
@@ -121,6 +122,7 @@ export function Presentation() {
         </div>
         <ProgressBar />
         <SlidePreviewNav />
+        <ShortcutGuide />
         <BlackoutOverlay />
       </PresentationViewContext.Provider>
     </RevealControlContext.Provider>
